@@ -5,6 +5,9 @@
     <class>BLL.Role</class>
     <class>BLL.User</class>
     <class>BLL.Perdoruesi</class>
+    <class>BLL.Class</class>
+    <class>BLL.Medicine</class>
+    <class>BLL.Classification</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:sqlserver://localhost:1433;databaseName=PharmacyManagement"/>
       <property name="javax.persistence.jdbc.user" value="sa"/>

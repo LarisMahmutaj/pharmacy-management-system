@@ -18,5 +18,4 @@ public interface RoleInterface {
     void delete(Role p) throws PharmacyException;
     List<Role> findAll() throws PharmacyException;
     Role findByID(Integer ID) throws PharmacyException;
-    Role loginByUsernameAndPassword(String u,String p) throws PharmacyException;
 }

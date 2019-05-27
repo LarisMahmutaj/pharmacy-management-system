@@ -5,7 +5,7 @@
  */
 package DAL;
 
-import BLL.Role;
+import BLL.Medicine;
 import java.util.List;
 import javax.persistence.Query;
 
@@ -13,10 +13,10 @@ import javax.persistence.Query;
  *
  * @author Laris
  */
-public class RoleRepository extends EntMngClass implements RoleInterface {
+public class MedicineRepository extends EntMngClass implements MedicineInterface {
 
     @Override
-    public void create(Role p) throws PharmacyException {
+    public void create(Medicine p) throws PharmacyException {
         try {
             em.getTransaction().begin();
             em.persist(p);
@@ -27,7 +27,7 @@ public class RoleRepository extends EntMngClass implements RoleInterface {
     }
 
     @Override
-    public void edit(Role p) throws PharmacyException {
+    public void edit(Medicine p) throws PharmacyException {
         try {
             em.getTransaction().begin();
             em.merge(p);
@@ -38,7 +38,7 @@ public class RoleRepository extends EntMngClass implements RoleInterface {
     }
 
     @Override
-    public void delete(Role p) throws PharmacyException {
+    public void delete(Medicine p) throws PharmacyException {
         try {
             em.getTransaction().begin();
             em.remove(p);
@@ -49,20 +49,20 @@ public class RoleRepository extends EntMngClass implements RoleInterface {
     }
 
     @Override
-    public List<Role> findAll() throws PharmacyException {
+    public List<Medicine> findAll() throws PharmacyException {
         try {
-            return em.createNamedQuery("Role.findAll").getResultList();
+            return em.createNamedQuery("Medicine.findAll").getResultList();
         } catch (Exception e) {
             throw new PharmacyException("Msg! \n" + e.getMessage());
         }
     }
 
     @Override
-    public Role findByID(Integer ID) throws PharmacyException {
+    public Medicine findByID(Integer ID) throws PharmacyException {
         try {
-            Query q = em.createQuery("Select p from Role p where p.id=:id");
+            Query q = em.createQuery("Select p from Medicine p where p.id=:id");
             q.setParameter("id", ID);
-            return (Role) q.getSingleResult();
+            return (Medicine) q.getSingleResult();
         } catch (Exception e) {
             throw new PharmacyException("Msg! \n" + e.getMessage());
         }
