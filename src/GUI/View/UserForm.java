@@ -109,6 +109,28 @@ public class UserForm extends javax.swing.JInternalFrame {
 
         setClosable(true);
         setTitle("User Form");
+        addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                UserForm.this.focusGained(evt);
+            }
+        });
+        addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
+            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameActivated(evt);
+            }
+            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
+            }
+        });
 
         idTxt.setEditable(false);
         idTxt.addActionListener(new java.awt.event.ActionListener() {
@@ -306,6 +328,14 @@ public class UserForm extends javax.swing.JInternalFrame {
     private void cancelBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelBtnActionPerformed
         clear();
     }//GEN-LAST:event_cancelBtnActionPerformed
+
+    private void formInternalFrameActivated(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameActivated
+        this.moveToFront();
+    }//GEN-LAST:event_formInternalFrameActivated
+
+    private void focusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_focusGained
+        this.moveToFront();
+    }//GEN-LAST:event_focusGained
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

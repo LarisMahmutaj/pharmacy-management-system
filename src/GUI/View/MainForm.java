@@ -6,10 +6,15 @@
 package GUI.View;
 
 import BLL.Role;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 /**
  *
@@ -23,10 +28,12 @@ public class MainForm extends javax.swing.JFrame {
     public MainForm() {
         initComponents();
         setExtendedState(MAXIMIZED_BOTH);
+
     }
 
     public MainForm(Role role) {
         initComponents();
+        //loadImg();
         setExtendedState(MAXIMIZED_BOTH);
         if (role.getRoleID() != 1) {
             addUserBtn.setVisible(false);
@@ -83,8 +90,8 @@ public class MainForm extends javax.swing.JFrame {
         addCostumerBtn = new javax.swing.JButton();
         addClassificationBtn = new javax.swing.JButton();
         salesBtn = new javax.swing.JButton();
-        jPanel1 = new javax.swing.JPanel();
-        mainPanel = new javax.swing.JPanel();
+        mainPanel = new javax.swing.JLayeredPane();
+        jLabel1 = new javax.swing.JLabel();
 
         jPasswordField1.setText("jPasswordField1");
 
@@ -156,7 +163,7 @@ public class MainForm extends javax.swing.JFrame {
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGap(24, 24, 24)
                 .addComponent(jLabel3)
-                .addContainerGap(94, Short.MAX_VALUE))
+                .addContainerGap(134, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -269,7 +276,7 @@ public class MainForm extends javax.swing.JFrame {
                         .addComponent(addCostumerBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(addClassificationBtn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(salesBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addContainerGap(67, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -291,37 +298,30 @@ public class MainForm extends javax.swing.JFrame {
                 .addComponent(addUserBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(addClassificationBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(153, Short.MAX_VALUE))
+                .addContainerGap(1154, Short.MAX_VALUE))
         );
 
         jScrollPane1.setViewportView(jPanel2);
 
-        mainPanel.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/View/Images/background.png"))); // NOI18N
+
+        mainPanel.setLayer(jLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
         mainPanel.setLayout(mainPanelLayout);
         mainPanelLayout.setHorizontalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(mainPanelLayout.createSequentialGroup()
+                .addGap(0, 0, 0)
+                .addComponent(jLabel1)
+                .addContainerGap(324, Short.MAX_VALUE))
         );
         mainPanelLayout.setVerticalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+            .addGroup(mainPanelLayout.createSequentialGroup()
+                .addGap(0, 0, 0)
+                .addComponent(jLabel1)
+                .addContainerGap(136, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -331,12 +331,12 @@ public class MainForm extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 355, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 754, Short.MAX_VALUE)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 2130, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGap(0, 0, 0)
+                        .addComponent(mainPanel)
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -344,10 +344,10 @@ public class MainForm extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 831, Short.MAX_VALUE))
-                .addGap(0, 0, 0))
+                        .addGap(0, 0, 0)
+                        .addComponent(mainPanel))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
@@ -370,7 +370,7 @@ public class MainForm extends javax.swing.JFrame {
     private void logOutBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logOutBtnActionPerformed
         Object[] ob = {"Yes", "No"};
         int i = JOptionPane.showOptionDialog(this, "Do you want to log out?",
-            "Log Out", JOptionPane.OK_OPTION, JOptionPane.QUESTION_MESSAGE, null, ob, ob[0]);
+                "Log Out", JOptionPane.OK_OPTION, JOptionPane.QUESTION_MESSAGE, null, ob, ob[0]);
         if (i == 0) {
             new LoginForm().setVisible(true);
             this.setVisible(false);
@@ -393,6 +393,20 @@ public class MainForm extends javax.swing.JFrame {
         mf.show();
     }//GEN-LAST:event_addMedicineBtnActionPerformed
 
+//    public void loadImg() {
+//        java.net.URL imageUrl = MainForm.class.getResource("Images/download.png");
+//
+//        ImageIcon icon = new ImageIcon(imageUrl);
+//        mainPanel = new JPanel() {
+//            protected void paintComponent(Graphics g) {
+//                g.drawImage(icon.getImage(), 0, 0, null);
+//                this.paintComponent(g);
+//            }
+//        };
+//
+//        mainPanel.setOpaque(true);
+//        mainPanel.setPreferredSize(new Dimension(100, 100));
+//    }
     /**
      * @param args the command line arguments
      */
@@ -403,9 +417,9 @@ public class MainForm extends javax.swing.JFrame {
     private javax.swing.JButton addMedicineBtn;
     private javax.swing.JButton addToStockBtn;
     private javax.swing.JButton addUserBtn;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
@@ -413,7 +427,7 @@ public class MainForm extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JButton logOutBtn;
-    private javax.swing.JPanel mainPanel;
+    private javax.swing.JLayeredPane mainPanel;
     private javax.swing.JButton orderBtn;
     private javax.swing.JButton posBtn1;
     private javax.swing.JButton salesBtn;

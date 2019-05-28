@@ -65,6 +65,11 @@ public class MedicineForm extends javax.swing.JInternalFrame {
         jLabel4 = new javax.swing.JLabel();
 
         setClosable(true);
+        try {
+            setSelected(true);
+        } catch (java.beans.PropertyVetoException e1) {
+            e1.printStackTrace();
+        }
 
         jLabel3.setText("Generic Name");
 
