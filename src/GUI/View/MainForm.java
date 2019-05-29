@@ -6,15 +6,11 @@
 package GUI.View;
 
 import BLL.Role;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
+
 
 /**
  *
@@ -33,12 +29,12 @@ public class MainForm extends javax.swing.JFrame {
 
     public MainForm(Role role) {
         initComponents();
-        //loadImg();
         setExtendedState(MAXIMIZED_BOTH);
         if (role.getRoleID() != 1) {
             addUserBtn.setVisible(false);
             addClassificationBtn.setVisible(false);
             addMedicineBtn.setVisible(false);
+            supplierBtn.setVisible(false);
         }
         logOut();
 
@@ -90,6 +86,7 @@ public class MainForm extends javax.swing.JFrame {
         addCostumerBtn = new javax.swing.JButton();
         addClassificationBtn = new javax.swing.JButton();
         salesBtn = new javax.swing.JButton();
+        supplierBtn = new javax.swing.JButton();
         mainPanel = new javax.swing.JLayeredPane();
         jLabel1 = new javax.swing.JLabel();
 
@@ -123,7 +120,7 @@ public class MainForm extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(67, 67, 67)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 552, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 849, Short.MAX_VALUE)
                 .addComponent(logOutBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(24, 24, 24))
         );
@@ -176,7 +173,7 @@ public class MainForm extends javax.swing.JFrame {
         addMedicineBtn.setBackground(new java.awt.Color(0, 0, 0));
         addMedicineBtn.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         addMedicineBtn.setForeground(new java.awt.Color(255, 255, 255));
-        addMedicineBtn.setText("Add Medicine");
+        addMedicineBtn.setText("Medicine");
         addMedicineBtn.setBorder(null);
         addMedicineBtn.setDefaultCapable(false);
         addMedicineBtn.setFocusPainted(false);
@@ -197,7 +194,7 @@ public class MainForm extends javax.swing.JFrame {
         addUserBtn.setBackground(new java.awt.Color(0, 0, 0));
         addUserBtn.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         addUserBtn.setForeground(new java.awt.Color(255, 255, 255));
-        addUserBtn.setText("Add User");
+        addUserBtn.setText("Users");
         addUserBtn.setBorder(null);
         addUserBtn.setDefaultCapable(false);
         addUserBtn.setFocusPainted(false);
@@ -210,7 +207,7 @@ public class MainForm extends javax.swing.JFrame {
         addToStockBtn.setBackground(new java.awt.Color(0, 0, 0));
         addToStockBtn.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         addToStockBtn.setForeground(new java.awt.Color(255, 255, 255));
-        addToStockBtn.setText("Add To Stock");
+        addToStockBtn.setText("Stock");
         addToStockBtn.setBorder(null);
         addToStockBtn.setDefaultCapable(false);
         addToStockBtn.setFocusPainted(false);
@@ -223,7 +220,7 @@ public class MainForm extends javax.swing.JFrame {
         addCostumerBtn.setBackground(new java.awt.Color(0, 0, 0));
         addCostumerBtn.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         addCostumerBtn.setForeground(new java.awt.Color(255, 255, 255));
-        addCostumerBtn.setText("Add Costumer");
+        addCostumerBtn.setText("Customers");
         addCostumerBtn.setBorder(null);
         addCostumerBtn.setDefaultCapable(false);
         addCostumerBtn.setFocusPainted(false);
@@ -236,7 +233,7 @@ public class MainForm extends javax.swing.JFrame {
         addClassificationBtn.setBackground(new java.awt.Color(0, 0, 0));
         addClassificationBtn.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         addClassificationBtn.setForeground(new java.awt.Color(255, 255, 255));
-        addClassificationBtn.setText("Add Classification");
+        addClassificationBtn.setText("Classifications");
         addClassificationBtn.setBorder(null);
         addClassificationBtn.setDefaultCapable(false);
         addClassificationBtn.setFocusPainted(false);
@@ -259,6 +256,19 @@ public class MainForm extends javax.swing.JFrame {
             }
         });
 
+        supplierBtn.setBackground(new java.awt.Color(0, 0, 0));
+        supplierBtn.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        supplierBtn.setForeground(new java.awt.Color(255, 255, 255));
+        supplierBtn.setText("Suppliers");
+        supplierBtn.setBorder(null);
+        supplierBtn.setDefaultCapable(false);
+        supplierBtn.setFocusPainted(false);
+        supplierBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                supplierBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -275,7 +285,8 @@ public class MainForm extends javax.swing.JFrame {
                         .addComponent(addToStockBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(addCostumerBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(addClassificationBtn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(salesBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(salesBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(supplierBtn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap(67, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -295,10 +306,12 @@ public class MainForm extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(addMedicineBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(addUserBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
                 .addComponent(addClassificationBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(1154, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(supplierBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(addUserBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(1230, Short.MAX_VALUE))
         );
 
         jScrollPane1.setViewportView(jPanel2);
@@ -313,15 +326,14 @@ public class MainForm extends javax.swing.JFrame {
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(mainPanelLayout.createSequentialGroup()
                 .addGap(0, 0, 0)
-                .addComponent(jLabel1)
-                .addContainerGap(324, Short.MAX_VALUE))
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addGap(0, 0, 0))
         );
         mainPanelLayout.setVerticalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(mainPanelLayout.createSequentialGroup()
-                .addGap(0, 0, 0)
-                .addComponent(jLabel1)
-                .addContainerGap(136, Short.MAX_VALUE))
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 942, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -329,25 +341,19 @@ public class MainForm extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(0, 0, 0)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 355, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 2130, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, 0)
-                        .addComponent(mainPanel)
-                        .addContainerGap())))
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 1597, Short.MAX_VALUE)
+                    .addComponent(mainPanel)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0)
-                        .addComponent(mainPanel))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addContainerGap())
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(mainPanel))
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
         );
 
         pack();
@@ -364,7 +370,9 @@ public class MainForm extends javax.swing.JFrame {
     }//GEN-LAST:event_addToStockBtnActionPerformed
 
     private void addCostumerBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addCostumerBtnActionPerformed
-        // TODO add your handling code here:
+        CustomerForm cf = new CustomerForm();
+        mainPanel.add(cf);
+        cf.show();
     }//GEN-LAST:event_addCostumerBtnActionPerformed
 
     private void logOutBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logOutBtnActionPerformed
@@ -393,20 +401,13 @@ public class MainForm extends javax.swing.JFrame {
         mf.show();
     }//GEN-LAST:event_addMedicineBtnActionPerformed
 
-//    public void loadImg() {
-//        java.net.URL imageUrl = MainForm.class.getResource("Images/download.png");
-//
-//        ImageIcon icon = new ImageIcon(imageUrl);
-//        mainPanel = new JPanel() {
-//            protected void paintComponent(Graphics g) {
-//                g.drawImage(icon.getImage(), 0, 0, null);
-//                this.paintComponent(g);
-//            }
-//        };
-//
-//        mainPanel.setOpaque(true);
-//        mainPanel.setPreferredSize(new Dimension(100, 100));
-//    }
+    private void supplierBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_supplierBtnActionPerformed
+        SupplierForm sf = new SupplierForm();
+        mainPanel.add(sf);
+        sf.show();
+    }//GEN-LAST:event_supplierBtnActionPerformed
+
+
     /**
      * @param args the command line arguments
      */
@@ -431,6 +432,7 @@ public class MainForm extends javax.swing.JFrame {
     private javax.swing.JButton orderBtn;
     private javax.swing.JButton posBtn1;
     private javax.swing.JButton salesBtn;
+    private javax.swing.JButton supplierBtn;
     // End of variables declaration//GEN-END:variables
 
 }

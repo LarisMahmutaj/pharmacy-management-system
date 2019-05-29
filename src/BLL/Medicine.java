@@ -6,7 +6,9 @@
 package BLL;
 
 import java.io.Serializable;
+import java.util.Collection;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,9 +17,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -33,6 +37,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Medicine.findByGenericName", query = "SELECT m FROM Medicine m WHERE m.genericName = :genericName")
     , @NamedQuery(name = "Medicine.findByPrice", query = "SELECT m FROM Medicine m WHERE m.price = :price")})
 public class Medicine implements Serializable {
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "medicineID")
+    private Collection<Stock> stockCollection;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -131,6 +138,15 @@ public class Medicine implements Serializable {
     @Override
     public String toString() {
         return "BLL.Medicine[ medicineID=" + medicineID + " ]";
+    }
+
+    @XmlTransient
+    public Collection<Stock> getStockCollection() {
+        return stockCollection;
+    }
+
+    public void setStockCollection(Collection<Stock> stockCollection) {
+        this.stockCollection = stockCollection;
     }
     
 }

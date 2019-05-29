@@ -5,10 +5,10 @@
  */
 package GUI.View;
 
-import BLL.Classification;
-import DAL.ClassificationRepository;
+import BLL.Customer;
+import DAL.CustomerRepository;
 import DAL.PharmacyException;
-import gui.Model.ClassificationTableModel;
+import gui.Model.CustomerTableModel;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,19 +21,22 @@ import javax.swing.event.ListSelectionListener;
  *
  * @author Laris
  */
-public class ClassificationForm extends javax.swing.JInternalFrame {
-    
-    ClassificationRepository cr = new ClassificationRepository();
-    ClassificationTableModel ctm = new ClassificationTableModel();
+public class CustomerForm extends javax.swing.JInternalFrame {
+
+    CustomerRepository cr = new CustomerRepository();
+    CustomerTableModel ctm = new CustomerTableModel();
+
     /**
-     * Creates new form ClassificationForm1
+     * Creates new form CustomerForm
      */
-    public ClassificationForm() {
+    public CustomerForm() {
         initComponents();
         loadTable();
         tableSelectedIndexChange();
     }
 
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -43,18 +46,51 @@ public class ClassificationForm extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel2 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        table = new javax.swing.JTable();
+        phoneNumberTxt = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        addressTxt = new javax.swing.JTextField();
         saveBtn = new javax.swing.JButton();
         idTxt = new javax.swing.JTextField();
         deleteBtn = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         cancelBtn = new javax.swing.JButton();
-        classificationNameTxt = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        table = new javax.swing.JTable();
+        nameTxt = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
 
         setClosable(true);
-        setTitle("Classification Form");
+        setTitle("Customer Form");
+
+        jLabel2.setText("Name");
+
+        table.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(table);
+
+        phoneNumberTxt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                phoneNumberTxtActionPerformed(evt);
+            }
+        });
+
+        jLabel6.setText("Address");
+
+        addressTxt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addressTxtActionPerformed(evt);
+            }
+        });
 
         saveBtn.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         saveBtn.setText("Save");
@@ -89,26 +125,13 @@ public class ClassificationForm extends javax.swing.JInternalFrame {
             }
         });
 
-        classificationNameTxt.addActionListener(new java.awt.event.ActionListener() {
+        nameTxt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                classificationNameTxtActionPerformed(evt);
+                nameTxtActionPerformed(evt);
             }
         });
 
-        jLabel2.setText("Classification Name");
-
-        table.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane1.setViewportView(table);
+        jLabel3.setText("Phone Number");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -123,9 +146,17 @@ public class ClassificationForm extends javax.swing.JInternalFrame {
                             .addComponent(idTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(classificationNameTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2)))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 311, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(nameTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addComponent(phoneNumberTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel6)
+                            .addComponent(addressTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 478, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(deleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -139,27 +170,51 @@ public class ClassificationForm extends javax.swing.JInternalFrame {
                 .addGap(25, 25, 25)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(saveBtn)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel6)
+                            .addComponent(saveBtn))
                         .addGap(58, 58, 58)
                         .addComponent(deleteBtn)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(58, 58, 58)
                         .addComponent(cancelBtn))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1)
-                            .addComponent(jLabel2))
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(idTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(classificationNameTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(28, 28, 28)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(nameTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(phoneNumberTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(addressTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
                 .addGap(25, 25, 25))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void phoneNumberTxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_phoneNumberTxtActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_phoneNumberTxtActionPerformed
+
+    private void addressTxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addressTxtActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_addressTxtActionPerformed
+
+    public void loadTable() {
+        try {
+            List<Customer> list = cr.findAll();
+            ctm.addList(list);
+            table.setModel(ctm);
+            ctm.fireTableDataChanged();
+        } catch (PharmacyException pe) {
+            Logger.getLogger(UserForm.class.getName()).log(Level.SEVERE, null, pe);
+        }
+    }
+    
     private void tableSelectedIndexChange() {
         final ListSelectionModel rowSM = table.getSelectionModel();
         rowSM.addListSelectionListener(new ListSelectionListener() {
@@ -171,43 +226,38 @@ public class ClassificationForm extends javax.swing.JInternalFrame {
                 ListSelectionModel rowSM = (ListSelectionModel) lse.getSource();
                 int selectedIndex = rowSM.getAnchorSelectionIndex();
                 if (selectedIndex > -1) {
-                    Classification p = ctm.getClassification(selectedIndex);
-                    idTxt.setText(p.getClassificationID() + "");
-                    classificationNameTxt.setText(p.getClassificationName());                  
+                    Customer p = ctm.getCustomer(selectedIndex);
+                    idTxt.setText(p.getCustomerID() + "");
+                    nameTxt.setText(p.getName()); 
+                    addressTxt.setText(p.getAddress());
+                    phoneNumberTxt.setText(p.getPhoneNumber() + "");
                 }
             }
         });
     }
     
-    public void loadTable() {
-        try {
-            List<Classification> list = cr.findAll();
-            ctm.addList(list);
-            table.setModel(ctm);
-            ctm.fireTableDataChanged();
-        } catch (PharmacyException pe) {
-            Logger.getLogger(UserForm.class.getName()).log(Level.SEVERE, null, pe);
-        }
-    }
-    
     private void saveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveBtnActionPerformed
         int row = table.getSelectedRow();
-        if(!classificationNameTxt.getText().trim().equals("")){
-            if(row == -1){
-                Classification p = new Classification();
-                p.setClassificationName(classificationNameTxt.getText());
-
-                try{
+        if (!nameTxt.getText().trim().equals("")) {
+            if (row == -1) {
+                Customer p = new Customer();
+                p.setName(nameTxt.getText());
+                p.setPhoneNumber(Integer.parseInt(phoneNumberTxt.getText()));
+                p.setAddress(addressTxt.getText());
+                
+                try {
                     cr.create(p);
-                }catch(PharmacyException pe){
+                } catch (PharmacyException pe) {
                     JOptionPane.showMessageDialog(this, "MSG: " + pe.getMessage());
                 }
-            }else{
-                Classification p = ctm.getClassification(row);
-                p.setClassificationName(classificationNameTxt.getText());
-                try{
+            } else {
+                Customer p = ctm.getCustomer(row);
+                p.setName(nameTxt.getText());
+                p.setPhoneNumber(Integer.parseInt(phoneNumberTxt.getText()));
+                p.setAddress(addressTxt.getText());
+                try {
                     cr.edit(p);
-                }catch(PharmacyException pe){
+                } catch (PharmacyException pe) {
                     JOptionPane.showMessageDialog(this, "MSG: " + pe.getMessage());
                 }
             }
@@ -222,23 +272,23 @@ public class ClassificationForm extends javax.swing.JInternalFrame {
 
     private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
         int row = table.getSelectedRow();
-        if(row > -1){
+        if (row > -1) {
             Object[] obj = {"Yes", "No"};
-            int i = JOptionPane.showOptionDialog(this, "Do you want to delete user?", "Delete",
-                JOptionPane.OK_OPTION, JOptionPane.QUESTION_MESSAGE, null, obj, obj[0]);
-            if(i == 0){
-                try{
-                    Classification p = ctm.getClassification(row);
+            int i = JOptionPane.showOptionDialog(this, "Do you want to delete medicine?", "Delete",
+                    JOptionPane.OK_OPTION, JOptionPane.QUESTION_MESSAGE, null, obj, obj[0]);
+            if (i == 0) {
+                try {
+                    Customer p = ctm.getCustomer(row);
                     cr.delete(p);
                     clear();
                     loadTable();
-                }catch(PharmacyException pe){
+                } catch (PharmacyException pe) {
                     JOptionPane.showMessageDialog(this, "MSG: " + pe.getMessage());
                 }
-            }else{
+            } else {
                 clear();
             }
-        }else{
+        } else {
             JOptionPane.showMessageDialog(this, "You havent selected anything to delete");
         }
     }//GEN-LAST:event_deleteBtnActionPerformed
@@ -247,25 +297,30 @@ public class ClassificationForm extends javax.swing.JInternalFrame {
         clear();
     }//GEN-LAST:event_cancelBtnActionPerformed
 
-    private void classificationNameTxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_classificationNameTxtActionPerformed
+    private void nameTxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nameTxtActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_classificationNameTxtActionPerformed
+    }//GEN-LAST:event_nameTxtActionPerformed
 
+    public void clear(){
+        idTxt.setText("");
+        nameTxt.setText("");
+        addressTxt.setText("");
+        phoneNumberTxt.setText("");
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField addressTxt;
     private javax.swing.JButton cancelBtn;
-    private javax.swing.JTextField classificationNameTxt;
     private javax.swing.JButton deleteBtn;
     private javax.swing.JTextField idTxt;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField nameTxt;
+    private javax.swing.JTextField phoneNumberTxt;
     private javax.swing.JButton saveBtn;
     private javax.swing.JTable table;
     // End of variables declaration//GEN-END:variables
-
-    private void clear() {
-        idTxt.setText("");
-        classificationNameTxt.setText("");
-    }
 }

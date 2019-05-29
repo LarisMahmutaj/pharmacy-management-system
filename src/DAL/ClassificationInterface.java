@@ -13,7 +13,7 @@ import java.util.List;
  * @author Laris
  */
 public interface ClassificationInterface {
-       void create(Classification p) throws PharmacyException;
+    void create(Classification p) throws PharmacyException;
     void edit(Classification p) throws PharmacyException;
     void delete(Classification p) throws PharmacyException;
     List<Classification> findAll() throws PharmacyException;

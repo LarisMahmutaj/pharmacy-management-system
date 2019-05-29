@@ -5,13 +5,11 @@
  */
 package GUI.View;
 
-import BLL.Classification;
-import BLL.Medicine;
-import DAL.ClassificationRepository;
-import DAL.MedicineRepository;
+import BLL.Supplier;
+import BLL.Supplier;
 import DAL.PharmacyException;
-import gui.Model.ClassificationComboBoxModel;
-import gui.Model.MedicineTableModel;
+import DAL.SupplierRepository;
+import gui.Model.SupplierTableModel;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,19 +22,17 @@ import javax.swing.event.ListSelectionListener;
  *
  * @author Laris
  */
-public class MedicineForm extends javax.swing.JInternalFrame {
-    MedicineRepository mr = new MedicineRepository();
-    MedicineTableModel mtm = new MedicineTableModel();
-    ClassificationRepository cr = new ClassificationRepository();
-    ClassificationComboBoxModel ccbm;
+public class SupplierForm extends javax.swing.JInternalFrame {
+
+    SupplierRepository sr = new SupplierRepository();
+    SupplierTableModel stm = new SupplierTableModel();
+
     /**
-     * Creates new form MedicineForm
+     * Creates new form SupplierForm
      */
-    public MedicineForm() {
+    public SupplierForm() {
         initComponents();
         loadTable();
-        loadComboBox();
-        tableSelectedIndexChange();
     }
 
     /**
@@ -48,35 +44,30 @@ public class MedicineForm extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel3 = new javax.swing.JLabel();
-        classificationComboBox = new javax.swing.JComboBox();
-        jLabel6 = new javax.swing.JLabel();
+        emailTxt = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         table = new javax.swing.JTable();
+        jLabel4 = new javax.swing.JLabel();
         saveBtn = new javax.swing.JButton();
         idTxt = new javax.swing.JTextField();
         deleteBtn = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         cancelBtn = new javax.swing.JButton();
-        brandNameTxt = new javax.swing.JTextField();
+        nameTxt = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        genericNameTxt = new javax.swing.JTextField();
-        priceTxt = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
+        addressTxt = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        phoneNumberTxt = new javax.swing.JTextField();
 
         setClosable(true);
-        setTitle("Medicine Form");
-        try {
-            setSelected(true);
-        } catch (java.beans.PropertyVetoException e1) {
-            e1.printStackTrace();
-        }
+        setTitle("Supplier Form");
 
-        jLabel3.setText("Generic Name");
-
-        classificationComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        jLabel6.setText("Classification");
+        emailTxt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                emailTxtActionPerformed(evt);
+            }
+        });
 
         table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -90,6 +81,8 @@ public class MedicineForm extends javax.swing.JInternalFrame {
             }
         ));
         jScrollPane1.setViewportView(table);
+
+        jLabel4.setText("Email");
 
         saveBtn.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         saveBtn.setText("Save");
@@ -124,27 +117,29 @@ public class MedicineForm extends javax.swing.JInternalFrame {
             }
         });
 
-        brandNameTxt.addActionListener(new java.awt.event.ActionListener() {
+        nameTxt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                brandNameTxtActionPerformed(evt);
+                nameTxtActionPerformed(evt);
             }
         });
 
-        jLabel2.setText("Brand Name");
+        jLabel3.setText("Address");
 
-        genericNameTxt.addActionListener(new java.awt.event.ActionListener() {
+        jLabel2.setText("Name");
+
+        addressTxt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                genericNameTxtActionPerformed(evt);
+                addressTxtActionPerformed(evt);
             }
         });
 
-        priceTxt.addActionListener(new java.awt.event.ActionListener() {
+        jLabel6.setText("Phone Number");
+
+        phoneNumberTxt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                priceTxtActionPerformed(evt);
+                phoneNumberTxtActionPerformed(evt);
             }
         });
-
-        jLabel4.setText("Price");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -152,40 +147,40 @@ public class MedicineForm extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(25, 25, 25)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
                             .addComponent(idTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(brandNameTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(nameTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel2))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3)
-                            .addComponent(genericNameTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(addressTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel6)
-                            .addComponent(classificationComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(phoneNumberTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel4)
-                            .addComponent(priceTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jScrollPane1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
+                            .addComponent(emailTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 602, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(deleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(saveBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cancelBtn))
-                .addGap(25, 25, 25))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(25, 25, 25)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel6)
@@ -204,65 +199,35 @@ public class MedicineForm extends javax.swing.JInternalFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(idTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(brandNameTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(genericNameTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(classificationComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(nameTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(addressTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(phoneNumberTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel4)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(priceTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(27, 27, 27)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(emailTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
                 .addGap(25, 25, 25))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void saveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveBtnActionPerformed
-        int row = table.getSelectedRow();
-        if(!brandNameTxt.getText().trim().equals("")){
-            if(row == -1){
-                Medicine p = new Medicine();
-                p.setBrandName(brandNameTxt.getText());
-                p.setGenericName(genericNameTxt.getText());
-                p.setClassificationID((Classification) classificationComboBox.getSelectedItem());
-                p.setPrice(Double.parseDouble(priceTxt.getText()));
-                try{
-                    mr.create(p);
-                }catch(PharmacyException pe){
-                    JOptionPane.showMessageDialog(this, "MSG: " + pe.getMessage());
-                }
-            }else{
-                Medicine p = mtm.getMedicine(row);
-                p.setBrandName(brandNameTxt.getText());
-                p.setGenericName(genericNameTxt.getText());
-                p.setClassificationID((Classification) classificationComboBox.getSelectedItem());
-                p.setPrice(Double.parseDouble(priceTxt.getText()));
-                try{
-                    mr.edit(p);
-                }catch(PharmacyException pe){
-                    JOptionPane.showMessageDialog(this, "MSG: " + pe.getMessage());
-                }
-            }
-            loadTable();
-            clear();
-        }
-    }//GEN-LAST:event_saveBtnActionPerformed
+    private void emailTxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailTxtActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_emailTxtActionPerformed
 
     public void loadTable() {
         try {
-            List<Medicine> list = mr.findAll();
-            mtm.addList(list);
-            table.setModel(mtm);
-            mtm.fireTableDataChanged();
+            List<Supplier> list = sr.findAll();
+            stm.addList(list);
+            table.setModel(stm);
+            stm.fireTableDataChanged();
         } catch (PharmacyException pe) {
             Logger.getLogger(UserForm.class.getName()).log(Level.SEVERE, null, pe);
         }
     }
-    private void idTxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idTxtActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_idTxtActionPerformed
 
     private void tableSelectedIndexChange() {
         final ListSelectionModel rowSM = table.getSelectionModel();
@@ -275,48 +240,71 @@ public class MedicineForm extends javax.swing.JInternalFrame {
                 ListSelectionModel rowSM = (ListSelectionModel) lse.getSource();
                 int selectedIndex = rowSM.getAnchorSelectionIndex();
                 if (selectedIndex > -1) {
-                    Medicine p = mtm.getMedicine(selectedIndex);
-                    idTxt.setText(p.getMedicineID() + "");
-                    brandNameTxt.setText(p.getBrandName());
-                    genericNameTxt.setText(p.getGenericName());
-                    priceTxt.setText(p.getPrice() + "");
-                    classificationComboBox.setSelectedItem(p.getClassificationID());
-                    classificationComboBox.repaint();
+                    Supplier p = stm.getSupplier(selectedIndex);
+                    idTxt.setText(p.getSupplierID() + "");
+                    nameTxt.setText(p.getName());
+                    addressTxt.setText(p.getAddress());
+                    phoneNumberTxt.setText(p.getPhoneNumber());
+                    emailTxt.setText(p.getEmail());
                 }
             }
         });
     }
     
-    public void loadComboBox() {
-        try {
-            List<Classification> list = cr.findAll();
-            ccbm = new ClassificationComboBoxModel(list);
-            classificationComboBox.setModel(ccbm);
-            classificationComboBox.repaint();
-        } catch (PharmacyException ce) {
-            Logger.getLogger(UserForm.class.getName()).log(Level.SEVERE, null, ce);
-        }
-    }
-    
-    private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
+    private void saveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveBtnActionPerformed
         int row = table.getSelectedRow();
-        if(row > -1){
-            Object[] obj = {"Yes", "No"};
-            int i = JOptionPane.showOptionDialog(this, "Do you want to delete medicine?", "Delete",
-                JOptionPane.OK_OPTION, JOptionPane.QUESTION_MESSAGE, null, obj, obj[0]);
-            if(i == 0){
-                try{
-                    Medicine p = mtm.getMedicine(row);
-                    mr.delete(p);
-                    clear();
-                    loadTable();
-                }catch(PharmacyException pe){
+        if (!nameTxt.getText().trim().equals("")) {
+            if (row == -1) {
+                Supplier p = new Supplier();
+                p.setName(nameTxt.getText());
+                p.setAddress(addressTxt.getText());
+                p.setPhoneNumber(phoneNumberTxt.getText());
+                p.setEmail(emailTxt.getText());
+                try {
+                    sr.create(p);
+                } catch (PharmacyException pe) {
                     JOptionPane.showMessageDialog(this, "MSG: " + pe.getMessage());
                 }
-            }else{
+            } else {
+                Supplier p = stm.getSupplier(row);
+                p.setName(nameTxt.getText());
+                p.setAddress(addressTxt.getText());
+                p.setPhoneNumber(phoneNumberTxt.getText());
+                p.setEmail(emailTxt.getText());
+                try {
+                    sr.edit(p);
+                } catch (PharmacyException pe) {
+                    JOptionPane.showMessageDialog(this, "MSG: " + pe.getMessage());
+                }
+            }
+            loadTable();
+            clear();
+        }
+    }//GEN-LAST:event_saveBtnActionPerformed
+
+    private void idTxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idTxtActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_idTxtActionPerformed
+
+    private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
+        int row = table.getSelectedRow();
+        if (row > -1) {
+            Object[] obj = {"Yes", "No"};
+            int i = JOptionPane.showOptionDialog(this, "Do you want to delete medicine?", "Delete",
+                    JOptionPane.OK_OPTION, JOptionPane.QUESTION_MESSAGE, null, obj, obj[0]);
+            if (i == 0) {
+                try {
+                    Supplier p = stm.getSupplier(row);
+                    sr.delete(p);
+                    clear();
+                    loadTable();
+                } catch (PharmacyException pe) {
+                    JOptionPane.showMessageDialog(this, "MSG: " + pe.getMessage());
+                }
+            } else {
                 clear();
             }
-        }else{
+        } else {
             JOptionPane.showMessageDialog(this, "You havent selected anything to delete");
         }
     }//GEN-LAST:event_deleteBtnActionPerformed
@@ -325,25 +313,31 @@ public class MedicineForm extends javax.swing.JInternalFrame {
         clear();
     }//GEN-LAST:event_cancelBtnActionPerformed
 
-    private void brandNameTxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_brandNameTxtActionPerformed
+    private void nameTxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nameTxtActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_brandNameTxtActionPerformed
+    }//GEN-LAST:event_nameTxtActionPerformed
 
-    private void genericNameTxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_genericNameTxtActionPerformed
+    private void addressTxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addressTxtActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_genericNameTxtActionPerformed
+    }//GEN-LAST:event_addressTxtActionPerformed
 
-    private void priceTxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_priceTxtActionPerformed
+    private void phoneNumberTxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_phoneNumberTxtActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_priceTxtActionPerformed
+    }//GEN-LAST:event_phoneNumberTxtActionPerformed
 
+    public void clear() {
+        idTxt.setText("");
+        nameTxt.setText("");
+        addressTxt.setText("");
+        phoneNumberTxt.setText("");
+        emailTxt.setText("");
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField brandNameTxt;
+    private javax.swing.JTextField addressTxt;
     private javax.swing.JButton cancelBtn;
-    private javax.swing.JComboBox classificationComboBox;
     private javax.swing.JButton deleteBtn;
-    private javax.swing.JTextField genericNameTxt;
+    private javax.swing.JTextField emailTxt;
     private javax.swing.JTextField idTxt;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -351,18 +345,9 @@ public class MedicineForm extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField priceTxt;
+    private javax.swing.JTextField nameTxt;
+    private javax.swing.JTextField phoneNumberTxt;
     private javax.swing.JButton saveBtn;
     private javax.swing.JTable table;
     // End of variables declaration//GEN-END:variables
-
-    private void clear() {
-        table.clearSelection();
-        idTxt.setText("");
-        brandNameTxt.setText("");
-        genericNameTxt.setText("");
-        priceTxt.setText("");
-        classificationComboBox.setSelectedIndex(-1);
-        classificationComboBox.repaint();
-    }
 }

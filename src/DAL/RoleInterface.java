@@ -13,7 +13,7 @@ import java.util.List;
  * @author Laris
  */
 public interface RoleInterface {
-       void create(Role p) throws PharmacyException;
+    void create(Role p) throws PharmacyException;
     void edit(Role p) throws PharmacyException;
     void delete(Role p) throws PharmacyException;
     List<Role> findAll() throws PharmacyException;

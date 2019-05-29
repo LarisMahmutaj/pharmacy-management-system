@@ -8,6 +8,11 @@
     <class>BLL.Class</class>
     <class>BLL.Medicine</class>
     <class>BLL.Classification</class>
+    <class>BLL.Supplier</class>
+    <class>BLL.Stock</class>
+    <class>BLL.Status</class>
+    <class>BLL.Costumer</class>
+    <class>BLL.Customer</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:sqlserver://localhost:1433;databaseName=PharmacyManagement"/>
       <property name="javax.persistence.jdbc.user" value="sa"/>
