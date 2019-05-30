@@ -9,6 +9,7 @@ import BLL.Classification;
 import DAL.ClassificationRepository;
 import DAL.PharmacyException;
 import gui.Model.ClassificationTableModel;
+import java.beans.PropertyVetoException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,9 +23,19 @@ import javax.swing.event.ListSelectionListener;
  * @author Laris
  */
 public class ClassificationForm extends javax.swing.JInternalFrame {
-    
+
     ClassificationRepository cr = new ClassificationRepository();
     ClassificationTableModel ctm = new ClassificationTableModel();
+    private static boolean exists = false;
+
+    public static boolean isExists() {
+        return exists;
+    }
+
+    public static void setExists(boolean exists) {
+        ClassificationForm.exists = exists;
+    }
+
     /**
      * Creates new form ClassificationForm1
      */
@@ -32,6 +43,7 @@ public class ClassificationForm extends javax.swing.JInternalFrame {
         initComponents();
         loadTable();
         tableSelectedIndexChange();
+        exists = true;
     }
 
     /**
@@ -55,6 +67,28 @@ public class ClassificationForm extends javax.swing.JInternalFrame {
 
         setClosable(true);
         setTitle("Classification Form");
+        addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
+            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameClosed(evt);
+            }
+            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
+            }
+        });
+        addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                formMouseClicked(evt);
+            }
+        });
 
         saveBtn.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         saveBtn.setText("Save");
@@ -173,12 +207,12 @@ public class ClassificationForm extends javax.swing.JInternalFrame {
                 if (selectedIndex > -1) {
                     Classification p = ctm.getClassification(selectedIndex);
                     idTxt.setText(p.getClassificationID() + "");
-                    classificationNameTxt.setText(p.getClassificationName());                  
+                    classificationNameTxt.setText(p.getClassificationName());
                 }
             }
         });
     }
-    
+
     public void loadTable() {
         try {
             List<Classification> list = cr.findAll();
@@ -189,25 +223,25 @@ public class ClassificationForm extends javax.swing.JInternalFrame {
             Logger.getLogger(UserForm.class.getName()).log(Level.SEVERE, null, pe);
         }
     }
-    
+
     private void saveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveBtnActionPerformed
         int row = table.getSelectedRow();
-        if(!classificationNameTxt.getText().trim().equals("")){
-            if(row == -1){
+        if (!classificationNameTxt.getText().trim().equals("")) {
+            if (row == -1) {
                 Classification p = new Classification();
                 p.setClassificationName(classificationNameTxt.getText());
 
-                try{
+                try {
                     cr.create(p);
-                }catch(PharmacyException pe){
+                } catch (PharmacyException pe) {
                     JOptionPane.showMessageDialog(this, "MSG: " + pe.getMessage());
                 }
-            }else{
+            } else {
                 Classification p = ctm.getClassification(row);
                 p.setClassificationName(classificationNameTxt.getText());
-                try{
+                try {
                     cr.edit(p);
-                }catch(PharmacyException pe){
+                } catch (PharmacyException pe) {
                     JOptionPane.showMessageDialog(this, "MSG: " + pe.getMessage());
                 }
             }
@@ -222,23 +256,23 @@ public class ClassificationForm extends javax.swing.JInternalFrame {
 
     private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
         int row = table.getSelectedRow();
-        if(row > -1){
+        if (row > -1) {
             Object[] obj = {"Yes", "No"};
             int i = JOptionPane.showOptionDialog(this, "Do you want to delete user?", "Delete",
-                JOptionPane.OK_OPTION, JOptionPane.QUESTION_MESSAGE, null, obj, obj[0]);
-            if(i == 0){
-                try{
+                    JOptionPane.OK_OPTION, JOptionPane.QUESTION_MESSAGE, null, obj, obj[0]);
+            if (i == 0) {
+                try {
                     Classification p = ctm.getClassification(row);
                     cr.delete(p);
                     clear();
                     loadTable();
-                }catch(PharmacyException pe){
+                } catch (PharmacyException pe) {
                     JOptionPane.showMessageDialog(this, "MSG: " + pe.getMessage());
                 }
-            }else{
+            } else {
                 clear();
             }
-        }else{
+        } else {
             JOptionPane.showMessageDialog(this, "You havent selected anything to delete");
         }
     }//GEN-LAST:event_deleteBtnActionPerformed
@@ -250,6 +284,21 @@ public class ClassificationForm extends javax.swing.JInternalFrame {
     private void classificationNameTxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_classificationNameTxtActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_classificationNameTxtActionPerformed
+
+    private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
+        if (evt.getClickCount() > 0) {
+            try {
+                this.setSelected(true);
+                this.toFront();
+            } catch (PropertyVetoException ex) {
+                Logger.getLogger(SupplierForm.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_formMouseClicked
+
+    private void formInternalFrameClosed(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosed
+        exists = false;
+    }//GEN-LAST:event_formInternalFrameClosed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -12,6 +12,7 @@ import DAL.PharmacyException;
 import DAL.RoleRepository;
 import gui.Model.PerdoruesiTableModel;
 import gui.Model.RoleComboBoxModel;
+import java.beans.PropertyVetoException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -30,16 +31,29 @@ public class UserForm extends javax.swing.JInternalFrame {
     PerdoruesiRepository pr = new PerdoruesiRepository();
     RoleRepository rr = new RoleRepository();
     RoleComboBoxModel rcbm;
+    
+    private static boolean exists = false;            
     /**
      * Creates new form UserForm
      */
+    
+    public static boolean getExists(){
+        return exists;
+    }
+    
+    public static void setExists(boolean x){
+        exists = x;
+    }
+    
     public UserForm() {
         initComponents();
         loadTable();
         tableSelectedIndexChange();
         loadComboBox();
+        exists = true;
+        
     }
-    
+
     public void loadTable() {
         try {
             List<Perdoruesi> list = pr.findAll();
@@ -50,7 +64,7 @@ public class UserForm extends javax.swing.JInternalFrame {
             Logger.getLogger(UserForm.class.getName()).log(Level.SEVERE, null, pe);
         }
     }
-    
+
     private void tableSelectedIndexChange() {
         final ListSelectionModel rowSM = table.getSelectionModel();
         rowSM.addListSelectionListener(new ListSelectionListener() {
@@ -72,7 +86,7 @@ public class UserForm extends javax.swing.JInternalFrame {
             }
         });
     }
-    
+
     public void loadComboBox() {
         try {
             List<Role> list = rr.findAll();
@@ -83,6 +97,7 @@ public class UserForm extends javax.swing.JInternalFrame {
             Logger.getLogger(UserForm.class.getName()).log(Level.SEVERE, null, ce);
         }
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -119,6 +134,7 @@ public class UserForm extends javax.swing.JInternalFrame {
                 formInternalFrameActivated(evt);
             }
             public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameClosed(evt);
             }
             public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
             }
@@ -129,6 +145,11 @@ public class UserForm extends javax.swing.JInternalFrame {
             public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
             }
             public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
+            }
+        });
+        addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                formMouseClicked(evt);
             }
         });
 
@@ -275,25 +296,25 @@ public class UserForm extends javax.swing.JInternalFrame {
 
     private void saveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveBtnActionPerformed
         int row = table.getSelectedRow();
-        if(!usernameTxt.getText().trim().equals("")){
-            if(row == -1){
+        if (!usernameTxt.getText().trim().equals("")) {
+            if (row == -1) {
                 Perdoruesi p = new Perdoruesi();
                 p.setUserName(usernameTxt.getText());
                 p.setPassword(passwordTxt.getText());
                 p.setRoleID((Role) roleComboBox.getSelectedItem());
-                try{
+                try {
                     pr.create(p);
-                }catch(PharmacyException pe){
+                } catch (PharmacyException pe) {
                     JOptionPane.showMessageDialog(this, "MSG: " + pe.getMessage());
                 }
-            }else{
+            } else {
                 Perdoruesi p = ptm.getPerdoruesi(row);
                 p.setUserName(usernameTxt.getText());
                 p.setPassword(passwordTxt.getText());
                 p.setRoleID((Role) roleComboBox.getSelectedItem());
-                try{
+                try {
                     pr.edit(p);
-                }catch(PharmacyException pe){
+                } catch (PharmacyException pe) {
                     JOptionPane.showMessageDialog(this, "MSG: " + pe.getMessage());
                 }
             }
@@ -304,23 +325,23 @@ public class UserForm extends javax.swing.JInternalFrame {
 
     private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
         int row = table.getSelectedRow();
-        if(row > -1){
+        if (row > -1) {
             Object[] obj = {"Yes", "No"};
             int i = JOptionPane.showOptionDialog(this, "Do you want to delete user?", "Delete",
                     JOptionPane.OK_OPTION, JOptionPane.QUESTION_MESSAGE, null, obj, obj[0]);
-            if(i == 0){
-                try{
+            if (i == 0) {
+                try {
                     Perdoruesi p = ptm.getPerdoruesi(row);
                     pr.delete(p);
                     clear();
                     loadTable();
-                }catch(PharmacyException pe){
+                } catch (PharmacyException pe) {
                     JOptionPane.showMessageDialog(this, "MSG: " + pe.getMessage());
                 }
-            }else{
+            } else {
                 clear();
             }
-        }else{
+        } else {
             JOptionPane.showMessageDialog(this, "You havent selected anything to delete");
         }
     }//GEN-LAST:event_deleteBtnActionPerformed
@@ -336,6 +357,21 @@ public class UserForm extends javax.swing.JInternalFrame {
     private void focusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_focusGained
         this.moveToFront();
     }//GEN-LAST:event_focusGained
+
+    private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
+        if (evt.getClickCount() > 0) {
+            try {
+                this.setSelected(true);
+                this.toFront();
+            } catch (PropertyVetoException ex) {
+                Logger.getLogger(SupplierForm.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_formMouseClicked
+
+    private void formInternalFrameClosed(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosed
+        exists = false;
+    }//GEN-LAST:event_formInternalFrameClosed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

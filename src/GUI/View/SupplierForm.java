@@ -10,6 +10,7 @@ import BLL.Supplier;
 import DAL.PharmacyException;
 import DAL.SupplierRepository;
 import gui.Model.SupplierTableModel;
+import java.beans.PropertyVetoException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,6 +27,7 @@ public class SupplierForm extends javax.swing.JInternalFrame {
 
     SupplierRepository sr = new SupplierRepository();
     SupplierTableModel stm = new SupplierTableModel();
+    private static boolean exists = false;
 
     /**
      * Creates new form SupplierForm
@@ -33,6 +35,7 @@ public class SupplierForm extends javax.swing.JInternalFrame {
     public SupplierForm() {
         initComponents();
         loadTable();
+        exists = true;
     }
 
     /**
@@ -62,6 +65,28 @@ public class SupplierForm extends javax.swing.JInternalFrame {
 
         setClosable(true);
         setTitle("Supplier Form");
+        addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
+            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameClosed(evt);
+            }
+            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
+            }
+        });
+        addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                formMouseClicked(evt);
+            }
+        });
 
         emailTxt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -325,6 +350,29 @@ public class SupplierForm extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_phoneNumberTxtActionPerformed
 
+    private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
+        if(evt.getClickCount()>0){
+            try {
+                this.setSelected(true);
+                this.toFront();
+            } catch (PropertyVetoException ex) {
+                Logger.getLogger(SupplierForm.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_formMouseClicked
+
+    private void formInternalFrameClosed(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosed
+        exists = false;
+    }//GEN-LAST:event_formInternalFrameClosed
+
+    public static boolean isExists() {
+        return exists;
+    }
+
+    public static void setExists(boolean exists) {
+        SupplierForm.exists = exists;
+    }
+
     public void clear() {
         idTxt.setText("");
         nameTxt.setText("");
@@ -332,6 +380,8 @@ public class SupplierForm extends javax.swing.JInternalFrame {
         phoneNumberTxt.setText("");
         emailTxt.setText("");
     }
+    
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField addressTxt;

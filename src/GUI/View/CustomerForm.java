@@ -9,6 +9,7 @@ import BLL.Customer;
 import DAL.CustomerRepository;
 import DAL.PharmacyException;
 import gui.Model.CustomerTableModel;
+import java.beans.PropertyVetoException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,6 +24,7 @@ import javax.swing.event.ListSelectionListener;
  */
 public class CustomerForm extends javax.swing.JInternalFrame {
 
+    private static boolean exists = false;
     CustomerRepository cr = new CustomerRepository();
     CustomerTableModel ctm = new CustomerTableModel();
 
@@ -33,6 +35,7 @@ public class CustomerForm extends javax.swing.JInternalFrame {
         initComponents();
         loadTable();
         tableSelectedIndexChange();
+        exists = true;
     }
 
     
@@ -62,6 +65,28 @@ public class CustomerForm extends javax.swing.JInternalFrame {
 
         setClosable(true);
         setTitle("Customer Form");
+        addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
+            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameClosed(evt);
+            }
+            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
+            }
+        });
+        addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                formMouseClicked(evt);
+            }
+        });
 
         jLabel2.setText("Name");
 
@@ -200,6 +225,14 @@ public class CustomerForm extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_phoneNumberTxtActionPerformed
 
+    public static boolean isExists() {
+        return exists;
+    }
+
+    public static void setExists(boolean e) {
+        exists = e;
+    }
+
     private void addressTxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addressTxtActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_addressTxtActionPerformed
@@ -300,6 +333,21 @@ public class CustomerForm extends javax.swing.JInternalFrame {
     private void nameTxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nameTxtActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_nameTxtActionPerformed
+
+    private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
+        if (evt.getClickCount() > 0) {
+            try {
+                this.setSelected(true);
+                this.toFront();
+            } catch (PropertyVetoException ex) {
+                Logger.getLogger(SupplierForm.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_formMouseClicked
+
+    private void formInternalFrameClosed(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosed
+        exists = false;
+    }//GEN-LAST:event_formInternalFrameClosed
 
     public void clear(){
         idTxt.setText("");

@@ -11,7 +11,6 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import javax.swing.JOptionPane;
 
-
 /**
  *
  * @author Laris
@@ -360,9 +359,11 @@ public class MainForm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void addUserBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addUserBtnActionPerformed
-        UserForm uf = new UserForm();
-        mainPanel.add(uf);
-        uf.show();
+        if (!(UserForm.getExists() == true)) {
+            UserForm uf = new UserForm();
+            mainPanel.add(uf);
+            uf.show();
+        }
     }//GEN-LAST:event_addUserBtnActionPerformed
 
     private void addToStockBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addToStockBtnActionPerformed
@@ -370,9 +371,11 @@ public class MainForm extends javax.swing.JFrame {
     }//GEN-LAST:event_addToStockBtnActionPerformed
 
     private void addCostumerBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addCostumerBtnActionPerformed
-        CustomerForm cf = new CustomerForm();
-        mainPanel.add(cf);
-        cf.show();
+        if (!CustomerForm.isExists()) {
+            CustomerForm cf = new CustomerForm();
+            mainPanel.add(cf);
+            cf.show();
+        }
     }//GEN-LAST:event_addCostumerBtnActionPerformed
 
     private void logOutBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logOutBtnActionPerformed
@@ -386,9 +389,11 @@ public class MainForm extends javax.swing.JFrame {
     }//GEN-LAST:event_logOutBtnActionPerformed
 
     private void addClassificationBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addClassificationBtnActionPerformed
-        ClassificationForm cf = new ClassificationForm();
-        mainPanel.add(cf);
-        cf.show();
+        if (!ClassificationForm.isExists()) {
+            ClassificationForm cf = new ClassificationForm();
+            mainPanel.add(cf);
+            cf.show();
+        }
     }//GEN-LAST:event_addClassificationBtnActionPerformed
 
     private void salesBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salesBtnActionPerformed
@@ -396,17 +401,20 @@ public class MainForm extends javax.swing.JFrame {
     }//GEN-LAST:event_salesBtnActionPerformed
 
     private void addMedicineBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addMedicineBtnActionPerformed
-        MedicineForm mf = new MedicineForm();
-        mainPanel.add(mf);
-        mf.show();
+        if (!MedicineForm.isExists()) {
+            MedicineForm mf = new MedicineForm();
+            mainPanel.add(mf);
+            mf.show();
+        }
     }//GEN-LAST:event_addMedicineBtnActionPerformed
 
     private void supplierBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_supplierBtnActionPerformed
-        SupplierForm sf = new SupplierForm();
-        mainPanel.add(sf);
-        sf.show();
+        if (!SupplierForm.isExists()) {
+            SupplierForm sf = new SupplierForm();
+            mainPanel.add(sf);
+            sf.show();
+        }
     }//GEN-LAST:event_supplierBtnActionPerformed
-
 
     /**
      * @param args the command line arguments

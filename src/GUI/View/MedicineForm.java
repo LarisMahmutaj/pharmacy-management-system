@@ -12,6 +12,7 @@ import DAL.MedicineRepository;
 import DAL.PharmacyException;
 import gui.Model.ClassificationComboBoxModel;
 import gui.Model.MedicineTableModel;
+import java.beans.PropertyVetoException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -29,6 +30,8 @@ public class MedicineForm extends javax.swing.JInternalFrame {
     MedicineTableModel mtm = new MedicineTableModel();
     ClassificationRepository cr = new ClassificationRepository();
     ClassificationComboBoxModel ccbm;
+    
+    private static boolean exists = false;
     /**
      * Creates new form MedicineForm
      */
@@ -37,6 +40,15 @@ public class MedicineForm extends javax.swing.JInternalFrame {
         loadTable();
         loadComboBox();
         tableSelectedIndexChange();
+        exists = true;
+    }
+
+    public static boolean isExists() {
+        return exists;
+    }
+
+    public static void setExists(boolean exists) {
+        MedicineForm.exists = exists;
     }
 
     /**
@@ -71,6 +83,28 @@ public class MedicineForm extends javax.swing.JInternalFrame {
         } catch (java.beans.PropertyVetoException e1) {
             e1.printStackTrace();
         }
+        addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
+            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameClosed(evt);
+            }
+            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
+            }
+        });
+        addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                formMouseClicked(evt);
+            }
+        });
 
         jLabel3.setText("Generic Name");
 
@@ -336,6 +370,21 @@ public class MedicineForm extends javax.swing.JInternalFrame {
     private void priceTxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_priceTxtActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_priceTxtActionPerformed
+
+    private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
+        if (evt.getClickCount() > 0) {
+            try {
+                this.setSelected(true);
+                this.toFront();
+            } catch (PropertyVetoException ex) {
+                Logger.getLogger(SupplierForm.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_formMouseClicked
+
+    private void formInternalFrameClosed(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosed
+        exists = false;
+    }//GEN-LAST:event_formInternalFrameClosed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
