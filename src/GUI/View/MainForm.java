@@ -367,7 +367,11 @@ public class MainForm extends javax.swing.JFrame {
     }//GEN-LAST:event_addUserBtnActionPerformed
 
     private void addToStockBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addToStockBtnActionPerformed
-        // TODO add your handling code here:
+        if(!StockForm.isExists()){
+            StockForm cf = new StockForm();
+            mainPanel.add(cf);
+            cf.show();
+        }
     }//GEN-LAST:event_addToStockBtnActionPerformed
 
     private void addCostumerBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addCostumerBtnActionPerformed

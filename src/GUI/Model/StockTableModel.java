@@ -39,7 +39,6 @@ public class StockTableModel extends AbstractTableModel {
     public int getColumnCount() {
         return cols.length;
     }
-
     @Override
     public String getColumnName(int col) {
         return cols[col];
@@ -59,15 +58,15 @@ public class StockTableModel extends AbstractTableModel {
 
         switch (columnIndex) {
             case 0:
-                return p.getSupplyDate();
+                return p.getSimpleSupplyDate();
             case 1:
                 return p.getMedicineID();
             case 2:
                 return p.getSupplierID();
             case 3:
-                return p.getIssuedDate();
+                return p.getSimpleIssuedDate();
             case 4:
-                return p.getExpiryDate();
+                return p.getSimpleExpiryDate();
             case 5:
                 return p.getQuantity();
             case 6:

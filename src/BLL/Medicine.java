@@ -137,7 +137,7 @@ public class Medicine implements Serializable {
 
     @Override
     public String toString() {
-        return "BLL.Medicine[ medicineID=" + medicineID + " ]";
+        return brandName + " - " + genericName;
     }
 
     @XmlTransient

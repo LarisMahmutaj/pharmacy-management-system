@@ -106,7 +106,7 @@ public class Classification implements Serializable {
 
     @Override
     public String toString() {
-        return classificationID + " - " + classificationName;
+        return classificationName;
     }
     
 }

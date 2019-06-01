@@ -117,7 +117,7 @@ public class Perdoruesi implements Serializable {
 
     @Override
     public String toString() {
-        return "BLL.Perdoruesi[ userID=" + userID + " ]";
+        return userName;
     }
     
 }

@@ -6,6 +6,7 @@
 package BLL;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -154,7 +155,25 @@ public class Stock implements Serializable {
 
     @Override
     public String toString() {
-        return "BLL.Stock[ supplyDate=" + supplyDate + " ]";
+        return medicineID.toString() + supplyDate;
     }
     
+    public String getSimpleSupplyDate(){
+        SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
+        String strDate = formatter.format(supplyDate);
+        return strDate;
+    }
+    
+    public String getSimpleIssuedDate(){
+        SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
+        String strDate = formatter.format(issuedDate);
+        return strDate;
+    }
+    
+    public String getSimpleExpiryDate(){
+        SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
+        String strDate = formatter.format(expiryDate);
+        return strDate;
+    }
 }
+

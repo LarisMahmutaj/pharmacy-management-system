@@ -145,7 +145,7 @@ public class Supplier implements Serializable {
 
     @Override
     public String toString() {
-        return "BLL.Supplier[ supplierID=" + supplierID + " ]";
+        return name;
     }
     
 }
