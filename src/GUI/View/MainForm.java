@@ -145,6 +145,11 @@ public class MainForm extends javax.swing.JFrame {
         posBtn1.setBorder(null);
         posBtn1.setDefaultCapable(false);
         posBtn1.setFocusPainted(false);
+        posBtn1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                posBtn1ActionPerformed(evt);
+            }
+        });
 
         jPanel5.setBackground(new java.awt.Color(51, 51, 51));
 
@@ -419,6 +424,15 @@ public class MainForm extends javax.swing.JFrame {
             sf.show();
         }
     }//GEN-LAST:event_supplierBtnActionPerformed
+
+    private void posBtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_posBtn1ActionPerformed
+        // TODO add your handling code here:
+        if(!POSForm.isExists()){
+            POSForm pf = new POSForm();
+            mainPanel.add(pf);
+            pf.show();
+        }
+    }//GEN-LAST:event_posBtn1ActionPerformed
 
     /**
      * @param args the command line arguments
