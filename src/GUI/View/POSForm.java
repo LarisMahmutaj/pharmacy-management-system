@@ -5,6 +5,20 @@
  */
 package GUI.View;
 
+
+import BLL.POS;
+import BLL.Stock;
+import DAL.POSRepository;
+import DAL.PharmacyException;
+import GUI.Model.POSTableModel;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Agon
@@ -14,7 +28,12 @@ public class POSForm extends javax.swing.JInternalFrame {
     /**
      * Creates new form POSForm
      */
+    
     private static boolean exists=false;
+    POSTableModel ptm = new POSTableModel();
+    POSRepository pr = new POSRepository();
+    
+    
     
     public static boolean isExists() {
         return exists;
@@ -24,8 +43,22 @@ public class POSForm extends javax.swing.JInternalFrame {
         POSForm.exists = exists;
     }
     
-    public POSForm() {
+    public POSForm() throws PharmacyException, SQLException {
         initComponents();
+//        loadTable();
+        createTable();
+    }
+     public void loadTable(){
+        try {
+            List<POS> list = pr.findAll();
+            ptm.addList(list);
+            jTable.setModel(ptm);
+            ptm.fireTableDataChanged();
+            System.out.print(list);
+        } catch (PharmacyException pe) {
+//            Logger.getLogger(UserForm.class.getName()).log(Level.SEVERE, null, pe);
+             System.out.println(pe.getMessage());
+        }
     }
 
     /**
@@ -37,12 +70,12 @@ public class POSForm extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jTextField2 = new javax.swing.JTextField();
-        jButton2 = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        quantityTxt = new javax.swing.JTextField();
+        sellBtn = new javax.swing.JButton();
+        searchTextField = new javax.swing.JTextField();
+        searchButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTable = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
 
         setClosable(true);
@@ -64,24 +97,40 @@ public class POSForm extends javax.swing.JInternalFrame {
             }
         });
 
-        jTextField2.setText("1");
+        quantityTxt.setText("1");
 
-        jButton2.setText("Sell");
+        sellBtn.setText("Sell");
+        sellBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sellBtnActionPerformed(evt);
+            }
+        });
 
-        jButton1.setText("Search");
+        searchTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchTextFieldActionPerformed(evt);
+            }
+        });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        searchButton.setText("Search");
+        searchButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchButtonActionPerformed(evt);
+            }
+        });
+
+        jTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Brand name", "Generic name", "Expiry date", "Quantity", "Supply date", "Price"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(jTable);
 
         jLabel1.setText("Quantity:");
 
@@ -93,14 +142,14 @@ public class POSForm extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 362, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(searchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 362, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1))
+                        .addComponent(searchButton))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(quantityTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(sellBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -110,16 +159,16 @@ public class POSForm extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(quantityTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton2)
+                .addComponent(sellBtn)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
+                    .addComponent(searchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(searchButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(12, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -130,14 +179,105 @@ public class POSForm extends javax.swing.JInternalFrame {
         exists=false;
     }//GEN-LAST:event_formInternalFrameClosed
 
+    private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
+        // TODO add your handling code here:
+//        String src = searchTextField.getText();
+//        List<POS> s;
+//        try{
+//        s=pr.findByName(src);
+//        ptm.addList(s);
+//        jTable.setModel(ptm);
+//        ptm.fireTableDataChanged();
+//        }
+//        catch(PharmacyException p){
+//            System.out.println(p.getMessage());
+//        }
+        searchByName(searchTextField.getText());
+        
+    }//GEN-LAST:event_searchButtonActionPerformed
 
+    private void sellBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sellBtnActionPerformed
+        // TODO add your handling code here:
+        int row = jTable.getSelectedRow();
+//        System.out.println(jTable.getValueAt(row, 3).toString());
+//        System.out.println(quantityTxt.getText());
+//         System.out.println(jTable.getValueAt(row, 4).toString());
+        int quantity = Integer.parseInt(jTable.getValueAt(row, 3).toString());
+        int quantitySold=Integer.parseInt(quantityTxt.getText());
+        String date=jTable.getValueAt(row, 4).toString();
+        jTable.setValueAt(quantity-quantitySold, row, 3);
+        try{
+            Connection conn = DriverManager.getConnection("jdbc:sqlserver://localhost:1433", "sa","sa");
+            java.sql.Statement stmt = conn.createStatement();
+        String exec = "use PharmacyManagement update stock set quantity="+(quantity-quantitySold)+" where supplyDate='"+date+"'";
+        System.out.print(exec);
+        stmt.executeUpdate(exec);
+        }
+        catch(SQLException e){}
+    }//GEN-LAST:event_sellBtnActionPerformed
+
+    private void searchTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_searchTextFieldActionPerformed
+
+
+    public void createTable() throws SQLException, PharmacyException{
+        DefaultTableModel model = (DefaultTableModel)jTable.getModel();
+        try{
+            Connection conn = DriverManager.getConnection("jdbc:sqlserver://localhost:1433", "sa","sa");
+            java.sql.Statement stmt = conn.createStatement();
+            String exec = "use PharmacyManagement select BrandName,GenericName,s.ExpiryDate,Quantity,s.supplydate,Price from stock s inner join medicine m on s.MedicineID=m.MedicineID";
+            ResultSet rset = stmt.executeQuery(exec);
+            model.setRowCount(0);
+        while(rset.next()){
+//            public POS(String brandName, String genericName, int quantity, double price, Date expiryDate) {
+//            pos=new POS(rset.getString("brandname"),rset.getString("genericName"),rset.getInt("quantity"),rset.getDouble("price"),rset.getDate("expirydate"));
+//            ArrayList<Room_1> list = roomList();
+
+                Object[] row = new Object[6];
+                
+                    row[0]=rset.getString("brandname");
+                    row[1]=rset.getString("genericName");
+                    row[2]=rset.getDate("expirydate");
+                    row[3]=rset.getInt("quantity");
+                    row[4]=rset.getString("supplydate");
+                    row[5]=rset.getDouble("price");
+                    model.addRow(row);
+        }
+        }
+        catch(SQLException e){System.out.print(e.getMessage());}
+    }
+    
+    private void searchByName(String name){
+         DefaultTableModel model = (DefaultTableModel)jTable.getModel();
+        try{
+            Connection conn = DriverManager.getConnection("jdbc:sqlserver://localhost:1433", "sa","sa");
+            java.sql.Statement stmt = conn.createStatement();
+            String exec = "use PharmacyManagement select BrandName,GenericName,s.ExpiryDate,Quantity,s.supplydate,Price from stock s inner join medicine m on s.MedicineID=m.MedicineID where m.BrandName like '%"+name+"%'";
+            ResultSet rset = stmt.executeQuery(exec);
+            model.setRowCount(0);
+        while(rset.next()){
+                Object[] row = new Object[6];
+                
+                    row[0]=rset.getString("brandname");
+                    row[1]=rset.getString("genericName");
+                    row[2]=rset.getDate("expirydate");
+                    row[3]=rset.getInt("quantity");
+                    row[4]=rset.getString("supplydate");
+                    row[5]=rset.getDouble("price");
+                            
+                    model.addRow(row);
+        }
+        }
+        catch(SQLException e){System.out.print(e.getMessage());}
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTable jTable;
+    private javax.swing.JTextField quantityTxt;
+    private javax.swing.JButton searchButton;
+    private javax.swing.JTextField searchTextField;
+    private javax.swing.JButton sellBtn;
     // End of variables declaration//GEN-END:variables
 }
