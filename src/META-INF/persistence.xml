@@ -9,15 +9,18 @@
     <class>BLL.Medicine</class>
     <class>BLL.Classification</class>
     <class>BLL.Supplier</class>
-    <class>BLL.Stock</class>
     <class>BLL.Status</class>
     <class>BLL.Costumer</class>
     <class>BLL.Customer</class>
+    <class>BLL.Stock</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:sqlserver://localhost:1433;databaseName=PharmacyManagement"/>
       <property name="javax.persistence.jdbc.user" value="sa"/>
       <property name="javax.persistence.jdbc.driver" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
       <property name="javax.persistence.jdbc.password" value="sa"/>
+      <property name="eclipselink.ddl-generation" value="create-tables"/>
+      <property name="eclipselink.ddl-generation.output-mode" value="database"/>
+      <property name="eclipselink.ddl-generation-mode" value="ddl_database_generation"/>
     </properties>
   </persistence-unit>
 </persistence>

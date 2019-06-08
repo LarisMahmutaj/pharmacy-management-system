@@ -17,7 +17,7 @@ public class StatusTableModel extends AbstractTableModel {
 
     List<Status> list;
     String[] cols = {"Status ID", "Status Name"};
-
+    
     public StatusTableModel(List<Status> list) {
         this.list = list;
     }
