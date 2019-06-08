@@ -14,7 +14,6 @@ import DAL.PharmacyException;
 import DAL.StatusRepository;
 import DAL.StockRepository;
 import DAL.SupplierRepository;
-import com.microsoft.sqlserver.jdbc.StringUtils;
 import gui.Model.MedicineComboBoxModel;
 import gui.Model.StatusComboBoxModel;
 import gui.Model.StockTableModel;
@@ -36,16 +35,16 @@ public class StockForm extends javax.swing.JInternalFrame {
 
     StockRepository sr = new StockRepository();
     StockTableModel stm = new StockTableModel();
-    
+
     MedicineRepository mr = new MedicineRepository();
     MedicineComboBoxModel mcbm;
-    
+
     SupplierRepository supr = new SupplierRepository();
     SupplierComboBoxModel supcbm;
-    
+
     StatusRepository statr = new StatusRepository();
     StatusComboBoxModel statcbm;
-    
+
     private static boolean exists = false;
 
     public static boolean isExists() {
@@ -55,7 +54,7 @@ public class StockForm extends javax.swing.JInternalFrame {
     public static void setExists(boolean exists) {
         StockForm.exists = exists;
     }
-    
+
     /**
      * Creates new form StockForm
      */
@@ -67,18 +66,18 @@ public class StockForm extends javax.swing.JInternalFrame {
         exists = true;
     }
 
-    public void loadTable(){
+    public void loadTable() {
         try {
             List<Stock> list = sr.findAll();
             stm.addList(list);
             table.setModel(stm);
             stm.fireTableDataChanged();
         } catch (PharmacyException pe) {
-            Logger.getLogger(UserForm.class.getName()).log(Level.SEVERE, null, pe);
+            Logger.getLogger(StockForm.class.getName()).log(Level.SEVERE, null, pe);
         }
     }
-    
-    public void tableSelectedIndexChange(){
+
+    public void tableSelectedIndexChange() {
         final ListSelectionModel rowSM = table.getSelectionModel();
         rowSM.addListSelectionListener(new ListSelectionListener() {
             public void valueChanged(ListSelectionEvent lse) {
@@ -104,7 +103,7 @@ public class StockForm extends javax.swing.JInternalFrame {
             }
         });
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -324,69 +323,86 @@ public class StockForm extends javax.swing.JInternalFrame {
     private void cancelBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelBtnActionPerformed
         clear();
     }//GEN-LAST:event_cancelBtnActionPerformed
-
+    
+    public boolean isInt(String str){
+        try{
+            Integer.parseInt(str);
+            return true;
+        }catch(NumberFormatException e){
+            return false;
+        }
+    }
     private void saveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveBtnActionPerformed
         int row = table.getSelectedRow();
-        if(!(supplyDateChooser.getDate() == null || medicineComboBox.getSelectedItem() == null || 
-                supplierComboBox.getSelectedItem() == null || issuedDateChooser.getDate() == null ||
-                expiryDateChooser.getDate() == null || quantityTxt.getText().trim().equals("") || 
-                statusComboBox.getSelectedItem() == null)){
-            if(row == -1){
-                Stock p = new Stock();                
-                p.setSupplyDate(supplyDateChooser.getDate());
-                p.setMedicineID((Medicine)medicineComboBox.getSelectedItem());
-                p.setSupplierID((Supplier)supplierComboBox.getSelectedItem());
-                p.setIssuedDate(issuedDateChooser.getDate());
-                p.setExpiryDate(expiryDateChooser.getDate());
-                p.setQuantity(Integer.parseInt(quantityTxt.getText()));
-                p.setStatusID((Status)statusComboBox.getSelectedItem());
-                
-                try{
-                    sr.create(p);
-                }catch(PharmacyException pe){
+        if (!(supplyDateChooser.getDate() == null || medicineComboBox.getSelectedItem() == null
+                || supplierComboBox.getSelectedItem() == null || issuedDateChooser.getDate() == null
+                || expiryDateChooser.getDate() == null || quantityTxt.getText().trim().equals("")
+                || statusComboBox.getSelectedItem() == null)) {
+            if (row == -1) {
+                Stock p = new Stock();
+
+                try {
+                    if(!isInt(quantityTxt.getText())){
+                        JOptionPane.showMessageDialog(this, "Pls enter a number bitch");
+                    }  
+                    p.setSupplyDate(supplyDateChooser.getDate());
+                    p.setMedicineID((Medicine) medicineComboBox.getSelectedItem());
+                    p.setSupplierID((Supplier) supplierComboBox.getSelectedItem());
+                    p.setIssuedDate(issuedDateChooser.getDate());
+                    p.setExpiryDate(expiryDateChooser.getDate());
+                    p.setQuantity(Integer.parseInt(quantityTxt.getText()));
+                    p.setStatusID((Status) statusComboBox.getSelectedItem());
+                    if(!isInt(quantityTxt.getText())){
+                        JOptionPane.showMessageDialog(this, "Pls enter a number bitch");
+                    }else{
+                        sr.create(p);   
+                    }
+                    
+                } catch (PharmacyException pe) {
                     JOptionPane.showMessageDialog(this, "MSG: " + pe.getMessage());
                 }
-            }else{
-                Stock p = stm.getStock(row);
-                p.setSupplyDate(supplyDateChooser.getDate());
-                p.setMedicineID((Medicine)medicineComboBox.getSelectedItem());
-                p.setSupplierID((Supplier)supplierComboBox.getSelectedItem());
-                p.setIssuedDate(issuedDateChooser.getDate());
-                p.setExpiryDate(expiryDateChooser.getDate());
-                p.setQuantity(Integer.parseInt(quantityTxt.getText()));
-                p.setStatusID((Status)statusComboBox.getSelectedItem());
-                try{
+            } else {
+
+                try {
+                    Stock p = stm.getStock(row);
+                    p.setSupplyDate(supplyDateChooser.getDate());
+                    p.setMedicineID((Medicine) medicineComboBox.getSelectedItem());
+                    p.setSupplierID((Supplier) supplierComboBox.getSelectedItem());
+                    p.setIssuedDate(issuedDateChooser.getDate());
+                    p.setExpiryDate(expiryDateChooser.getDate());
+                    p.setQuantity(Integer.parseInt(quantityTxt.getText()));
+                    p.setStatusID((Status) statusComboBox.getSelectedItem());
                     sr.edit(p);
-                }catch(PharmacyException pe){
+                } catch (PharmacyException pe) {
                     JOptionPane.showMessageDialog(this, "MSG: " + pe.getMessage());
                 }
             }
             loadTable();
             clear();
-        }else{
+        } else {
             JOptionPane.showMessageDialog(this, "Plotesoni fushat obligative");
         }
     }//GEN-LAST:event_saveBtnActionPerformed
 
     private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
         int row = table.getSelectedRow();
-        if(row > -1){
+        if (row > -1) {
             Object[] obj = {"Yes", "No"};
             int i = JOptionPane.showOptionDialog(this, "Do you want to delete stock?", "Delete",
-                JOptionPane.OK_OPTION, JOptionPane.QUESTION_MESSAGE, null, obj, obj[0]);
-            if(i == 0){
-                try{
+                    JOptionPane.OK_OPTION, JOptionPane.QUESTION_MESSAGE, null, obj, obj[0]);
+            if (i == 0) {
+                try {
                     Stock p = stm.getStock(row);
                     sr.delete(p);
                     clear();
                     loadTable();
-                }catch(PharmacyException pe){
+                } catch (PharmacyException pe) {
                     JOptionPane.showMessageDialog(this, "MSG: " + pe.getMessage());
                 }
-            }else{
+            } else {
                 clear();
             }
-        }else{
+        } else {
             JOptionPane.showMessageDialog(this, "You havent selected anything to delete");
         }
     }//GEN-LAST:event_deleteBtnActionPerformed
@@ -406,25 +422,25 @@ public class StockForm extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_formMouseClicked
 
-    public void clear(){
+    public void clear() {
         medicineComboBox.setSelectedIndex(-1);
         supplierComboBox.setSelectedIndex(-1);
         statusComboBox.setSelectedIndex(-1);
         quantityTxt.setText("");
     }
-    
-    public void loadComboBoxes(){
+
+    public void loadComboBoxes() {
         try {
             List<Medicine> medlist = mr.findAll();
             mcbm = new MedicineComboBoxModel(medlist);
             medicineComboBox.setModel(mcbm);
             medicineComboBox.repaint();
-            
+
             List<Supplier> supList = supr.findAll();
             supcbm = new SupplierComboBoxModel(supList);
             supplierComboBox.setModel(supcbm);
             supplierComboBox.repaint();
-            
+
             List<Status> statList = statr.findAll();
             statcbm = new StatusComboBoxModel(statList);
             statusComboBox.setModel(statcbm);

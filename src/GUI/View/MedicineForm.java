@@ -377,7 +377,7 @@ public class MedicineForm extends javax.swing.JInternalFrame {
                 this.setSelected(true);
                 this.toFront();
             } catch (PropertyVetoException ex) {
-                Logger.getLogger(SupplierForm.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(MedicineForm.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }//GEN-LAST:event_formMouseClicked

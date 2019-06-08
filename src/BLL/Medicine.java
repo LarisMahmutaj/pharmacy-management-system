@@ -39,6 +39,9 @@ import javax.xml.bind.annotation.XmlTransient;
 public class Medicine implements Serializable {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "medicineID")
+    private Collection<Item> itemCollection;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "medicineID")
     private Collection<Stock> stockCollection;
 
     private static final long serialVersionUID = 1L;
@@ -147,6 +150,15 @@ public class Medicine implements Serializable {
 
     public void setStockCollection(Collection<Stock> stockCollection) {
         this.stockCollection = stockCollection;
+    }
+
+    @XmlTransient
+    public Collection<Item> getItemCollection() {
+        return itemCollection;
+    }
+
+    public void setItemCollection(Collection<Item> itemCollection) {
+        this.itemCollection = itemCollection;
     }
     
 }
