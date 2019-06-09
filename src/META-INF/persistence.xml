@@ -15,6 +15,7 @@
     <class>BLL.Stock</class>
     <class>BLL.Invoice</class>
     <class>BLL.Item</class>
+    <class>BLL.Orders</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:sqlserver://localhost:1433;databaseName=PharmacyManagement"/>
       <property name="javax.persistence.jdbc.user" value="sa"/>

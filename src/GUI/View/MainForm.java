@@ -198,6 +198,11 @@ public class MainForm extends javax.swing.JFrame {
         orderBtn.setBorder(null);
         orderBtn.setDefaultCapable(false);
         orderBtn.setFocusPainted(false);
+        orderBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                orderBtnActionPerformed(evt);
+            }
+        });
 
         addUserBtn.setBackground(new java.awt.Color(0, 0, 0));
         addUserBtn.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
@@ -304,15 +309,15 @@ public class MainForm extends javax.swing.JFrame {
                 .addGap(40, 40, 40)
                 .addComponent(posBtn1, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
+                .addComponent(salesBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(orderBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(addMedicineBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(addCostumerBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(salesBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
                 .addComponent(addToStockBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(addMedicineBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(addClassificationBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -444,10 +449,19 @@ public class MainForm extends javax.swing.JFrame {
     }//GEN-LAST:event_posBtn1ActionPerformed
 
     private void salesBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salesBtnActionPerformed
+        
         SalesForm sf = new SalesForm();
         mainPanel.add(sf);
         sf.show();
     }//GEN-LAST:event_salesBtnActionPerformed
+
+    private void orderBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_orderBtnActionPerformed
+        if(!OrderForm.isExists()){
+            OrderForm of = new OrderForm();
+            mainPanel.add(of);
+            of.show();
+        }
+    }//GEN-LAST:event_orderBtnActionPerformed
 
     /**
      * @param args the command line arguments

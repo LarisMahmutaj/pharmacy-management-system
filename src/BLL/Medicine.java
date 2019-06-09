@@ -39,6 +39,9 @@ import javax.xml.bind.annotation.XmlTransient;
 public class Medicine implements Serializable {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "medicineID")
+    private Collection<Orders> ordersCollection;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "medicineID")
     private Collection<Item> itemCollection;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "medicineID")
@@ -160,5 +163,15 @@ public class Medicine implements Serializable {
     public void setItemCollection(Collection<Item> itemCollection) {
         this.itemCollection = itemCollection;
     }
+
+    @XmlTransient
+    public Collection<Orders> getOrdersCollection() {
+        return ordersCollection;
+    }
+
+    public void setOrdersCollection(Collection<Orders> ordersCollection) {
+        this.ordersCollection = ordersCollection;
+    }
+
     
 }

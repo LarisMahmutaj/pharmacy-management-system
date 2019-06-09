@@ -37,6 +37,10 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Supplier.findByEmail", query = "SELECT s FROM Supplier s WHERE s.email = :email")})
 public class Supplier implements Serializable {
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "supplierID")
+    private Collection<Orders> ordersCollection;
+
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -146,6 +150,15 @@ public class Supplier implements Serializable {
     @Override
     public String toString() {
         return name;
+    }
+
+    @XmlTransient
+    public Collection<Orders> getOrdersCollection() {
+        return ordersCollection;
+    }
+
+    public void setOrdersCollection(Collection<Orders> ordersCollection) {
+        this.ordersCollection = ordersCollection;
     }
     
 }

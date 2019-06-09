@@ -175,15 +175,15 @@
                       <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
                       <Component id="posBtn1" min="-2" pref="58" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="salesBtn" min="-2" pref="58" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="orderBtn" min="-2" pref="58" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="addMedicineBtn" min="-2" pref="58" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="addCostumerBtn" min="-2" pref="58" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="salesBtn" min="-2" pref="58" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="addToStockBtn" min="-2" pref="58" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="addMedicineBtn" min="-2" pref="58" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="addClassificationBtn" min="-2" pref="58" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -302,6 +302,9 @@
                 <Property name="defaultCapable" type="boolean" value="false"/>
                 <Property name="focusPainted" type="boolean" value="false"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="orderBtnActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="addUserBtn">
               <Properties>

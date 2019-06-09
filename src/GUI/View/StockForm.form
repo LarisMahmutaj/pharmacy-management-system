@@ -34,9 +34,9 @@
                   <Group type="102" alignment="0" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-                          <Component id="supplyDateChooser" min="-2" max="-2" attributes="0"/>
+                          <Component id="supplyDateTxt" min="-2" pref="111" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                           <Component id="medicineComboBox" min="-2" pref="106" max="-2" attributes="0"/>
@@ -124,13 +124,11 @@
                                           <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
                                           <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
                                       </Group>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="supplyDateChooser" min="-2" max="-2" attributes="0"/>
-                                          <Group type="103" alignment="1" groupAlignment="3" attributes="0">
-                                              <Component id="medicineComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
-                                              <Component id="supplierComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          </Group>
+                                      <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="3" attributes="0">
+                                          <Component id="medicineComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="supplierComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="supplyDateTxt" alignment="3" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
                                   <Group type="102" attributes="0">
@@ -235,8 +233,6 @@
         <Property name="text" type="java.lang.String" value="Supply Date"/>
       </Properties>
     </Component>
-    <Component class="com.toedter.calendar.JDateChooser" name="supplyDateChooser">
-    </Component>
     <Component class="com.toedter.calendar.JDateChooser" name="issuedDateChooser">
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel7">
@@ -302,6 +298,8 @@
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value=""/>
       </AuxValues>
+    </Component>
+    <Component class="javax.swing.JTextField" name="supplyDateTxt">
     </Component>
   </SubComponents>
 </Form>
