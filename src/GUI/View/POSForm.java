@@ -271,7 +271,9 @@ public class POSForm extends javax.swing.JInternalFrame {
         DefaultTableModel model = (DefaultTableModel)jTableList.getModel();
         
         //Stock decrement start
-        for(int currentRow=0;currentRow<=jTableList.getRowCount();currentRow++){
+        int rowCount=jTableList.getRowCount();
+        for(int currentRow=0;currentRow<rowCount;currentRow++){
+//        System.out.println("Current row:"+currentRow+", rowCount:"+rowCount);
         int qq=Integer.parseInt(jTableList.getValueAt(0, 4).toString())-Integer.parseInt(jTableList.getValueAt(0, 7).toString());
         String date=jTableList.getValueAt(0, 5).toString();
         String exec = "use PharmacyManagement update stock set quantity="+qq+" where supplyDate='"+date+"'";
@@ -288,6 +290,18 @@ public class POSForm extends javax.swing.JInternalFrame {
         }
         String salesC="use PharmacyManagement insert into sales values("+invoiceId+","+total+")";
         stmt.execute(salesC);
+            
+            
+            int rc = jTable.getRowCount();
+            System.out.println("rc="+rc);
+            for(int i=0;i<rc;i++){
+                System.out.println(Integer.parseInt(jTable.getValueAt(i, 4).toString()));
+                if(Integer.parseInt(jTable.getValueAt(i, 4).toString())==0){
+                    String execDel="delete stock where supplyDate='"+jTable.getValueAt(i, 5).toString()+"'";
+                    System.out.println(execDel);
+                    stmt.execute(execDel);
+                }
+            }
             searchByName(searchTextField.getText());
         }
         catch(SQLException e){System.out.print(e.getMessage());}
