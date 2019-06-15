@@ -21,6 +21,8 @@ import gui.Model.SupplierComboBoxModel;
 import java.beans.PropertyVetoException;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Calendar;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -219,6 +221,8 @@ public class StockForm extends javax.swing.JInternalFrame {
 
         supplierComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
+        supplyDateTxt.setEditable(false);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -344,7 +348,8 @@ public class StockForm extends javax.swing.JInternalFrame {
                 if (!isInt(quantityTxt.getText())) {
                     JOptionPane.showMessageDialog(this, "Please enter a number");
                 }
-                p.setSupplyDate(Date.valueOf(LocalDate.now()));
+                Date date = Date.valueOf(LocalDate.now());
+                p.setSupplyDate(date);
                 p.setMedicineID((Medicine) medicineComboBox.getSelectedItem());
                 p.setSupplierID((Supplier) supplierComboBox.getSelectedItem());
                 p.setIssuedDate(issuedDateChooser.getDate());

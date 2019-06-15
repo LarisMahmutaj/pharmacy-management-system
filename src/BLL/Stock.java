@@ -7,6 +7,8 @@ package BLL;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -40,15 +42,15 @@ public class Stock implements Serializable {
     @Id
     @Basic(optional = false)
     @Column(name = "SupplyDate")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date supplyDate;
     @Basic(optional = false)
     @Column(name = "IssuedDate")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date issuedDate;
     @Basic(optional = false)
     @Column(name = "ExpiryDate")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date expiryDate;
     @Basic(optional = false)
     @Column(name = "Quantity")
@@ -82,6 +84,7 @@ public class Stock implements Serializable {
     }
 
     public void setSupplyDate(Date supplyDate) {
+        supplyDate.setTime(System.currentTimeMillis());
         this.supplyDate = supplyDate;
     }
 
@@ -155,7 +158,7 @@ public class Stock implements Serializable {
 
     @Override
     public String toString() {
-        return medicineID.toString() + supplyDate;
+        return "BLL.Stock[ supplyDate=" + supplyDate + " ]";
     }
     
     public String getSimpleSupplyDate(){
@@ -176,4 +179,3 @@ public class Stock implements Serializable {
         return strDate;
     }
 }
-

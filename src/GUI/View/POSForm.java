@@ -6,20 +6,23 @@
 package GUI.View;
 
 
+import BLL.Customer;
 import BLL.POS;
-import BLL.Stock;
+import DAL.CustomerRepository;
 import DAL.POSRepository;
 import DAL.PharmacyException;
 import GUI.Model.POSTableModel;
+import gui.Model.CustomerComboBoxModel;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.text.html.parser.DTDConstants;
 
 /**
  *
@@ -35,7 +38,8 @@ public class POSForm extends javax.swing.JInternalFrame {
     POSTableModel ptm = new POSTableModel();
     POSRepository pr = new POSRepository();
     
-    
+    CustomerRepository cr = new CustomerRepository();
+    CustomerComboBoxModel ccbm;
     
     public static boolean isExists() {
         return exists;
@@ -49,7 +53,9 @@ public class POSForm extends javax.swing.JInternalFrame {
         initComponents();
 //        loadTable();
         createTable();
+        loadComboBox();
     }
+    
      public void loadTable(){
         try {
             List<POS> list = pr.findAll();
@@ -62,6 +68,18 @@ public class POSForm extends javax.swing.JInternalFrame {
              System.out.println(pe.getMessage());
         }
     }
+     
+     public void loadComboBox(){
+         try {
+            List<Customer> list = cr.findAll();
+            ccbm = new CustomerComboBoxModel(list);
+            customerComboBox.setModel(ccbm);
+            customerComboBox.repaint();
+
+        } catch (PharmacyException ce) {
+            Logger.getLogger(POSForm.class.getName()).log(Level.SEVERE, null, ce);
+        }
+     }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -79,14 +97,15 @@ public class POSForm extends javax.swing.JInternalFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
-        customerTxt = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         addBtn = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTableList = new javax.swing.JTable();
         removeBtn = new javax.swing.JButton();
+        customerComboBox = new javax.swing.JComboBox();
 
         setClosable(true);
+        setTitle("Point Of Sale");
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
             public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
             }
@@ -142,9 +161,7 @@ public class POSForm extends javax.swing.JInternalFrame {
 
         jLabel1.setText("Quantity:");
 
-        customerTxt.setText("null");
-
-        jLabel2.setText("Customer ID");
+        jLabel2.setText("Customer");
 
         addBtn.setText("Add");
         addBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -170,12 +187,19 @@ public class POSForm extends javax.swing.JInternalFrame {
             }
         });
 
+        customerComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        customerComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                customerComboBoxActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(25, 25, 25)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(searchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 362, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -190,25 +214,27 @@ public class POSForm extends javax.swing.JInternalFrame {
                                 .addComponent(quantityTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(addBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel2)
-                            .addComponent(removeBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(12, 12, 12)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(customerTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(sellBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(removeBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(12, 12, 12)
+                                .addComponent(sellBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(customerComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 592, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(25, 25, 25)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(quantityTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(customerTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
+                    .addComponent(jLabel2)
+                    .addComponent(customerComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(sellBtn)
@@ -222,7 +248,7 @@ public class POSForm extends javax.swing.JInternalFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(12, Short.MAX_VALUE))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
 
         pack();
@@ -259,8 +285,9 @@ public class POSForm extends javax.swing.JInternalFrame {
         java.sql.Statement stmt = conn.createStatement();
         int total=0;
         
-        String cTxt=customerTxt.getText();
-        String invoice="use PharmacyManagement insert into invoice values("+cTxt+",'"+java.time.LocalDate.now()+"')";
+        //String cTxt=customerTxt.getText();
+        int cTxt = ((Customer)customerComboBox.getSelectedItem()).getCustomerID();
+        String invoice="use PharmacyManagement insert into invoice values('"+cTxt+"','"+java.time.LocalDate.now()+"')";
         stmt.execute(invoice);
         
 
@@ -346,6 +373,10 @@ public class POSForm extends javax.swing.JInternalFrame {
         
     }//GEN-LAST:event_removeBtnActionPerformed
 
+    private void customerComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_customerComboBoxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_customerComboBoxActionPerformed
+
 
     public void createTable() throws SQLException, PharmacyException{
         DefaultTableModel model = (DefaultTableModel)jTable.getModel();
@@ -401,7 +432,7 @@ public class POSForm extends javax.swing.JInternalFrame {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addBtn;
-    private javax.swing.JTextField customerTxt;
+    private javax.swing.JComboBox customerComboBox;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
