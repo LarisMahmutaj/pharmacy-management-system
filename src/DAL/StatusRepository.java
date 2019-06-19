@@ -58,10 +58,10 @@ public class StatusRepository extends EntMngClass implements StatusInterface {
     }
 
     @Override
-    public Status findByID(Integer ID) throws PharmacyException {
+    public Status findByID(Integer StatusID) throws PharmacyException {
         try {
-            Query q = em.createQuery("Select p from Status p where p.id=:id");
-            q.setParameter("id", ID);
+            Query q = em.createQuery("SELECT p FROM Status p WHERE p.statusID = :StatusID");
+            q.setParameter("StatusID", StatusID);
             return (Status) q.getSingleResult();
         } catch (Exception e) {
             throw new PharmacyException("Msg! \n" + e.getMessage());

@@ -6,11 +6,19 @@
 package GUI.View;
 
 import BLL.Role;
+import BLL.Status;
+import BLL.Stock;
 import DAL.PharmacyException;
+import DAL.StatusRepository;
+import DAL.StockRepository;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.sql.Date;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.Iterator;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -21,6 +29,8 @@ import javax.swing.JOptionPane;
  */
 public class MainForm extends javax.swing.JFrame {
 
+    StockRepository sr = new StockRepository();
+    StatusRepository statusR = new StatusRepository();
     /**
      * Creates new form MainForm
      */
@@ -33,6 +43,7 @@ public class MainForm extends javax.swing.JFrame {
     public MainForm(Role role) {
         initComponents();
         setExtendedState(MAXIMIZED_BOTH);
+        refreshStock();
         if (role.getRoleID() != 1) {
             addUserBtn.setVisible(false);
             addClassificationBtn.setVisible(false);
@@ -456,6 +467,21 @@ public class MainForm extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_orderBtnActionPerformed
 
+    public void refreshStock(){
+        try {
+            List<Stock> list = sr.findAll();
+            Iterator it = list.iterator();
+            for(int i=0; i<list.size();i++){
+                Stock listItem = (Stock)it.next();
+                if(listItem.getExpiryDate().before(Date.valueOf(LocalDate.now()))){
+                    listItem.setStatusID(statusR.findByID(2));
+                    sr.edit(listItem);
+                }
+            }
+        } catch (PharmacyException ex) {
+            Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     /**
      * @param args the command line arguments
      */

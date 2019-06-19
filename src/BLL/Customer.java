@@ -119,7 +119,11 @@ public class Customer implements Serializable {
 
     @Override
     public String toString() {
-        return name + " - " + phoneNumber;
+        if(phoneNumber != 0){
+        return name + ", +" + phoneNumber;
+        }else{
+            return name;
+        }
     }
 
     @XmlTransient

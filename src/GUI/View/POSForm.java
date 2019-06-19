@@ -5,7 +5,6 @@
  */
 package GUI.View;
 
-
 import BLL.Customer;
 import BLL.POS;
 import DAL.CustomerRepository;
@@ -33,14 +32,13 @@ public class POSForm extends javax.swing.JInternalFrame {
     /**
      * Creates new form POSForm
      */
-    
-    private static boolean exists=false;
+    private static boolean exists = false;
     POSTableModel ptm = new POSTableModel();
     POSRepository pr = new POSRepository();
-    
+
     CustomerRepository cr = new CustomerRepository();
     CustomerComboBoxModel ccbm;
-    
+
     public static boolean isExists() {
         return exists;
     }
@@ -48,38 +46,39 @@ public class POSForm extends javax.swing.JInternalFrame {
     public static void setExists(boolean exists) {
         POSForm.exists = exists;
     }
-    
+
     public POSForm() throws PharmacyException, SQLException {
         initComponents();
 //        loadTable();
         createTable();
         loadComboBox();
     }
-    
-     public void loadTable(){
+
+//    public void loadTable() {
+//        try {
+//            List<POS> list = pr.findAll();
+//            ptm.addList(list);
+//            jTable.setModel(ptm);
+//            ptm.fireTableDataChanged();
+//            System.out.print(list);
+//        } catch (PharmacyException pe) {
+////            Logger.getLogger(UserForm.class.getName()).log(Level.SEVERE, null, pe);
+//            System.out.println(pe.getMessage());
+//        }
+//    }
+
+    public void loadComboBox() {
         try {
-            List<POS> list = pr.findAll();
-            ptm.addList(list);
-            jTable.setModel(ptm);
-            ptm.fireTableDataChanged();
-            System.out.print(list);
-        } catch (PharmacyException pe) {
-//            Logger.getLogger(UserForm.class.getName()).log(Level.SEVERE, null, pe);
-             System.out.println(pe.getMessage());
-        }
-    }
-     
-     public void loadComboBox(){
-         try {
             List<Customer> list = cr.findAll();
             ccbm = new CustomerComboBoxModel(list);
             customerComboBox.setModel(ccbm);
+            customerComboBox.setSelectedIndex(0);
             customerComboBox.repaint();
 
         } catch (PharmacyException ce) {
             Logger.getLogger(POSForm.class.getName()).log(Level.SEVERE, null, ce);
         }
-     }
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -256,7 +255,7 @@ public class POSForm extends javax.swing.JInternalFrame {
 
     private void formInternalFrameClosed(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosed
         // TODO add your handling code here:
-        exists=false;
+        exists = false;
     }//GEN-LAST:event_formInternalFrameClosed
 
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
@@ -273,65 +272,73 @@ public class POSForm extends javax.swing.JInternalFrame {
 //            System.out.println(p.getMessage());
 //        }
         searchByName(searchTextField.getText());
-        
+
     }//GEN-LAST:event_searchButtonActionPerformed
 
     private void sellBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sellBtnActionPerformed
         // TODO add your handling code here:
-        int row = jTable.getSelectedRow();
-        
-        try{
-        Connection conn = DriverManager.getConnection("jdbc:sqlserver://localhost:1433", "sa","sa");
-        java.sql.Statement stmt = conn.createStatement();
-        int total=0;
-        
-        //String cTxt=customerTxt.getText();
-        int cTxt = ((Customer)customerComboBox.getSelectedItem()).getCustomerID();
-        String invoice="use PharmacyManagement insert into invoice values('"+cTxt+"','"+java.time.LocalDate.now()+"')";
-        stmt.execute(invoice);
-        
+        //int row = jTable.getSelectedRow();
+        if (jTable.getSelectedRow() < 0) {
+            JOptionPane.showMessageDialog(this, "Please select items to sell!");
+        } else {
+            try {
+                Connection conn = DriverManager.getConnection("jdbc:sqlserver://localhost:1433", "sa", "sa");
+                java.sql.Statement stmt = conn.createStatement();
+                int total = 0;
 
-        String invoiceIn = "select top 1 * from invoice i order by i.InvoiceID desc";
-        ResultSet invoiceRset = stmt.executeQuery(invoiceIn);
-        invoiceRset.next();
-        int invoiceId=invoiceRset.getInt("InvoiceID");
-        DefaultTableModel model = (DefaultTableModel)jTableList.getModel();
-        
-        //Stock decrement start
-        int rowCount=jTableList.getRowCount();
-        for(int currentRow=0;currentRow<rowCount;currentRow++){
-//        System.out.println("Current row:"+currentRow+", rowCount:"+rowCount);
-        int qq=Integer.parseInt(jTableList.getValueAt(0, 4).toString())-Integer.parseInt(jTableList.getValueAt(0, 7).toString());
-        String date=jTableList.getValueAt(0, 5).toString();
-        String exec = "use PharmacyManagement update stock set quantity="+qq+" where supplyDate='"+date+"'";
-        stmt.executeUpdate(exec);
-//        jTable.setValueAt(qq, row, 3);
-        
-        //Item creation
-        String itemC="use PharmacyManagement insert into item values("+invoiceId+","+jTableList.getValueAt(0, 0)+","+jTableList.getValueAt(0, 7)+")";
-        stmt.execute(itemC);
-        
-        total+=Float.parseFloat(jTableList.getValueAt(0, 6).toString())*Float.parseFloat(jTableList.getValueAt(0, 7).toString());
-        
-        model.removeRow(0);
-        }
-        String salesC="use PharmacyManagement insert into sales values("+invoiceId+","+total+")";
-        stmt.execute(salesC);
-            
-            
-            int rc = jTable.getRowCount();
-            System.out.println("rc="+rc);
-            for(int i=0;i<rc;i++){
-                System.out.println(Integer.parseInt(jTable.getValueAt(i, 4).toString()));
-                if(Integer.parseInt(jTable.getValueAt(i, 4).toString())==0){
-                    String execDel="delete stock where supplyDate='"+jTable.getValueAt(i, 5).toString()+"'";
-                    System.out.println(execDel);
-                    stmt.execute(execDel);
+                //String cTxt=customerTxt.getText();
+                int cTxt;
+                if (customerComboBox.getSelectedIndex() > -1) {
+                    cTxt = ((Customer) customerComboBox.getSelectedItem()).getCustomerID();
+                } else {
+                    //ID 3 is Guest customer in database
+                    cTxt = 3;
                 }
+                String invoice = "use PharmacyManagement insert into invoice values('" + cTxt + "','" + java.time.LocalDate.now() + "')";
+                stmt.execute(invoice);
+
+                String invoiceIn = "select top 1 * from invoice i order by i.InvoiceID desc";
+                ResultSet invoiceRset = stmt.executeQuery(invoiceIn);
+                invoiceRset.next();
+                int invoiceId = invoiceRset.getInt("InvoiceID");
+                DefaultTableModel model = (DefaultTableModel) jTableList.getModel();
+
+                //Stock decrement start
+                int rowCount = jTableList.getRowCount();
+                for (int currentRow = 0; currentRow < rowCount; currentRow++) {
+//        System.out.println("Current row:"+currentRow+", rowCount:"+rowCount);
+                    int qq = Integer.parseInt(jTableList.getValueAt(0, 4).toString()) - Integer.parseInt(jTableList.getValueAt(0, 7).toString());
+                    String date = jTableList.getValueAt(0, 5).toString();
+                    String exec = "use PharmacyManagement update stock set quantity=" + qq + " where supplyDate='" + date + "'";
+                    stmt.executeUpdate(exec);
+//        jTable.setValueAt(qq, row, 3);
+
+                    //Item creation
+                    String itemC = "use PharmacyManagement insert into item values(" + invoiceId + "," + jTableList.getValueAt(0, 0) + "," + jTableList.getValueAt(0, 7) + ")";
+                    stmt.execute(itemC);
+
+                    total += Float.parseFloat(jTableList.getValueAt(0, 6).toString()) * Float.parseFloat(jTableList.getValueAt(0, 7).toString());
+
+                    model.removeRow(0);
+                }
+                String salesC = "use PharmacyManagement insert into sales values(" + invoiceId + "," + total + ")";
+                stmt.execute(salesC);
+
+                int rc = jTable.getRowCount();
+                System.out.println("rc=" + rc);
+                for (int i = 0; i < rc; i++) {
+                    System.out.println(Integer.parseInt(jTable.getValueAt(i, 4).toString()));
+                    if (Integer.parseInt(jTable.getValueAt(i, 4).toString()) == 0) {
+                        String execDel = "delete stock where supplyDate='" + jTable.getValueAt(i, 5).toString() + "'";
+                        System.out.println(execDel);
+                        stmt.execute(execDel);
+                    }
+                }
+                searchByName(searchTextField.getText());
+            } catch (SQLException e) {
+                System.out.print(e.getMessage());
             }
-            searchByName(searchTextField.getText());
         }
-        catch(SQLException e){System.out.print(e.getMessage());}
     }//GEN-LAST:event_sellBtnActionPerformed
 
     private void searchTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchTextFieldActionPerformed
@@ -341,94 +348,94 @@ public class POSForm extends javax.swing.JInternalFrame {
     private void addBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBtnActionPerformed
         // TODO add your handling code here:
         int row = jTable.getSelectedRow();
-        int qq=Integer.parseInt(jTable.getValueAt(row, 4).toString())-Integer.parseInt(quantityTxt.getText());
-        if(qq<0){
+        int qq = Integer.parseInt(jTable.getValueAt(row, 4).toString()) - Integer.parseInt(quantityTxt.getText());
+        if (qq < 0) {
             JOptionPane.showMessageDialog(rootPane, "Not enough in stock");
-        }
-        else{
-        DefaultTableModel model = (DefaultTableModel)jTableList.getModel();
-        
-        DefaultTableModel firstModel = (DefaultTableModel)jTable.getModel();
-        
-        Object[] sRow = new Object [8];
-        
-        sRow[0]=jTable.getValueAt(row, 0);
-        sRow[1]=jTable.getValueAt(row, 1);
-        sRow[2]=jTable.getValueAt(row, 2);
-        sRow[3]=jTable.getValueAt(row, 3);
-        sRow[4]=jTable.getValueAt(row, 4);
-        sRow[5]=jTable.getValueAt(row, 5);
-        sRow[6]=jTable.getValueAt(row, 6);
-        sRow[7]=quantityTxt.getText();
-        model.addRow(sRow);
-        firstModel.setValueAt(Integer.parseInt(jTable.getValueAt(row, 4).toString())-Integer.parseInt(quantityTxt.getText()), row, 4);
+        } else {
+            DefaultTableModel model = (DefaultTableModel) jTableList.getModel();
+
+            DefaultTableModel firstModel = (DefaultTableModel) jTable.getModel();
+
+            Object[] sRow = new Object[8];
+
+            sRow[0] = jTable.getValueAt(row, 0);
+            sRow[1] = jTable.getValueAt(row, 1);
+            sRow[2] = jTable.getValueAt(row, 2);
+            sRow[3] = jTable.getValueAt(row, 3);
+            sRow[4] = jTable.getValueAt(row, 4);
+            sRow[5] = jTable.getValueAt(row, 5);
+            sRow[6] = jTable.getValueAt(row, 6);
+            sRow[7] = quantityTxt.getText();
+            model.addRow(sRow);
+            firstModel.setValueAt(Integer.parseInt(jTable.getValueAt(row, 4).toString()) - Integer.parseInt(quantityTxt.getText()), row, 4);
         }
     }//GEN-LAST:event_addBtnActionPerformed
 
     private void removeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeBtnActionPerformed
         // TODO add your handling code here:
         int row = jTableList.getSelectedRow();
-        DefaultTableModel model = (DefaultTableModel)jTableList.getModel();
+        DefaultTableModel model = (DefaultTableModel) jTableList.getModel();
         model.removeRow(row);
-        
+
     }//GEN-LAST:event_removeBtnActionPerformed
 
     private void customerComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_customerComboBoxActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_customerComboBoxActionPerformed
 
-
-    public void createTable() throws SQLException, PharmacyException{
-        DefaultTableModel model = (DefaultTableModel)jTable.getModel();
-        try{
-            Connection conn = DriverManager.getConnection("jdbc:sqlserver://localhost:1433", "sa","sa");
+    public void createTable() throws SQLException, PharmacyException {
+        DefaultTableModel model = (DefaultTableModel) jTable.getModel();
+        try {
+            Connection conn = DriverManager.getConnection("jdbc:sqlserver://localhost:1433", "sa", "sa");
             java.sql.Statement stmt = conn.createStatement();
             String exec = "use PharmacyManagement select BrandName,GenericName,s.ExpiryDate,Quantity,s.supplydate,Price,m.medicineId from stock s inner join medicine m on s.MedicineID=m.MedicineID order by s.ExpiryDate asc";
             ResultSet rset = stmt.executeQuery(exec);
             model.setRowCount(0);
-        while(rset.next()){
+            while (rset.next()) {
 //            public POS(String brandName, String genericName, int quantity, double price, Date expiryDate) {
 //            pos=new POS(rset.getString("brandname"),rset.getString("genericName"),rset.getInt("quantity"),rset.getDouble("price"),rset.getDate("expirydate"));
 //            ArrayList<Room_1> list = roomList();
 
                 Object[] row = new Object[7];
-                    
-                    row[0]=rset.getInt("medicineId");
-                    row[1]=rset.getString("brandname");
-                    row[2]=rset.getString("genericName");
-                    row[3]=rset.getDate("expirydate");
-                    row[4]=rset.getInt("quantity");
-                    row[5]=rset.getString("supplydate");
-                    row[6]=rset.getDouble("price");
-                    model.addRow(row);
+
+                row[0] = rset.getInt("medicineId");
+                row[1] = rset.getString("brandname");
+                row[2] = rset.getString("genericName");
+                row[3] = rset.getDate("expirydate");
+                row[4] = rset.getInt("quantity");
+                row[5] = rset.getString("supplydate");
+                row[6] = rset.getDouble("price");
+                model.addRow(row);
+            }
+        } catch (SQLException e) {
+            System.out.print(e.getMessage());
         }
-        }
-        catch(SQLException e){System.out.print(e.getMessage());}
     }
-    
-    private void searchByName(String name){
-         DefaultTableModel model = (DefaultTableModel)jTable.getModel();
-        try{
-            Connection conn = DriverManager.getConnection("jdbc:sqlserver://localhost:1433", "sa","sa");
+
+    private void searchByName(String name) {
+        DefaultTableModel model = (DefaultTableModel) jTable.getModel();
+        try {
+            Connection conn = DriverManager.getConnection("jdbc:sqlserver://localhost:1433", "sa", "sa");
             java.sql.Statement stmt = conn.createStatement();
-            String exec = "use PharmacyManagement select BrandName,GenericName,s.ExpiryDate,Quantity,s.supplydate,Price,m.medicineId from stock s inner join medicine m on s.MedicineID=m.MedicineID where m.BrandName like '%"+name+"%' order by s.ExpiryDate asc";
+            String exec = "use PharmacyManagement select BrandName,GenericName,s.ExpiryDate,Quantity,s.supplydate,Price,m.medicineId from stock s inner join medicine m on s.MedicineID=m.MedicineID where m.BrandName like '%" + name + "%' order by s.ExpiryDate asc";
             ResultSet rset = stmt.executeQuery(exec);
             model.setRowCount(0);
-        while(rset.next()){
+            while (rset.next()) {
                 Object[] row = new Object[7];
-                
-                    row[0]=rset.getInt("medicineId");
-                    row[1]=rset.getString("brandname");
-                    row[2]=rset.getString("genericName");
-                    row[3]=rset.getDate("expirydate");
-                    row[4]=rset.getInt("quantity");
-                    row[5]=rset.getString("supplydate");
-                    row[6]=rset.getDouble("price");
-                            
-                    model.addRow(row);
+
+                row[0] = rset.getInt("medicineId");
+                row[1] = rset.getString("brandname");
+                row[2] = rset.getString("genericName");
+                row[3] = rset.getDate("expirydate");
+                row[4] = rset.getInt("quantity");
+                row[5] = rset.getString("supplydate");
+                row[6] = rset.getDouble("price");
+
+                model.addRow(row);
+            }
+        } catch (SQLException e) {
+            System.out.print(e.getMessage());
         }
-        }
-        catch(SQLException e){System.out.print(e.getMessage());}
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addBtn;
