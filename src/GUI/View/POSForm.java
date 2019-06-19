@@ -388,7 +388,7 @@ public class POSForm extends javax.swing.JInternalFrame {
         try {
             Connection conn = DriverManager.getConnection("jdbc:sqlserver://localhost:1433", "sa", "sa");
             java.sql.Statement stmt = conn.createStatement();
-            String exec = "use PharmacyManagement select BrandName,GenericName,s.ExpiryDate,Quantity,s.supplydate,Price,m.medicineId from stock s inner join medicine m on s.MedicineID=m.MedicineID order by s.ExpiryDate asc";
+            String exec = "use PharmacyManagement select BrandName,GenericName,s.ExpiryDate,Quantity,s.supplydate,Price,m.medicineId from stock s inner join medicine m on s.MedicineID=m.MedicineID where s.statusId=1 order by s.ExpiryDate asc";
             ResultSet rset = stmt.executeQuery(exec);
             model.setRowCount(0);
             while (rset.next()) {
@@ -417,7 +417,7 @@ public class POSForm extends javax.swing.JInternalFrame {
         try {
             Connection conn = DriverManager.getConnection("jdbc:sqlserver://localhost:1433", "sa", "sa");
             java.sql.Statement stmt = conn.createStatement();
-            String exec = "use PharmacyManagement select BrandName,GenericName,s.ExpiryDate,Quantity,s.supplydate,Price,m.medicineId from stock s inner join medicine m on s.MedicineID=m.MedicineID where m.BrandName like '%" + name + "%' order by s.ExpiryDate asc";
+            String exec = "use PharmacyManagement select BrandName,GenericName,s.ExpiryDate,Quantity,s.supplydate,Price,m.medicineId from stock s inner join medicine m on s.MedicineID=m.MedicineID where m.BrandName like '%" + name + "%' && s.statusId=1 order by s.ExpiryDate asc";
             ResultSet rset = stmt.executeQuery(exec);
             model.setRowCount(0);
             while (rset.next()) {
