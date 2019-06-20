@@ -12,10 +12,10 @@ import DAL.MedicineRepository;
 import DAL.OrderRepository;
 import DAL.PharmacyException;
 import DAL.SupplierRepository;
-import com.microsoft.sqlserver.jdbc.StringUtils;
 import gui.Model.MedicineComboBoxModel;
 import gui.Model.OrderTableModel;
 import gui.Model.SupplierComboBoxModel;
+import java.beans.PropertyVetoException;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
@@ -50,6 +50,7 @@ public class OrderForm extends javax.swing.JInternalFrame {
         initComponents();
         loadTable();
         loadComboBoxes();
+        tableSelectedIndexChange();
         exists = true;
     }
 
@@ -154,6 +155,11 @@ public class OrderForm extends javax.swing.JInternalFrame {
             public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
             }
         });
+        addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                formMouseClicked(evt);
+            }
+        });
 
         table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -169,6 +175,7 @@ public class OrderForm extends javax.swing.JInternalFrame {
         jScrollPane1.setViewportView(table);
 
         idTxt.setEditable(false);
+        idTxt.setBackground(new java.awt.Color(204, 204, 204));
 
         jLabel1.setText("Order ID");
 
@@ -182,15 +189,27 @@ public class OrderForm extends javax.swing.JInternalFrame {
 
         jLabel4.setText("Quantity");
 
-        cancelBtn.setText("Cancel");
+        cancelBtn.setFont(new java.awt.Font("Dialog", 1, 16)); // NOI18N
+        cancelBtn.setText("Clear");
         cancelBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cancelBtnActionPerformed(evt);
             }
         });
 
+        deleteBtn.setBackground(new java.awt.Color(255, 0, 0));
+        deleteBtn.setFont(new java.awt.Font("Dialog", 1, 16)); // NOI18N
+        deleteBtn.setForeground(new java.awt.Color(255, 255, 255));
         deleteBtn.setText("Delete");
+        deleteBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteBtnActionPerformed(evt);
+            }
+        });
 
+        saveBtn.setBackground(new java.awt.Color(0, 102, 255));
+        saveBtn.setFont(new java.awt.Font("Dialog", 1, 16)); // NOI18N
+        saveBtn.setForeground(new java.awt.Color(255, 255, 255));
         saveBtn.setText("Save");
         saveBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -223,36 +242,36 @@ public class OrderForm extends javax.swing.JInternalFrame {
                             .addComponent(jLabel4)
                             .addComponent(quantityTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(cancelBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(deleteBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(saveBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(deleteBtn, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(saveBtn, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(cancelBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 94, Short.MAX_VALUE))
                 .addContainerGap(25, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap(25, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel4))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(idTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(supplierComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(medicineComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(quantityTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(saveBtn)
+                        .addGap(86, 86, 86)
                         .addComponent(deleteBtn)
-                        .addGap(44, 44, 44)
+                        .addGap(86, 86, 86)
                         .addComponent(cancelBtn))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(idTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(supplierComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(medicineComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(quantityTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(saveBtn))
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addGap(25, 25, 25))
         );
 
@@ -262,39 +281,73 @@ public class OrderForm extends javax.swing.JInternalFrame {
     private void saveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveBtnActionPerformed
         int row = table.getSelectedRow();
         if (!(supplierComboBox.getSelectedItem() == null || medicineComboBox.getSelectedItem() == null
-                || !StringUtils.isInteger(quantityTxt.getText()))) {
+                || quantityTxt.getText().equals(""))) {
             if (row == -1) {
                 Orders o = new Orders();
                 o.setSupplierID((Supplier) supplierComboBox.getSelectedItem());
                 o.setMedicineID((Medicine) medicineComboBox.getSelectedItem());
-                o.setQuantity(Integer.parseInt(quantityTxt.getText()));
-                o.setOrderDate(Date.valueOf(LocalDate.now()));
-                o.setPrice(((Medicine) medicineComboBox.getSelectedItem()).getPrice() * Integer.parseInt(quantityTxt.getText()));
+                o.setOrderDate(Date.valueOf(LocalDate.now()));            
                 try {
+                    o.setPrice(((Medicine) medicineComboBox.getSelectedItem()).getPrice() * Integer.parseInt(quantityTxt.getText()));
+                    if(quantityTxt.getText().matches("^[1-9]\\d*$")){
+                        o.setQuantity(Integer.parseInt(quantityTxt.getText()));
+                    }else{
+                        JOptionPane.showMessageDialog(this, "Please enter a valid quantity!");
+                        return;
+                    }                   
                     or.create(o);
                 } catch (PharmacyException ex) {
                     JOptionPane.showMessageDialog(this, "MSG: " + ex.getMessage());
+                }   catch(NumberFormatException ex){
+                    JOptionPane.showMessageDialog(this, "Please enter a valid quantity!");
+                    return;
                 }
             } else {
                 Orders o = otm.getOrders(row);
                 o.setSupplierID((Supplier) supplierComboBox.getSelectedItem());
                 o.setMedicineID((Medicine) medicineComboBox.getSelectedItem());
-                o.setQuantity(Integer.parseInt(quantityTxt.getText()));
                 o.setOrderDate(Date.valueOf(LocalDate.now()));
-                o.setPrice(((Medicine) medicineComboBox.getSelectedItem()).getPrice() * Integer.parseInt(quantityTxt.getText()));
                 try{
+                    if(quantityTxt.getText().matches("^[1-9]\\d*$")){
+                        o.setQuantity(Integer.parseInt(quantityTxt.getText()));
+                    }else{
+                        JOptionPane.showMessageDialog(this, "Please enter a valid quantity!");
+                        return;
+                    }
+                    o.setPrice(((Medicine) medicineComboBox.getSelectedItem()).getPrice() * Integer.parseInt(quantityTxt.getText()));
                     or.edit(o);
                 }catch(PharmacyException ex){
                     JOptionPane.showMessageDialog(this, "MSG: " + ex.getMessage());
+                }catch(NumberFormatException ex){
+                    JOptionPane.showMessageDialog(this, "Please enter a valid quantity!");
+                    return;
                 }
             }
             loadTable();
             clear();
         }else{
-            JOptionPane.showMessageDialog(this, "Invalid input. Please check!");
+            JOptionPane.showMessageDialog(this, "Please fill in required fields!");
         }
     }//GEN-LAST:event_saveBtnActionPerformed
 
+    public boolean isInt(String str) {
+        try {
+            Integer.parseInt(str);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+    
+    public boolean isDouble(String str){
+        try{
+            Double.parseDouble(str);
+            return true;
+        }catch(NumberFormatException e){
+            return false;
+        }
+    }
+    
     private void cancelBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelBtnActionPerformed
         clear();
     }//GEN-LAST:event_cancelBtnActionPerformed
@@ -303,10 +356,46 @@ public class OrderForm extends javax.swing.JInternalFrame {
         exists = false;
     }//GEN-LAST:event_formInternalFrameClosed
 
+    private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
+        if (evt.getClickCount() > 0) {
+            try {
+                this.setSelected(true);
+                this.toFront();
+            } catch (PropertyVetoException ex) {
+                Logger.getLogger(SalesForm.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_formMouseClicked
+
+    private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
+        int row = table.getSelectedRow();
+        if (row > -1) {
+            Object[] obj = {"Yes", "No"};
+            int i = JOptionPane.showOptionDialog(this, "Do you want to delete order?", "Delete",
+                    JOptionPane.OK_OPTION, JOptionPane.QUESTION_MESSAGE, null, obj, obj[0]);
+            if (i == 0) {
+                try {
+                    Orders p = otm.getOrders(row);
+                    or.delete(p);
+                    clear();
+                    loadTable();
+                } catch (PharmacyException pe) {
+                    JOptionPane.showMessageDialog(this, "MSG: " + pe.getMessage());
+                }
+            } else {
+                clear();
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "You havent selected anything to delete");
+        }
+    }//GEN-LAST:event_deleteBtnActionPerformed
+
     public void clear(){
         idTxt.setText("");
         supplierComboBox.setSelectedIndex(-1);
+        supplierComboBox.repaint();
         medicineComboBox.setSelectedIndex(-1);
+        medicineComboBox.repaint();
         quantityTxt.setText("");
     }
 

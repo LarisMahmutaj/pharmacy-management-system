@@ -88,20 +88,19 @@ public class MainForm extends javax.swing.JFrame {
         jPanel4 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         logOutBtn = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jPanel2 = new javax.swing.JPanel();
-        posBtn1 = new javax.swing.JButton();
+        mainPanel = new javax.swing.JLayeredPane();
+        jPanel1 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
-        addMedicineBtn = new javax.swing.JButton();
-        orderBtn = new javax.swing.JButton();
-        addUserBtn = new javax.swing.JButton();
-        addToStockBtn = new javax.swing.JButton();
-        addCostumerBtn = new javax.swing.JButton();
-        addClassificationBtn = new javax.swing.JButton();
+        posBtn1 = new javax.swing.JButton();
         salesBtn = new javax.swing.JButton();
+        orderBtn = new javax.swing.JButton();
+        addMedicineBtn = new javax.swing.JButton();
+        addCostumerBtn = new javax.swing.JButton();
+        addToStockBtn = new javax.swing.JButton();
+        addClassificationBtn = new javax.swing.JButton();
         supplierBtn = new javax.swing.JButton();
-        mainPanel = new javax.swing.JLayeredPane();
+        addUserBtn = new javax.swing.JButton();
 
         jPasswordField1.setText("jPasswordField1");
 
@@ -111,11 +110,11 @@ public class MainForm extends javax.swing.JFrame {
         jPanel4.setPreferredSize(new java.awt.Dimension(682, 83));
 
         jLabel2.setFont(new java.awt.Font("Dialog", 1, 36)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(36, 36, 36));
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("Pharmacy Management System");
 
-        logOutBtn.setBackground(new java.awt.Color(0, 0, 0));
+        logOutBtn.setBackground(new java.awt.Color(255, 0, 0));
         logOutBtn.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         logOutBtn.setForeground(new java.awt.Color(255, 255, 255));
         logOutBtn.setText("Log Out");
@@ -133,9 +132,9 @@ public class MainForm extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(67, 67, 67)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 552, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 763, Short.MAX_VALUE)
                 .addComponent(logOutBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(24, 24, 24))
+                .addGap(67, 67, 67))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -147,23 +146,21 @@ public class MainForm extends javax.swing.JFrame {
                 .addContainerGap(14, Short.MAX_VALUE))
         );
 
-        jPanel2.setBackground(new java.awt.Color(0, 102, 153));
-        jPanel2.setForeground(new java.awt.Color(255, 255, 255));
-        jPanel2.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        mainPanel.setBackground(new java.awt.Color(51, 51, 51));
+        mainPanel.setOpaque(true);
 
-        posBtn1.setBackground(new java.awt.Color(0, 0, 0));
-        posBtn1.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
-        posBtn1.setForeground(new java.awt.Color(255, 255, 255));
-        posBtn1.setText("POS");
-        posBtn1.setToolTipText("Poin Of Sale");
-        posBtn1.setBorder(null);
-        posBtn1.setDefaultCapable(false);
-        posBtn1.setFocusPainted(false);
-        posBtn1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                posBtn1ActionPerformed(evt);
-            }
-        });
+        javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
+        mainPanel.setLayout(mainPanelLayout);
+        mainPanelLayout.setHorizontalGroup(
+            mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        mainPanelLayout.setVerticalGroup(
+            mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 847, Short.MAX_VALUE)
+        );
+
+        jPanel1.setBackground(new java.awt.Color(0, 102, 153));
 
         jPanel5.setBackground(new java.awt.Color(51, 51, 51));
 
@@ -178,7 +175,7 @@ public class MainForm extends javax.swing.JFrame {
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGap(24, 24, 24)
                 .addComponent(jLabel3)
-                .addContainerGap(98, Short.MAX_VALUE))
+                .addContainerGap(91, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -188,81 +185,16 @@ public class MainForm extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        addMedicineBtn.setBackground(new java.awt.Color(0, 0, 0));
-        addMedicineBtn.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
-        addMedicineBtn.setForeground(new java.awt.Color(255, 255, 255));
-        addMedicineBtn.setText("Medicine");
-        addMedicineBtn.setBorder(null);
-        addMedicineBtn.setDefaultCapable(false);
-        addMedicineBtn.setFocusPainted(false);
-        addMedicineBtn.addActionListener(new java.awt.event.ActionListener() {
+        posBtn1.setBackground(new java.awt.Color(0, 0, 0));
+        posBtn1.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        posBtn1.setForeground(new java.awt.Color(255, 255, 255));
+        posBtn1.setText("POS");
+        posBtn1.setToolTipText("Poin Of Sale");
+        posBtn1.setBorder(null);
+        posBtn1.setFocusPainted(false);
+        posBtn1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addMedicineBtnActionPerformed(evt);
-            }
-        });
-
-        orderBtn.setBackground(new java.awt.Color(0, 0, 0));
-        orderBtn.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
-        orderBtn.setForeground(new java.awt.Color(255, 255, 255));
-        orderBtn.setText("Order");
-        orderBtn.setBorder(null);
-        orderBtn.setDefaultCapable(false);
-        orderBtn.setFocusPainted(false);
-        orderBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                orderBtnActionPerformed(evt);
-            }
-        });
-
-        addUserBtn.setBackground(new java.awt.Color(0, 0, 0));
-        addUserBtn.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
-        addUserBtn.setForeground(new java.awt.Color(255, 255, 255));
-        addUserBtn.setText("Users");
-        addUserBtn.setBorder(null);
-        addUserBtn.setDefaultCapable(false);
-        addUserBtn.setFocusPainted(false);
-        addUserBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addUserBtnActionPerformed(evt);
-            }
-        });
-
-        addToStockBtn.setBackground(new java.awt.Color(0, 0, 0));
-        addToStockBtn.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
-        addToStockBtn.setForeground(new java.awt.Color(255, 255, 255));
-        addToStockBtn.setText("Stock");
-        addToStockBtn.setBorder(null);
-        addToStockBtn.setDefaultCapable(false);
-        addToStockBtn.setFocusPainted(false);
-        addToStockBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addToStockBtnActionPerformed(evt);
-            }
-        });
-
-        addCostumerBtn.setBackground(new java.awt.Color(0, 0, 0));
-        addCostumerBtn.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
-        addCostumerBtn.setForeground(new java.awt.Color(255, 255, 255));
-        addCostumerBtn.setText("Customers");
-        addCostumerBtn.setBorder(null);
-        addCostumerBtn.setDefaultCapable(false);
-        addCostumerBtn.setFocusPainted(false);
-        addCostumerBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addCostumerBtnActionPerformed(evt);
-            }
-        });
-
-        addClassificationBtn.setBackground(new java.awt.Color(0, 0, 0));
-        addClassificationBtn.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
-        addClassificationBtn.setForeground(new java.awt.Color(255, 255, 255));
-        addClassificationBtn.setText("Classifications");
-        addClassificationBtn.setBorder(null);
-        addClassificationBtn.setDefaultCapable(false);
-        addClassificationBtn.setFocusPainted(false);
-        addClassificationBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addClassificationBtnActionPerformed(evt);
+                posBtn1ActionPerformed(evt);
             }
         });
 
@@ -279,6 +211,71 @@ public class MainForm extends javax.swing.JFrame {
             }
         });
 
+        orderBtn.setBackground(new java.awt.Color(0, 0, 0));
+        orderBtn.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        orderBtn.setForeground(new java.awt.Color(255, 255, 255));
+        orderBtn.setText("Order");
+        orderBtn.setBorder(null);
+        orderBtn.setDefaultCapable(false);
+        orderBtn.setFocusPainted(false);
+        orderBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                orderBtnActionPerformed(evt);
+            }
+        });
+
+        addMedicineBtn.setBackground(new java.awt.Color(0, 0, 0));
+        addMedicineBtn.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        addMedicineBtn.setForeground(new java.awt.Color(255, 255, 255));
+        addMedicineBtn.setText("Medicine");
+        addMedicineBtn.setBorder(null);
+        addMedicineBtn.setDefaultCapable(false);
+        addMedicineBtn.setFocusPainted(false);
+        addMedicineBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addMedicineBtnActionPerformed(evt);
+            }
+        });
+
+        addCostumerBtn.setBackground(new java.awt.Color(0, 0, 0));
+        addCostumerBtn.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        addCostumerBtn.setForeground(new java.awt.Color(255, 255, 255));
+        addCostumerBtn.setText("Customers");
+        addCostumerBtn.setBorder(null);
+        addCostumerBtn.setDefaultCapable(false);
+        addCostumerBtn.setFocusPainted(false);
+        addCostumerBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addCostumerBtnActionPerformed(evt);
+            }
+        });
+
+        addToStockBtn.setBackground(new java.awt.Color(0, 0, 0));
+        addToStockBtn.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        addToStockBtn.setForeground(new java.awt.Color(255, 255, 255));
+        addToStockBtn.setText("Stock");
+        addToStockBtn.setBorder(null);
+        addToStockBtn.setDefaultCapable(false);
+        addToStockBtn.setFocusPainted(false);
+        addToStockBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addToStockBtnActionPerformed(evt);
+            }
+        });
+
+        addClassificationBtn.setBackground(new java.awt.Color(0, 0, 0));
+        addClassificationBtn.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        addClassificationBtn.setForeground(new java.awt.Color(255, 255, 255));
+        addClassificationBtn.setText("Classifications");
+        addClassificationBtn.setBorder(null);
+        addClassificationBtn.setDefaultCapable(false);
+        addClassificationBtn.setFocusPainted(false);
+        addClassificationBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addClassificationBtnActionPerformed(evt);
+            }
+        });
+
         supplierBtn.setBackground(new java.awt.Color(0, 0, 0));
         supplierBtn.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         supplierBtn.setForeground(new java.awt.Color(255, 255, 255));
@@ -292,65 +289,62 @@ public class MainForm extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        addUserBtn.setBackground(new java.awt.Color(0, 0, 0));
+        addUserBtn.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        addUserBtn.setForeground(new java.awt.Color(255, 255, 255));
+        addUserBtn.setText("Users");
+        addUserBtn.setBorder(null);
+        addUserBtn.setDefaultCapable(false);
+        addUserBtn.setFocusPainted(false);
+        addUserBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addUserBtnActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(24, 24, 24)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(addUserBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(orderBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(addMedicineBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(posBtn1, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(supplierBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(addClassificationBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(addToStockBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(addCostumerBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(addClassificationBtn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(salesBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(supplierBtn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(addMedicineBtn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(orderBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(posBtn1, javax.swing.GroupLayout.DEFAULT_SIZE, 288, Short.MAX_VALUE)
+                        .addComponent(salesBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 288, Short.MAX_VALUE)))
                 .addContainerGap(24, Short.MAX_VALUE))
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(40, 40, 40)
+                .addGap(18, 18, 18)
                 .addComponent(posBtn1, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(salesBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(orderBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(addMedicineBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
                 .addComponent(addCostumerBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(addToStockBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(addMedicineBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(addClassificationBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(supplierBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(addUserBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(227, Short.MAX_VALUE))
-        );
-
-        jScrollPane1.setViewportView(jPanel2);
-
-        mainPanel.setBackground(new java.awt.Color(51, 51, 51));
-        mainPanel.setOpaque(true);
-
-        javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
-        mainPanel.setLayout(mainPanelLayout);
-        mainPanelLayout.setHorizontalGroup(
-            mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1576, Short.MAX_VALUE)
-        );
-        mainPanelLayout.setVerticalGroup(
-            mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -358,14 +352,11 @@ public class MainForm extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 359, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 1588, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(mainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 1554, Short.MAX_VALUE)
+                    .addComponent(mainPanel)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -373,7 +364,9 @@ public class MainForm extends javax.swing.JFrame {
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(mainPanel))
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 922, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(0, 0, 0))
         );
 
         pack();
@@ -453,10 +446,11 @@ public class MainForm extends javax.swing.JFrame {
     }//GEN-LAST:event_posBtn1ActionPerformed
 
     private void salesBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salesBtnActionPerformed
-        
-        SalesForm sf = new SalesForm();
-        mainPanel.add(sf);
-        sf.show();
+        if(!SalesForm.isExists()){
+            SalesForm sf = new SalesForm();
+            mainPanel.add(sf);
+            sf.show();
+        }
     }//GEN-LAST:event_salesBtnActionPerformed
 
     private void orderBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_orderBtnActionPerformed
@@ -494,11 +488,10 @@ public class MainForm extends javax.swing.JFrame {
     private javax.swing.JButton addUserBtn;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPasswordField jPasswordField1;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JButton logOutBtn;
     private javax.swing.JLayeredPane mainPanel;

@@ -154,6 +154,7 @@ public class UserForm extends javax.swing.JInternalFrame {
         });
 
         idTxt.setEditable(false);
+        idTxt.setBackground(new java.awt.Color(204, 204, 204));
         idTxt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 idTxtActionPerformed(evt);
@@ -195,7 +196,9 @@ public class UserForm extends javax.swing.JInternalFrame {
         ));
         jScrollPane1.setViewportView(table);
 
-        saveBtn.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        saveBtn.setBackground(new java.awt.Color(0, 102, 255));
+        saveBtn.setFont(new java.awt.Font("Dialog", 1, 16)); // NOI18N
+        saveBtn.setForeground(new java.awt.Color(255, 255, 255));
         saveBtn.setText("Save");
         saveBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -203,7 +206,9 @@ public class UserForm extends javax.swing.JInternalFrame {
             }
         });
 
-        deleteBtn.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        deleteBtn.setBackground(new java.awt.Color(255, 0, 0));
+        deleteBtn.setFont(new java.awt.Font("Dialog", 1, 16)); // NOI18N
+        deleteBtn.setForeground(new java.awt.Color(255, 255, 255));
         deleteBtn.setText("Delete");
         deleteBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -211,8 +216,8 @@ public class UserForm extends javax.swing.JInternalFrame {
             }
         });
 
-        cancelBtn.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        cancelBtn.setText("Cancel");
+        cancelBtn.setFont(new java.awt.Font("Dialog", 1, 16)); // NOI18N
+        cancelBtn.setText("Clear");
         cancelBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cancelBtnActionPerformed(evt);
@@ -225,8 +230,7 @@ public class UserForm extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(25, 25, 25)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
@@ -242,27 +246,22 @@ public class UserForm extends javax.swing.JInternalFrame {
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel6)
-                            .addComponent(roleComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(deleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(saveBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cancelBtn))
-                .addContainerGap(25, Short.MAX_VALUE))
+                            .addComponent(roleComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 609, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(saveBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(deleteBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(cancelBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(0, 25, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(25, 25, 25)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel6)
-                            .addComponent(saveBtn))
-                        .addGap(58, 58, 58)
-                        .addComponent(deleteBtn)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(cancelBtn))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel6)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1)
@@ -273,10 +272,17 @@ public class UserForm extends javax.swing.JInternalFrame {
                             .addComponent(idTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(usernameTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(passwordTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(roleComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(27, 27, 27)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(25, 25, 25))
+                            .addComponent(roleComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(27, 27, 27)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(saveBtn)
+                        .addGap(86, 86, 86)
+                        .addComponent(deleteBtn)
+                        .addGap(86, 86, 86)
+                        .addComponent(cancelBtn))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
 
         pack();
@@ -296,16 +302,23 @@ public class UserForm extends javax.swing.JInternalFrame {
 
     private void saveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveBtnActionPerformed
         int row = table.getSelectedRow();
-        if (!usernameTxt.getText().trim().equals("")) {
+        if (!usernameTxt.getText().trim().equals("") && !passwordTxt.getText().trim().equals("") 
+                && roleComboBox.getSelectedItem() != null) {
             if (row == -1) {
                 Perdoruesi p = new Perdoruesi();
                 p.setUserName(usernameTxt.getText());
-                p.setPassword(passwordTxt.getText());
                 p.setRoleID((Role) roleComboBox.getSelectedItem());
+                if(passwordTxt.getText().matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,}$")){
+                    p.setPassword(passwordTxt.getText());
+                }else{
+                    JOptionPane.showMessageDialog(this, "Password must be at least 8 characters long, must contain an uppercase letter and"
+                            + " a number!");
+                }
                 try {
                     pr.create(p);
                 } catch (PharmacyException pe) {
-                    JOptionPane.showMessageDialog(this, "MSG: " + pe.getMessage());
+                    //JOptionPane.showMessageDialog(this, "MSG: " + pe.getMessage());
+                    return;
                 }
             } else {
                 Perdoruesi p = ptm.getPerdoruesi(row);
@@ -315,11 +328,14 @@ public class UserForm extends javax.swing.JInternalFrame {
                 try {
                     pr.edit(p);
                 } catch (PharmacyException pe) {
-                    JOptionPane.showMessageDialog(this, "MSG: " + pe.getMessage());
+                    //JOptionPane.showMessageDialog(this, "MSG: " + pe.getMessage());
+                    return;
                 }
             }
             loadTable();
             clear();
+        }else{
+            JOptionPane.showMessageDialog(this, "Please fill in required fields!");
         }
     }//GEN-LAST:event_saveBtnActionPerformed
 

@@ -6,7 +6,6 @@
 package GUI.View;
 
 import BLL.Medicine;
-import BLL.Status;
 import BLL.Stock;
 import BLL.Supplier;
 import DAL.MedicineRepository;
@@ -15,14 +14,11 @@ import DAL.StatusRepository;
 import DAL.StockRepository;
 import DAL.SupplierRepository;
 import gui.Model.MedicineComboBoxModel;
-import gui.Model.StatusComboBoxModel;
 import gui.Model.StockTableModel;
 import gui.Model.SupplierComboBoxModel;
 import java.beans.PropertyVetoException;
 import java.sql.Date;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Calendar;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -47,7 +43,7 @@ public class StockForm extends javax.swing.JInternalFrame {
     SupplierComboBoxModel supcbm;
 
     StatusRepository statr = new StatusRepository();
-    StatusComboBoxModel statcbm;
+//    StatusComboBoxModel statcbm;
 
     private static boolean exists = false;
 
@@ -101,8 +97,9 @@ public class StockForm extends javax.swing.JInternalFrame {
                     supplierComboBox.setSelectedItem(p.getSupplierID());
                     supplierComboBox.repaint();
                     quantityTxt.setText(p.getQuantity() + "");
-                    statusComboBox.setSelectedItem(p.getStatusID());
-                    statusComboBox.repaint();
+                    statusTxt.setText(p.getStatusID().getStatusName());
+//                    statusComboBox.setSelectedItem(p.getStatusID());
+//                    statusComboBox.repaint();
                 }
             }
         });
@@ -132,11 +129,11 @@ public class StockForm extends javax.swing.JInternalFrame {
         expiryDateChooser = new com.toedter.calendar.JDateChooser();
         quantityTxt = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        statusComboBox = new javax.swing.JComboBox();
         jLabel8 = new javax.swing.JLabel();
         medicineComboBox = new javax.swing.JComboBox();
         supplierComboBox = new javax.swing.JComboBox();
         supplyDateTxt = new javax.swing.JTextField();
+        statusTxt = new javax.swing.JTextField();
 
         setClosable(true);
         setTitle("Stock Form");
@@ -191,7 +188,9 @@ public class StockForm extends javax.swing.JInternalFrame {
         ));
         jScrollPane1.setViewportView(table);
 
-        saveBtn.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        saveBtn.setBackground(new java.awt.Color(0, 102, 255));
+        saveBtn.setFont(new java.awt.Font("Dialog", 1, 16)); // NOI18N
+        saveBtn.setForeground(new java.awt.Color(255, 255, 255));
         saveBtn.setText("Save");
         saveBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -199,7 +198,9 @@ public class StockForm extends javax.swing.JInternalFrame {
             }
         });
 
-        deleteBtn.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        deleteBtn.setBackground(new java.awt.Color(255, 0, 0));
+        deleteBtn.setFont(new java.awt.Font("Dialog", 1, 16)); // NOI18N
+        deleteBtn.setForeground(new java.awt.Color(255, 255, 255));
         deleteBtn.setText("Delete");
         deleteBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -209,11 +210,17 @@ public class StockForm extends javax.swing.JInternalFrame {
 
         jLabel1.setText("Supply Date");
 
+        issuedDateChooser.setDateFormatString("dd.MM.yyyy");
+        issuedDateChooser.setMaxSelectableDate(new java.util.Date(2524608106000L));
+        issuedDateChooser.setMinSelectableDate(new java.util.Date(946684906000L));
+
         jLabel7.setText("Expiry Date");
 
-        jLabel5.setText("Quantity");
+        expiryDateChooser.setDateFormatString("dd.MM.yyyy");
+        expiryDateChooser.setMaxSelectableDate(new java.util.Date(4102444870000L));
+        expiryDateChooser.setMinSelectableDate(new java.util.Date(946684870000L));
 
-        statusComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jLabel5.setText("Quantity");
 
         jLabel8.setText("Status");
 
@@ -222,6 +229,9 @@ public class StockForm extends javax.swing.JInternalFrame {
         supplierComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         supplyDateTxt.setEditable(false);
+        supplyDateTxt.setBackground(new java.awt.Color(204, 204, 204));
+
+        statusTxt.setEditable(false);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -244,23 +254,24 @@ public class StockForm extends javax.swing.JInternalFrame {
                             .addComponent(supplierComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel6)
+                            .addComponent(expiryDateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel6)
-                                    .addComponent(expiryDateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(72, 72, 72))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(issuedDateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel7))
-                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel7)
+                                        .addGap(72, 72, 72))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(issuedDateChooser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGap(13, 13, 13)))
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(quantityTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel5))
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel8)
-                                    .addComponent(statusComboBox, 0, 109, Short.MAX_VALUE)))))
+                                    .addComponent(statusTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE))
                     .addComponent(jScrollPane1))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -268,57 +279,55 @@ public class StockForm extends javax.swing.JInternalFrame {
                         .addComponent(jLabel4))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(deleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(saveBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cancelBtn))))
-                .addContainerGap(25, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(saveBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(deleteBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(cancelBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 94, Short.MAX_VALUE))))
+                .addContainerGap(30, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(25, 25, 25)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel6)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(22, 22, 22)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(issuedDateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel7))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel1)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel3))
+                                .addGap(9, 9, 9)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(medicineComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(supplierComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(supplyDateTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel5)
+                                    .addComponent(jLabel8))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(quantityTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(statusTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(expiryDateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel4))
+                .addGap(27, 27, 27)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(saveBtn)
-                        .addGap(61, 61, 61)
+                        .addGap(86, 86, 86)
                         .addComponent(deleteBtn)
-                        .addGap(58, 58, 58)
+                        .addGap(86, 86, 86)
                         .addComponent(cancelBtn))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel6)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(22, 22, 22)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(issuedDateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jLabel7))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                            .addComponent(jLabel1)
-                                            .addComponent(jLabel2)
-                                            .addComponent(jLabel3))
-                                        .addGap(9, 9, 9)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                            .addComponent(medicineComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(supplierComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(supplyDateTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                            .addComponent(jLabel5)
-                                            .addComponent(jLabel8))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                            .addComponent(quantityTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(statusComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(expiryDateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(27, 27, 27)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addContainerGap(25, Short.MAX_VALUE))
         );
 
@@ -342,44 +351,64 @@ public class StockForm extends javax.swing.JInternalFrame {
         if (!(supplyDateTxt.getText() == null || medicineComboBox.getSelectedItem() == null
                 || supplierComboBox.getSelectedItem() == null || issuedDateChooser.getDate() == null
                 || expiryDateChooser.getDate() == null || quantityTxt.getText().trim().equals("")
-                || statusComboBox.getSelectedItem() == null)) {
+                || statusTxt == null)) {
             if (row == -1) {
                 Stock p = new Stock();
-                if (!isInt(quantityTxt.getText())) {
-                    JOptionPane.showMessageDialog(this, "Please enter a number");
-                }
-                Date date = Date.valueOf(LocalDate.now());
-                p.setSupplyDate(date);
-                p.setMedicineID((Medicine) medicineComboBox.getSelectedItem());
-                p.setSupplierID((Supplier) supplierComboBox.getSelectedItem());
-                p.setIssuedDate(issuedDateChooser.getDate());
-                p.setExpiryDate(expiryDateChooser.getDate());
-                p.setQuantity(Integer.parseInt(quantityTxt.getText()));
-                p.setStatusID((Status) statusComboBox.getSelectedItem());
+                
                 try {
+                    Date currentDate = Date.valueOf(LocalDate.now());
+                    p.setSupplyDate(currentDate);
+                    p.setMedicineID((Medicine) medicineComboBox.getSelectedItem());
+                    p.setSupplierID((Supplier) supplierComboBox.getSelectedItem());
+                    p.setIssuedDate(issuedDateChooser.getDate());
+                    p.setExpiryDate(expiryDateChooser.getDate());
+                    if(quantityTxt.getText().matches("^[1-9]\\d*$")){
+                        p.setQuantity(Integer.parseInt(quantityTxt.getText()));
+                    }else{
+                        JOptionPane.showMessageDialog(this, "Please enter a valid quantity!");
+                        return;
+                    }
+                    if (expiryDateChooser.getDate().before(Date.valueOf(LocalDate.now()))) {
+                        p.setStatusID(statr.findByID(2));
+                    } else {
+                        p.setStatusID(statr.findByID(1));
+                    }
+//                p.setStatusID((Status) statusComboBox.getSelectedItem());
                     sr.create(p);
                 } catch (PharmacyException pe) {
-                    JOptionPane.showMessageDialog(this, "MSG: " + pe.getMessage());
+                    //JOptionPane.showMessageDialog(this, "MSG: " + pe.getMessage());
+                    return;
                 }
             } else {
                 Stock p = stm.getStock(row);
 //                p.setSupplyDate(Date.valueOf(LocalDate.now()));
-                p.setMedicineID((Medicine) medicineComboBox.getSelectedItem());
-                p.setSupplierID((Supplier) supplierComboBox.getSelectedItem());
-                p.setIssuedDate(issuedDateChooser.getDate());
-                p.setExpiryDate(expiryDateChooser.getDate());
-                p.setQuantity(Integer.parseInt(quantityTxt.getText()));
-                p.setStatusID((Status) statusComboBox.getSelectedItem());
                 try {
+                    p.setMedicineID((Medicine) medicineComboBox.getSelectedItem());
+                    p.setSupplierID((Supplier) supplierComboBox.getSelectedItem());
+                    p.setIssuedDate(issuedDateChooser.getDate());
+                    p.setExpiryDate(expiryDateChooser.getDate());
+                    if(quantityTxt.getText().matches("^[1-9]\\d*$")){
+                        p.setQuantity(Integer.parseInt(quantityTxt.getText()));
+                    }else{
+                        JOptionPane.showMessageDialog(this, "Please enter a valid quantity!");
+                        return;
+                    }
+                    if (expiryDateChooser.getDate().before(Date.valueOf(LocalDate.now()))) {
+                        p.setStatusID(statr.findByID(2));
+                    } else {
+                        p.setStatusID(statr.findByID(1));
+                    }
+//                  p.setStatusID((Status) statusComboBox.getSelectedItem());
                     sr.edit(p);
                 } catch (PharmacyException pe) {
-                    JOptionPane.showMessageDialog(this, "MSG: " + pe.getMessage());
+                    //JOptionPane.showMessageDialog(this, "MSG: " + pe.getMessage());
+                    return;
                 }
             }
             loadTable();
             clear();
         } else {
-            JOptionPane.showMessageDialog(this, "Plotesoni fushat obligative");
+            JOptionPane.showMessageDialog(this, "Please fill in required fields!");
         }
     }//GEN-LAST:event_saveBtnActionPerformed
 
@@ -423,8 +452,11 @@ public class StockForm extends javax.swing.JInternalFrame {
 
     public void clear() {
         medicineComboBox.setSelectedIndex(-1);
+        medicineComboBox.repaint();
         supplierComboBox.setSelectedIndex(-1);
-        statusComboBox.setSelectedIndex(-1);
+        supplierComboBox.repaint();
+        statusTxt.setText("");
+//        statusComboBox.setSelectedIndex(-1);
         quantityTxt.setText("");
     }
 
@@ -440,10 +472,10 @@ public class StockForm extends javax.swing.JInternalFrame {
             supplierComboBox.setModel(supcbm);
             supplierComboBox.repaint();
 
-            List<Status> statList = statr.findAll();
-            statcbm = new StatusComboBoxModel(statList);
-            statusComboBox.setModel(statcbm);
-            statusComboBox.repaint();
+//            List<Status> statList = statr.findAll();
+//            statcbm = new StatusComboBoxModel(statList);
+//            statusComboBox.setModel(statcbm);
+//            statusComboBox.repaint();
         } catch (PharmacyException ce) {
             Logger.getLogger(StockForm.class.getName()).log(Level.SEVERE, null, ce);
         }
@@ -466,7 +498,7 @@ public class StockForm extends javax.swing.JInternalFrame {
     private javax.swing.JComboBox medicineComboBox;
     private javax.swing.JTextField quantityTxt;
     private javax.swing.JButton saveBtn;
-    private javax.swing.JComboBox statusComboBox;
+    private javax.swing.JTextField statusTxt;
     private javax.swing.JComboBox supplierComboBox;
     private javax.swing.JTextField supplyDateTxt;
     private javax.swing.JTable table;

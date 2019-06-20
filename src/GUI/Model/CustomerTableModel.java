@@ -16,7 +16,7 @@ import javax.swing.table.AbstractTableModel;
 public class CustomerTableModel extends AbstractTableModel {
 
     List<Customer> list;
-    String[] cols = {"Customer ID", "Name", "Phone Number", "Address"};
+    String[] cols = {"Customer ID", "Name", "Address", "Phone Number"};
 
     public CustomerTableModel(List<Customer> list) {
         this.list = list;

@@ -12,10 +12,14 @@ import DAL.POSRepository;
 import DAL.PharmacyException;
 import GUI.Model.POSTableModel;
 import gui.Model.CustomerComboBoxModel;
+import java.beans.PropertyVetoException;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 import java.util.List;
 import java.util.logging.Level;
@@ -52,6 +56,7 @@ public class POSForm extends javax.swing.JInternalFrame {
 //        loadTable();
         createTable();
         loadComboBox();
+        exists = true;
     }
 
 //    public void loadTable() {
@@ -66,7 +71,6 @@ public class POSForm extends javax.swing.JInternalFrame {
 //            System.out.println(pe.getMessage());
 //        }
 //    }
-
     public void loadComboBox() {
         try {
             List<Customer> list = cr.findAll();
@@ -122,9 +126,17 @@ public class POSForm extends javax.swing.JInternalFrame {
             public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
             }
         });
+        addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                formMouseClicked(evt);
+            }
+        });
 
         quantityTxt.setText("1");
 
+        sellBtn.setBackground(new java.awt.Color(0, 102, 255));
+        sellBtn.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        sellBtn.setForeground(new java.awt.Color(255, 255, 255));
         sellBtn.setText("Sell");
         sellBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -162,6 +174,9 @@ public class POSForm extends javax.swing.JInternalFrame {
 
         jLabel2.setText("Customer");
 
+        addBtn.setBackground(new java.awt.Color(0, 204, 51));
+        addBtn.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        addBtn.setForeground(new java.awt.Color(255, 255, 255));
         addBtn.setText("Add");
         addBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -179,6 +194,9 @@ public class POSForm extends javax.swing.JInternalFrame {
         ));
         jScrollPane2.setViewportView(jTableList);
 
+        removeBtn.setBackground(new java.awt.Color(255, 0, 0));
+        removeBtn.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        removeBtn.setForeground(new java.awt.Color(255, 255, 255));
         removeBtn.setText("Remove");
         removeBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -201,29 +219,34 @@ public class POSForm extends javax.swing.JInternalFrame {
                 .addGap(25, 25, 25)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(searchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 362, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(searchButton))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 592, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(removeBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 806, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1)
+                                .addComponent(searchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 362, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(quantityTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(addBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(searchButton))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(removeBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(12, 12, 12)
-                                .addComponent(sellBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(customerComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 592, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(25, Short.MAX_VALUE))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel1)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(quantityTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(addBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel2)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(customerComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(0, 0, Short.MAX_VALUE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(0, 0, Short.MAX_VALUE)
+                                        .addComponent(sellBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jScrollPane2))
+                        .addGap(25, 25, 25))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -237,17 +260,18 @@ public class POSForm extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(sellBtn)
-                    .addComponent(addBtn)
-                    .addComponent(removeBtn))
+                    .addComponent(addBtn))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(searchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(searchButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+                .addComponent(removeBtn)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(25, Short.MAX_VALUE))
+                .addGap(25, 25, 25))
         );
 
         pack();
@@ -278,8 +302,8 @@ public class POSForm extends javax.swing.JInternalFrame {
     private void sellBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sellBtnActionPerformed
         // TODO add your handling code here:
         //int row = jTable.getSelectedRow();
-        if (jTable.getSelectedRow() < 0) {
-            JOptionPane.showMessageDialog(this, "Please select items to sell!");
+        if (jTableList.getRowCount() == 0) {
+            JOptionPane.showMessageDialog(this, "Please add items to sell!");
         } else {
             try {
                 Connection conn = DriverManager.getConnection("jdbc:sqlserver://localhost:1433", "sa", "sa");
@@ -294,7 +318,9 @@ public class POSForm extends javax.swing.JInternalFrame {
                     //ID 3 is Guest customer in database
                     cTxt = 3;
                 }
-                String invoice = "use PharmacyManagement insert into invoice values('" + cTxt + "','" + java.time.LocalDate.now() + "')";
+                Date now = Date.valueOf(LocalDate.now());
+                now.setTime(System.currentTimeMillis());
+                String invoice = "use PharmacyManagement insert into invoice values('" + cTxt + "','" + now + "')";
                 stmt.execute(invoice);
 
                 String invoiceIn = "select top 1 * from invoice i order by i.InvoiceID desc";
@@ -347,41 +373,67 @@ public class POSForm extends javax.swing.JInternalFrame {
 
     private void addBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBtnActionPerformed
         // TODO add your handling code here:
-        int row = jTable.getSelectedRow();
-        int qq = Integer.parseInt(jTable.getValueAt(row, 4).toString()) - Integer.parseInt(quantityTxt.getText());
-        if (qq < 0) {
-            JOptionPane.showMessageDialog(rootPane, "Not enough in stock");
+        if (jTable.getSelectedRow() > -1) {
+            try{
+            int row = jTable.getSelectedRow();
+            if(!quantityTxt.getText().matches("^[1-9]\\d*$")){
+                JOptionPane.showMessageDialog(this, "Please enter a valid quantity!");
+                return;
+            }
+            int qq = Integer.parseInt(jTable.getValueAt(row, 4).toString()) - Integer.parseInt(quantityTxt.getText());
+            if (qq < 0) {
+                JOptionPane.showMessageDialog(rootPane, "Not enough in stock");
+            } else {
+                DefaultTableModel model = (DefaultTableModel) jTableList.getModel();
+
+                DefaultTableModel firstModel = (DefaultTableModel) jTable.getModel();
+
+                Object[] sRow = new Object[8];
+
+                sRow[0] = jTable.getValueAt(row, 0);
+                sRow[1] = jTable.getValueAt(row, 1);
+                sRow[2] = jTable.getValueAt(row, 2);
+                sRow[3] = jTable.getValueAt(row, 3);
+                sRow[4] = jTable.getValueAt(row, 4);
+                sRow[5] = jTable.getValueAt(row, 5);
+                sRow[6] = jTable.getValueAt(row, 6);
+                sRow[7] = quantityTxt.getText();
+                model.addRow(sRow);
+                firstModel.setValueAt(Integer.parseInt(jTable.getValueAt(row, 4).toString()) - Integer.parseInt(quantityTxt.getText()), row, 4);
+            }
+            }catch(NumberFormatException ex){
+                JOptionPane.showMessageDialog(this, "Please enter a valid quantity!");
+            }
         } else {
-            DefaultTableModel model = (DefaultTableModel) jTableList.getModel();
-
-            DefaultTableModel firstModel = (DefaultTableModel) jTable.getModel();
-
-            Object[] sRow = new Object[8];
-
-            sRow[0] = jTable.getValueAt(row, 0);
-            sRow[1] = jTable.getValueAt(row, 1);
-            sRow[2] = jTable.getValueAt(row, 2);
-            sRow[3] = jTable.getValueAt(row, 3);
-            sRow[4] = jTable.getValueAt(row, 4);
-            sRow[5] = jTable.getValueAt(row, 5);
-            sRow[6] = jTable.getValueAt(row, 6);
-            sRow[7] = quantityTxt.getText();
-            model.addRow(sRow);
-            firstModel.setValueAt(Integer.parseInt(jTable.getValueAt(row, 4).toString()) - Integer.parseInt(quantityTxt.getText()), row, 4);
+            JOptionPane.showMessageDialog(this, "Please select an item to add it!");
         }
     }//GEN-LAST:event_addBtnActionPerformed
 
     private void removeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeBtnActionPerformed
         // TODO add your handling code here:
-        int row = jTableList.getSelectedRow();
-        DefaultTableModel model = (DefaultTableModel) jTableList.getModel();
-        model.removeRow(row);
-
+        if (jTableList.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(this, "Please select an item to remove it!");
+        } else {
+            int row = jTableList.getSelectedRow();
+            DefaultTableModel model = (DefaultTableModel) jTableList.getModel();
+            model.removeRow(row);
+        }
     }//GEN-LAST:event_removeBtnActionPerformed
 
     private void customerComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_customerComboBoxActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_customerComboBoxActionPerformed
+
+    private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
+        if (evt.getClickCount() > 0) {
+            try {
+                this.setSelected(true);
+                this.toFront();
+            } catch (PropertyVetoException ex) {
+                Logger.getLogger(SalesForm.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } 
+    }//GEN-LAST:event_formMouseClicked
 
     public void createTable() throws SQLException, PharmacyException {
         DefaultTableModel model = (DefaultTableModel) jTable.getModel();

@@ -79,6 +79,7 @@ public class Invoice implements Serializable {
     }
 
     public void setDate(Date date) {
+        date.setTime(System.currentTimeMillis());
         this.date = date;
     }
 

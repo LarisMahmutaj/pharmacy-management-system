@@ -6,14 +6,17 @@
 package BLL;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -33,6 +36,9 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Customer.findByAddress", query = "SELECT c FROM Customer c WHERE c.address = :address")})
 public class Customer implements Serializable {
 
+    @Column(name = "PhoneNumber")
+    private String phoneNumber;
+
     @OneToMany(mappedBy = "customerID")
     private Collection<Invoice> invoiceCollection;
 
@@ -40,13 +46,12 @@ public class Customer implements Serializable {
     @Id
     @Basic(optional = false)
     @Column(name = "CustomerID")
+    @GeneratedValue(generator = "InvSeq")
+    @SequenceGenerator(name = "InvSeq", sequenceName = "INV_SEQ", allocationSize = 1)
     private Integer customerID;
     @Basic(optional = false)
     @Column(name = "Name")
     private String name;
-    @Basic(optional = false)
-    @Column(name = "PhoneNumber")
-    private int phoneNumber;
     @Basic(optional = false)
     @Column(name = "Address")
     private String address;
@@ -58,7 +63,7 @@ public class Customer implements Serializable {
         this.customerID = customerID;
     }
 
-    public Customer(Integer customerID, String name, int phoneNumber, String address) {
+    public Customer(Integer customerID, String name, String phoneNumber, String address) {
         this.customerID = customerID;
         this.name = name;
         this.phoneNumber = phoneNumber;
@@ -81,13 +86,6 @@ public class Customer implements Serializable {
         this.name = name;
     }
 
-    public int getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(int phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
 
     public String getAddress() {
         return address;
@@ -119,8 +117,8 @@ public class Customer implements Serializable {
 
     @Override
     public String toString() {
-        if(phoneNumber != 0){
-        return name + ", +" + phoneNumber;
+        if(!name.equals("Guest")){
+            return name + ", +" + phoneNumber;
         }else{
             return name;
         }
@@ -133,6 +131,14 @@ public class Customer implements Serializable {
 
     public void setInvoiceCollection(Collection<Invoice> invoiceCollection) {
         this.invoiceCollection = invoiceCollection;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
     
 }

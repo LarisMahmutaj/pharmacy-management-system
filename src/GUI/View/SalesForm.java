@@ -19,6 +19,11 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import DAL.InvoiceRepository;
 import java.beans.PropertyVetoException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 /**
  *
@@ -30,6 +35,7 @@ public class SalesForm extends javax.swing.JInternalFrame {
     InvoiceTableModel itm = new InvoiceTableModel();
     InvoiceRepository ir = new InvoiceRepository();
     ItemRepository itemr = new ItemRepository();
+    
 
     /**
      * Creates new form InvoiceForm
@@ -82,6 +88,7 @@ public class SalesForm extends javax.swing.JInternalFrame {
                             str += (x + 1) + ":        " + item + "\n";
                             total += item.getMedicineID().getPrice();
                         }
+
                         textArea.setText("Pharmacy Management System \n"
                                 + "Invoice:" + i.getInvoiceID() + "\n"
                                 + "-------------------------------------------------------\n"
@@ -163,20 +170,20 @@ public class SalesForm extends javax.swing.JInternalFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(25, 25, 25)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 650, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 702, Short.MAX_VALUE)
                     .addComponent(jScrollPane2))
-                .addContainerGap())
+                .addGap(25, 25, 25))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(25, 25, 25)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 244, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 249, Short.MAX_VALUE)
+                .addGap(25, 25, 25))
         );
 
         pack();
