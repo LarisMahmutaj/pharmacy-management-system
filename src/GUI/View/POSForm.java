@@ -12,6 +12,7 @@ import DAL.POSRepository;
 import DAL.PharmacyException;
 import GUI.Model.POSTableModel;
 import gui.Model.CustomerComboBoxModel;
+import java.awt.Dimension;
 import java.beans.PropertyVetoException;
 import java.sql.Connection;
 import java.sql.Date;

@@ -376,6 +376,7 @@ public class MainForm extends javax.swing.JFrame {
         if (!(UserForm.getExists() == true)) {
             UserForm uf = new UserForm();
             mainPanel.add(uf);
+            uf.setLocation(mainPanel.getSize().width/2 - uf.getSize().width/2, mainPanel.getSize().height/2 - uf.getSize().height/2);
             uf.show();
         }
     }//GEN-LAST:event_addUserBtnActionPerformed
@@ -384,6 +385,7 @@ public class MainForm extends javax.swing.JFrame {
         if(!StockForm.isExists()){
             StockForm cf = new StockForm();
             mainPanel.add(cf);
+            cf.setLocation(mainPanel.getSize().width/2 - cf.getSize().width/2, mainPanel.getSize().height/2 - cf.getSize().height/2);
             cf.show();
         }
     }//GEN-LAST:event_addToStockBtnActionPerformed
@@ -392,6 +394,7 @@ public class MainForm extends javax.swing.JFrame {
         if (!CustomerForm.isExists()) {
             CustomerForm cf = new CustomerForm();
             mainPanel.add(cf);
+            cf.setLocation(mainPanel.getSize().width/2 - cf.getSize().width/2, mainPanel.getSize().height/2 - cf.getSize().height/2);
             cf.show();
         }
     }//GEN-LAST:event_addCostumerBtnActionPerformed
@@ -410,6 +413,7 @@ public class MainForm extends javax.swing.JFrame {
         if (!ClassificationForm.isExists()) {
             ClassificationForm cf = new ClassificationForm();
             mainPanel.add(cf);
+            cf.setLocation(mainPanel.getSize().width/2 - cf.getSize().width/2, mainPanel.getSize().height/2 - cf.getSize().height/2);
             cf.show();
         }
     }//GEN-LAST:event_addClassificationBtnActionPerformed
@@ -418,6 +422,7 @@ public class MainForm extends javax.swing.JFrame {
         if (!MedicineForm.isExists()) {
             MedicineForm mf = new MedicineForm();
             mainPanel.add(mf);
+            mf.setLocation(mainPanel.getSize().width/2 - mf.getSize().width/2, mainPanel.getSize().height/2 - mf.getSize().height/2);
             mf.show();
         }
     }//GEN-LAST:event_addMedicineBtnActionPerformed
@@ -426,6 +431,7 @@ public class MainForm extends javax.swing.JFrame {
         if (!SupplierForm.isExists()) {
             SupplierForm sf = new SupplierForm();
             mainPanel.add(sf);
+            sf.setLocation(mainPanel.getSize().width/2 - sf.getSize().width/2, mainPanel.getSize().height/2 - sf.getSize().height/2);
             sf.show();
         }
     }//GEN-LAST:event_supplierBtnActionPerformed
@@ -436,6 +442,7 @@ public class MainForm extends javax.swing.JFrame {
             try {
                 POSForm pf = new POSForm();
                 mainPanel.add(pf);
+                pf.setLocation(mainPanel.getSize().width/2 - pf.getSize().width/2, mainPanel.getSize().height/2 - pf.getSize().height/2);
                 pf.show();
             } catch (PharmacyException ex) {
                 Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
@@ -449,6 +456,7 @@ public class MainForm extends javax.swing.JFrame {
         if(!SalesForm.isExists()){
             SalesForm sf = new SalesForm();
             mainPanel.add(sf);
+            sf.setLocation(mainPanel.getSize().width/2 - sf.getSize().width/2, mainPanel.getSize().height/2 - sf.getSize().height/2);
             sf.show();
         }
     }//GEN-LAST:event_salesBtnActionPerformed
@@ -457,6 +465,7 @@ public class MainForm extends javax.swing.JFrame {
         if(!OrderForm.isExists()){
             OrderForm of = new OrderForm();
             mainPanel.add(of);
+            of.setLocation(mainPanel.getSize().width/2 - of.getSize().width/2, mainPanel.getSize().height/2 - of.getSize().height/2);
             of.show();
         }
     }//GEN-LAST:event_orderBtnActionPerformed
