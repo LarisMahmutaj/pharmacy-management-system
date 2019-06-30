@@ -6,7 +6,7 @@
 package DAL;
 
 import BLL.Invoice;
-import java.util.Date;
+import BLL.Sales;
 import java.util.List;
 import javax.persistence.Query;
 
@@ -14,10 +14,10 @@ import javax.persistence.Query;
  *
  * @author Laris
  */
-public class InvoiceRepository extends EntMngClass implements InvoiceInterface {
+public class SalesRepository extends EntMngClass implements SalesInterface {
 
     @Override
-    public void create(Invoice p) throws PharmacyException {
+    public void create(Sales p) throws PharmacyException {
         try {
             em.getTransaction().begin();
             em.persist(p);
@@ -28,7 +28,7 @@ public class InvoiceRepository extends EntMngClass implements InvoiceInterface {
     }
 
     @Override
-    public void edit(Invoice p) throws PharmacyException {
+    public void edit(Sales p) throws PharmacyException {
         try {
             em.getTransaction().begin();
             em.merge(p);
@@ -39,7 +39,7 @@ public class InvoiceRepository extends EntMngClass implements InvoiceInterface {
     }
 
     @Override
-    public void delete(Invoice p) throws PharmacyException {
+    public void delete(Sales p) throws PharmacyException {
         try {
             em.getTransaction().begin();
             em.remove(p);
@@ -50,33 +50,32 @@ public class InvoiceRepository extends EntMngClass implements InvoiceInterface {
     }
 
     @Override
-    public List<Invoice> findAll() throws PharmacyException {
+    public List<Sales> findAll() throws PharmacyException {
         try {
-            return em.createNamedQuery("Invoice.findAll").getResultList();
+            return em.createNamedQuery("Sales.findAll").getResultList();
         } catch (Exception e) {
             throw new PharmacyException("Msg! \n" + e.getMessage());
         }
     }
 
     @Override
-    public Invoice findByID(Integer ID) throws PharmacyException {
+    public Sales findByID(Integer SalesID) throws PharmacyException {
         try {
-            Query q = em.createQuery("Select p from Invoice p where p.id=:id");
-            q.setParameter("id", ID);
-            return (Invoice) q.getSingleResult();
+            Query q = em.createQuery("SELECT p FROM Sales p WHERE p.statusID = :SalesID");
+            q.setParameter("SalesID", SalesID);
+            return (Sales) q.getSingleResult();
         } catch (Exception e) {
             throw new PharmacyException("Msg! \n" + e.getMessage());
         }
     }
     
-    public List<Invoice> findByDate(Date date) throws PharmacyException{
+    public Sales findByInvoiceId(Invoice invoiceId)throws PharmacyException{
         try{
-         Query q = em.createQuery("SELECT p FROM Invoice p WHERE p.date=:date");
-         q.setParameter("date", date);
-         return q.getResultList();
+            Query q = em.createQuery("SELECT s FROM Sales s WHERE s.invoiceID = :invoiceId");
+            q.setParameter("invoiceId", invoiceId);
+            return (Sales)q.getSingleResult();
         }catch(Exception e){
             throw new PharmacyException("Msg! \n" + e.getMessage());
         }
     }
-    
 }

@@ -10,6 +10,7 @@ import DAL.PharmacyException;
 import DAL.PerdoruesiRepository;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
 
 /**
@@ -17,8 +18,9 @@ import javax.swing.JOptionPane;
  * @author Laris
  */
 public class LoginForm extends javax.swing.JFrame {
-    
+
     private static String username;
+
     /**
      * Creates new form LoginForm
      */
@@ -27,8 +29,8 @@ public class LoginForm extends javax.swing.JFrame {
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
     }
-    
-    public static String getUsername(){
+
+    public static String getUsername() {
         return username;
     }
 
@@ -56,8 +58,18 @@ public class LoginForm extends javax.swing.JFrame {
                 usernameTxtActionPerformed(evt);
             }
         });
+        usernameTxt.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                usernameTxtKeyPressed(evt);
+            }
+        });
 
         passwordPwd.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        passwordPwd.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                passwordPwdKeyPressed(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel1.setText("Username:");
@@ -118,21 +130,59 @@ public class LoginForm extends javax.swing.JFrame {
     }//GEN-LAST:event_usernameTxtActionPerformed
 
     private void loginBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginBtnActionPerformed
-        try{
+        try {
             String username = usernameTxt.getText();
             String password = new String(passwordPwd.getPassword());
             PerdoruesiRepository up = new PerdoruesiRepository();
             Perdoruesi u = up.loginByUsernameAndPassword(username, password);
-            
-            if(u!=null){
+
+            if (u != null) {
                 this.username = username;
                 new MainForm(u.getRoleID()).setVisible(true);
                 this.setVisible(false);
             }
-        }catch(PharmacyException pe){
+        } catch (PharmacyException pe) {
             JOptionPane.showMessageDialog(this, "Username or password incorrect.");
         }
     }//GEN-LAST:event_loginBtnActionPerformed
+
+    private void passwordPwdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_passwordPwdKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            try {
+                String username = usernameTxt.getText();
+                String password = new String(passwordPwd.getPassword());
+                PerdoruesiRepository up = new PerdoruesiRepository();
+                Perdoruesi u = up.loginByUsernameAndPassword(username, password);
+
+                if (u != null) {
+                    this.username = username;
+                    new MainForm(u.getRoleID()).setVisible(true);
+                    this.setVisible(false);
+                }
+            } catch (PharmacyException pe) {
+                JOptionPane.showMessageDialog(this, "Username or password incorrect.");
+            }
+        }
+    }//GEN-LAST:event_passwordPwdKeyPressed
+
+    private void usernameTxtKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_usernameTxtKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            try {
+                String username = usernameTxt.getText();
+                String password = new String(passwordPwd.getPassword());
+                PerdoruesiRepository up = new PerdoruesiRepository();
+                Perdoruesi u = up.loginByUsernameAndPassword(username, password);
+
+                if (u != null) {
+                    this.username = username;
+                    new MainForm(u.getRoleID()).setVisible(true);
+                    this.setVisible(false);
+                }
+            } catch (PharmacyException pe) {
+                JOptionPane.showMessageDialog(this, "Username or password incorrect.");
+            }
+        }
+    }//GEN-LAST:event_usernameTxtKeyPressed
 
     /**
      * @param args the command line arguments

@@ -86,14 +86,14 @@ public class SalesForm extends javax.swing.JInternalFrame {
                         for (int x = 0; x < items.size(); x++) {
                             Item item = (Item) it.next();
                             str += (x + 1) + ":        " + item + "\n";
-                            total += item.getMedicineID().getPrice();
+                            total += item.getMedicineID().getPrice() * item.getQuantity();
                         }
 
                         textArea.setText("Pharmacy Management System \n"
                                 + "Invoice:" + i.getInvoiceID() + "\n"
-                                + "-------------------------------------------------------\n"
+                                + "----------------------------------------------------------------------------------------------------------------------------\n"
                                 + str
-                                + "-------------------------------------------------------\n"
+                                + "----------------------------------------------------------------------------------------------------------------------------\n"
                                 + "Total:   " + total + "€"
                                 + "\nArticles: " + items.size()
                                 + "\nDate: " + i.getSimpleDate() + "\n");

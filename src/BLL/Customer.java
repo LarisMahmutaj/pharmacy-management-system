@@ -118,7 +118,7 @@ public class Customer implements Serializable {
     @Override
     public String toString() {
         if(!name.equals("Guest")){
-            return name + ", +" + phoneNumber;
+            return name + ", " + phoneNumber;
         }else{
             return name;
         }

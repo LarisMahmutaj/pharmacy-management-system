@@ -5,17 +5,25 @@
  */
 package GUI.View;
 
+import BLL.Invoice;
 import BLL.Role;
-import BLL.Status;
+import BLL.Sales;
 import BLL.Stock;
+import DAL.InvoiceRepository;
 import DAL.PharmacyException;
+import DAL.SalesRepository;
 import DAL.StatusRepository;
 import DAL.StockRepository;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Iterator;
 import java.util.List;
@@ -31,6 +39,9 @@ public class MainForm extends javax.swing.JFrame {
 
     StockRepository sr = new StockRepository();
     StatusRepository statusR = new StatusRepository();
+    InvoiceRepository ir = new InvoiceRepository();
+    SalesRepository salesRep = new SalesRepository();
+
     /**
      * Creates new form MainForm
      */
@@ -101,6 +112,7 @@ public class MainForm extends javax.swing.JFrame {
         addClassificationBtn = new javax.swing.JButton();
         supplierBtn = new javax.swing.JButton();
         addUserBtn = new javax.swing.JButton();
+        generateReportBtn = new javax.swing.JButton();
 
         jPasswordField1.setText("jPasswordField1");
 
@@ -302,6 +314,19 @@ public class MainForm extends javax.swing.JFrame {
             }
         });
 
+        generateReportBtn.setBackground(new java.awt.Color(0, 0, 0));
+        generateReportBtn.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        generateReportBtn.setForeground(new java.awt.Color(255, 255, 255));
+        generateReportBtn.setText("Generate Report");
+        generateReportBtn.setBorder(null);
+        generateReportBtn.setDefaultCapable(false);
+        generateReportBtn.setFocusPainted(false);
+        generateReportBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                generateReportBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -319,7 +344,8 @@ public class MainForm extends javax.swing.JFrame {
                         .addComponent(addMedicineBtn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(orderBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(posBtn1, javax.swing.GroupLayout.DEFAULT_SIZE, 288, Short.MAX_VALUE)
-                        .addComponent(salesBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 288, Short.MAX_VALUE)))
+                        .addComponent(salesBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 288, Short.MAX_VALUE))
+                    .addComponent(generateReportBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(24, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -344,6 +370,8 @@ public class MainForm extends javax.swing.JFrame {
                 .addComponent(supplierBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(addUserBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(generateReportBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
@@ -364,9 +392,7 @@ public class MainForm extends javax.swing.JFrame {
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(mainPanel))
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(0, 0, 0))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -376,16 +402,16 @@ public class MainForm extends javax.swing.JFrame {
         if (!(UserForm.getExists() == true)) {
             UserForm uf = new UserForm();
             mainPanel.add(uf);
-            uf.setLocation(mainPanel.getSize().width/2 - uf.getSize().width/2, mainPanel.getSize().height/2 - uf.getSize().height/2);
+            uf.setLocation(mainPanel.getSize().width / 2 - uf.getSize().width / 2, mainPanel.getSize().height / 2 - uf.getSize().height / 2);
             uf.show();
         }
     }//GEN-LAST:event_addUserBtnActionPerformed
 
     private void addToStockBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addToStockBtnActionPerformed
-        if(!StockForm.isExists()){
+        if (!StockForm.isExists()) {
             StockForm cf = new StockForm();
             mainPanel.add(cf);
-            cf.setLocation(mainPanel.getSize().width/2 - cf.getSize().width/2, mainPanel.getSize().height/2 - cf.getSize().height/2);
+            cf.setLocation(mainPanel.getSize().width / 2 - cf.getSize().width / 2, mainPanel.getSize().height / 2 - cf.getSize().height / 2);
             cf.show();
         }
     }//GEN-LAST:event_addToStockBtnActionPerformed
@@ -394,7 +420,7 @@ public class MainForm extends javax.swing.JFrame {
         if (!CustomerForm.isExists()) {
             CustomerForm cf = new CustomerForm();
             mainPanel.add(cf);
-            cf.setLocation(mainPanel.getSize().width/2 - cf.getSize().width/2, mainPanel.getSize().height/2 - cf.getSize().height/2);
+            cf.setLocation(mainPanel.getSize().width / 2 - cf.getSize().width / 2, mainPanel.getSize().height / 2 - cf.getSize().height / 2);
             cf.show();
         }
     }//GEN-LAST:event_addCostumerBtnActionPerformed
@@ -413,7 +439,7 @@ public class MainForm extends javax.swing.JFrame {
         if (!ClassificationForm.isExists()) {
             ClassificationForm cf = new ClassificationForm();
             mainPanel.add(cf);
-            cf.setLocation(mainPanel.getSize().width/2 - cf.getSize().width/2, mainPanel.getSize().height/2 - cf.getSize().height/2);
+            cf.setLocation(mainPanel.getSize().width / 2 - cf.getSize().width / 2, mainPanel.getSize().height / 2 - cf.getSize().height / 2);
             cf.show();
         }
     }//GEN-LAST:event_addClassificationBtnActionPerformed
@@ -422,7 +448,7 @@ public class MainForm extends javax.swing.JFrame {
         if (!MedicineForm.isExists()) {
             MedicineForm mf = new MedicineForm();
             mainPanel.add(mf);
-            mf.setLocation(mainPanel.getSize().width/2 - mf.getSize().width/2, mainPanel.getSize().height/2 - mf.getSize().height/2);
+            mf.setLocation(mainPanel.getSize().width / 2 - mf.getSize().width / 2, mainPanel.getSize().height / 2 - mf.getSize().height / 2);
             mf.show();
         }
     }//GEN-LAST:event_addMedicineBtnActionPerformed
@@ -431,18 +457,18 @@ public class MainForm extends javax.swing.JFrame {
         if (!SupplierForm.isExists()) {
             SupplierForm sf = new SupplierForm();
             mainPanel.add(sf);
-            sf.setLocation(mainPanel.getSize().width/2 - sf.getSize().width/2, mainPanel.getSize().height/2 - sf.getSize().height/2);
+            sf.setLocation(mainPanel.getSize().width / 2 - sf.getSize().width / 2, mainPanel.getSize().height / 2 - sf.getSize().height / 2);
             sf.show();
         }
     }//GEN-LAST:event_supplierBtnActionPerformed
 
     private void posBtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_posBtn1ActionPerformed
         // TODO add your handling code here:
-        if(!POSForm.isExists()){
+        if (!POSForm.isExists()) {
             try {
                 POSForm pf = new POSForm();
                 mainPanel.add(pf);
-                pf.setLocation(mainPanel.getSize().width/2 - pf.getSize().width/2, mainPanel.getSize().height/2 - pf.getSize().height/2);
+                pf.setLocation(mainPanel.getSize().width / 2 - pf.getSize().width / 2, mainPanel.getSize().height / 2 - pf.getSize().height / 2);
                 pf.show();
             } catch (PharmacyException ex) {
                 Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
@@ -453,30 +479,83 @@ public class MainForm extends javax.swing.JFrame {
     }//GEN-LAST:event_posBtn1ActionPerformed
 
     private void salesBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salesBtnActionPerformed
-        if(!SalesForm.isExists()){
+        if (!SalesForm.isExists()) {
             SalesForm sf = new SalesForm();
             mainPanel.add(sf);
-            sf.setLocation(mainPanel.getSize().width/2 - sf.getSize().width/2, mainPanel.getSize().height/2 - sf.getSize().height/2);
+            sf.setLocation(mainPanel.getSize().width / 2 - sf.getSize().width / 2, mainPanel.getSize().height / 2 - sf.getSize().height / 2);
             sf.show();
         }
     }//GEN-LAST:event_salesBtnActionPerformed
 
     private void orderBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_orderBtnActionPerformed
-        if(!OrderForm.isExists()){
+        if (!OrderForm.isExists()) {
             OrderForm of = new OrderForm();
             mainPanel.add(of);
-            of.setLocation(mainPanel.getSize().width/2 - of.getSize().width/2, mainPanel.getSize().height/2 - of.getSize().height/2);
+            of.setLocation(mainPanel.getSize().width / 2 - of.getSize().width / 2, mainPanel.getSize().height / 2 - of.getSize().height / 2);
             of.show();
         }
     }//GEN-LAST:event_orderBtnActionPerformed
 
-    public void refreshStock(){
+    private void generateReportBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generateReportBtnActionPerformed
+        try {
+            SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
+            String strDate = formatter.format(Date.valueOf(LocalDate.now()));
+            File folder = new File("C://PMS Reports");
+            if(!folder.exists()){
+                folder.mkdir();
+            }
+            File file = new File("C://PMS Reports//" + strDate + ".txt");
+
+            if (!file.exists()) {
+                file.createNewFile();
+                FileWriter fw = new FileWriter(file, true);
+                PrintWriter pw = new PrintWriter(fw);
+
+                List<Invoice> invoiceList = ir.findByDate(Date.valueOf(LocalDate.now()));
+                Iterator it = invoiceList.iterator();
+                for (int i = 0; i < invoiceList.size(); i++) {
+                    Invoice invoice = (Invoice) it.next();
+                    Sales sale = salesRep.findByInvoiceId(invoice);
+                    pw.println(sale.toString());
+                }
+                pw.close();
+                JOptionPane.showMessageDialog(this, "Report generated succesfully");
+            } else {
+                Object[] option = {"Yes", "No"};
+                int x = JOptionPane.showOptionDialog(this, "Report already exists. Do you wish to re-create the report?",
+                        "Re-create", JOptionPane.OK_OPTION, JOptionPane.QUESTION_MESSAGE, null, option, option[0]);
+                if (x == 0) {
+                    file.delete();
+                    file.createNewFile();
+                    FileWriter fw = new FileWriter(file, true);
+                    PrintWriter pw = new PrintWriter(fw);
+
+                    List<Invoice> invoiceList = ir.findByDate(Date.valueOf(LocalDate.now()));
+                    Iterator it = invoiceList.iterator();
+                    for (int i = 0; i < invoiceList.size(); i++) {
+                        Invoice invoice = (Invoice) it.next();
+                        Sales sale = salesRep.findByInvoiceId(invoice);
+                        pw.println(sale.toString());
+                    }
+                    pw.close();
+                    JOptionPane.showMessageDialog(this, "Report generated succesfully");
+                }
+            }
+
+        } catch (PharmacyException ex) {
+            Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_generateReportBtnActionPerformed
+
+    public void refreshStock() {
         try {
             List<Stock> list = sr.findAll();
             Iterator it = list.iterator();
-            for(int i=0; i<list.size();i++){
-                Stock listItem = (Stock)it.next();
-                if(listItem.getExpiryDate().before(Date.valueOf(LocalDate.now()))){
+            for (int i = 0; i < list.size(); i++) {
+                Stock listItem = (Stock) it.next();
+                if (listItem.getExpiryDate().before(Date.valueOf(LocalDate.now()))) {
                     listItem.setStatusID(statusR.findByID(2));
                     sr.edit(listItem);
                 }
@@ -495,6 +574,7 @@ public class MainForm extends javax.swing.JFrame {
     private javax.swing.JButton addMedicineBtn;
     private javax.swing.JButton addToStockBtn;
     private javax.swing.JButton addUserBtn;
+    private javax.swing.JButton generateReportBtn;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
