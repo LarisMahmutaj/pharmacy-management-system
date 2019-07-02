@@ -429,6 +429,7 @@ public class SupplierForm extends javax.swing.JInternalFrame {
         addressTxt.setText("");
         phoneNumberTxt.setText("");
         emailTxt.setText("");
+        table.clearSelection();
     }
     
     

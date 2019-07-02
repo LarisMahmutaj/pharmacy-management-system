@@ -383,6 +383,7 @@ public class CustomerForm extends javax.swing.JInternalFrame {
         nameTxt.setText("");
         addressTxt.setText("");
         phoneNumberTxt.setText("");
+        table.clearSelection();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

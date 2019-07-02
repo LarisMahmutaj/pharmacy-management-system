@@ -453,6 +453,7 @@ public class StockForm extends javax.swing.JInternalFrame {
         statusTxt.setText("");
 //        statusComboBox.setSelectedIndex(-1);
         quantityTxt.setText("");
+        table.clearSelection();
     }
 
     public void loadComboBoxes() {

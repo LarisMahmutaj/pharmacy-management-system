@@ -6,14 +6,18 @@
 package GUI.View;
 
 import BLL.Invoice;
+import BLL.Orders;
 import BLL.Role;
 import BLL.Sales;
 import BLL.Stock;
+import BLL.Supplier;
 import DAL.InvoiceRepository;
+import DAL.OrderRepository;
 import DAL.PharmacyException;
 import DAL.SalesRepository;
 import DAL.StatusRepository;
 import DAL.StockRepository;
+import DAL.SupplierRepository;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
@@ -41,7 +45,8 @@ public class MainForm extends javax.swing.JFrame {
     StatusRepository statusR = new StatusRepository();
     InvoiceRepository ir = new InvoiceRepository();
     SalesRepository salesRep = new SalesRepository();
-
+    SupplierRepository supRep = new SupplierRepository();
+    OrderRepository or = new OrderRepository();
     /**
      * Creates new form MainForm
      */
@@ -56,6 +61,7 @@ public class MainForm extends javax.swing.JFrame {
         setExtendedState(MAXIMIZED_BOTH);
         refreshStock();
         if (role.getRoleID() != 1) {
+            stockBtn.setVisible(false);
             addUserBtn.setVisible(false);
             addClassificationBtn.setVisible(false);
             addMedicineBtn.setVisible(false);
@@ -108,10 +114,11 @@ public class MainForm extends javax.swing.JFrame {
         orderBtn = new javax.swing.JButton();
         addMedicineBtn = new javax.swing.JButton();
         addCostumerBtn = new javax.swing.JButton();
-        addToStockBtn = new javax.swing.JButton();
+        stockBtn = new javax.swing.JButton();
         addClassificationBtn = new javax.swing.JButton();
         supplierBtn = new javax.swing.JButton();
         addUserBtn = new javax.swing.JButton();
+        processOrdersBtn = new javax.swing.JButton();
         generateReportBtn = new javax.swing.JButton();
 
         jPasswordField1.setText("jPasswordField1");
@@ -165,7 +172,7 @@ public class MainForm extends javax.swing.JFrame {
         mainPanel.setLayout(mainPanelLayout);
         mainPanelLayout.setHorizontalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 1554, Short.MAX_VALUE)
         );
         mainPanelLayout.setVerticalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -197,9 +204,9 @@ public class MainForm extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        posBtn1.setBackground(new java.awt.Color(0, 0, 0));
+        posBtn1.setBackground(new java.awt.Color(204, 204, 255));
         posBtn1.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
-        posBtn1.setForeground(new java.awt.Color(255, 255, 255));
+        posBtn1.setForeground(new java.awt.Color(51, 51, 51));
         posBtn1.setText("POS");
         posBtn1.setToolTipText("Poin Of Sale");
         posBtn1.setBorder(null);
@@ -210,9 +217,9 @@ public class MainForm extends javax.swing.JFrame {
             }
         });
 
-        salesBtn.setBackground(new java.awt.Color(0, 0, 0));
+        salesBtn.setBackground(new java.awt.Color(204, 204, 255));
         salesBtn.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
-        salesBtn.setForeground(new java.awt.Color(255, 255, 255));
+        salesBtn.setForeground(new java.awt.Color(51, 51, 51));
         salesBtn.setText("Sales");
         salesBtn.setBorder(null);
         salesBtn.setDefaultCapable(false);
@@ -223,9 +230,9 @@ public class MainForm extends javax.swing.JFrame {
             }
         });
 
-        orderBtn.setBackground(new java.awt.Color(0, 0, 0));
+        orderBtn.setBackground(new java.awt.Color(204, 204, 255));
         orderBtn.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
-        orderBtn.setForeground(new java.awt.Color(255, 255, 255));
+        orderBtn.setForeground(new java.awt.Color(51, 51, 51));
         orderBtn.setText("Order");
         orderBtn.setBorder(null);
         orderBtn.setDefaultCapable(false);
@@ -236,9 +243,9 @@ public class MainForm extends javax.swing.JFrame {
             }
         });
 
-        addMedicineBtn.setBackground(new java.awt.Color(0, 0, 0));
+        addMedicineBtn.setBackground(new java.awt.Color(204, 204, 255));
         addMedicineBtn.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
-        addMedicineBtn.setForeground(new java.awt.Color(255, 255, 255));
+        addMedicineBtn.setForeground(new java.awt.Color(51, 51, 51));
         addMedicineBtn.setText("Medicine");
         addMedicineBtn.setBorder(null);
         addMedicineBtn.setDefaultCapable(false);
@@ -249,9 +256,9 @@ public class MainForm extends javax.swing.JFrame {
             }
         });
 
-        addCostumerBtn.setBackground(new java.awt.Color(0, 0, 0));
+        addCostumerBtn.setBackground(new java.awt.Color(204, 204, 255));
         addCostumerBtn.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
-        addCostumerBtn.setForeground(new java.awt.Color(255, 255, 255));
+        addCostumerBtn.setForeground(new java.awt.Color(51, 51, 51));
         addCostumerBtn.setText("Customers");
         addCostumerBtn.setBorder(null);
         addCostumerBtn.setDefaultCapable(false);
@@ -262,22 +269,22 @@ public class MainForm extends javax.swing.JFrame {
             }
         });
 
-        addToStockBtn.setBackground(new java.awt.Color(0, 0, 0));
-        addToStockBtn.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
-        addToStockBtn.setForeground(new java.awt.Color(255, 255, 255));
-        addToStockBtn.setText("Stock");
-        addToStockBtn.setBorder(null);
-        addToStockBtn.setDefaultCapable(false);
-        addToStockBtn.setFocusPainted(false);
-        addToStockBtn.addActionListener(new java.awt.event.ActionListener() {
+        stockBtn.setBackground(new java.awt.Color(204, 204, 255));
+        stockBtn.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        stockBtn.setForeground(new java.awt.Color(51, 51, 51));
+        stockBtn.setText("Stock");
+        stockBtn.setBorder(null);
+        stockBtn.setDefaultCapable(false);
+        stockBtn.setFocusPainted(false);
+        stockBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addToStockBtnActionPerformed(evt);
+                stockBtnActionPerformed(evt);
             }
         });
 
-        addClassificationBtn.setBackground(new java.awt.Color(0, 0, 0));
+        addClassificationBtn.setBackground(new java.awt.Color(204, 204, 255));
         addClassificationBtn.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
-        addClassificationBtn.setForeground(new java.awt.Color(255, 255, 255));
+        addClassificationBtn.setForeground(new java.awt.Color(51, 51, 51));
         addClassificationBtn.setText("Classifications");
         addClassificationBtn.setBorder(null);
         addClassificationBtn.setDefaultCapable(false);
@@ -288,9 +295,9 @@ public class MainForm extends javax.swing.JFrame {
             }
         });
 
-        supplierBtn.setBackground(new java.awt.Color(0, 0, 0));
+        supplierBtn.setBackground(new java.awt.Color(204, 204, 255));
         supplierBtn.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
-        supplierBtn.setForeground(new java.awt.Color(255, 255, 255));
+        supplierBtn.setForeground(new java.awt.Color(51, 51, 51));
         supplierBtn.setText("Suppliers");
         supplierBtn.setBorder(null);
         supplierBtn.setDefaultCapable(false);
@@ -301,9 +308,9 @@ public class MainForm extends javax.swing.JFrame {
             }
         });
 
-        addUserBtn.setBackground(new java.awt.Color(0, 0, 0));
+        addUserBtn.setBackground(new java.awt.Color(204, 204, 255));
         addUserBtn.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
-        addUserBtn.setForeground(new java.awt.Color(255, 255, 255));
+        addUserBtn.setForeground(new java.awt.Color(51, 51, 51));
         addUserBtn.setText("Users");
         addUserBtn.setBorder(null);
         addUserBtn.setDefaultCapable(false);
@@ -314,9 +321,22 @@ public class MainForm extends javax.swing.JFrame {
             }
         });
 
-        generateReportBtn.setBackground(new java.awt.Color(0, 0, 0));
+        processOrdersBtn.setBackground(new java.awt.Color(204, 204, 255));
+        processOrdersBtn.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        processOrdersBtn.setForeground(new java.awt.Color(51, 51, 51));
+        processOrdersBtn.setText("Process Orders");
+        processOrdersBtn.setBorder(null);
+        processOrdersBtn.setDefaultCapable(false);
+        processOrdersBtn.setFocusPainted(false);
+        processOrdersBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                processOrdersBtnActionPerformed(evt);
+            }
+        });
+
+        generateReportBtn.setBackground(new java.awt.Color(204, 204, 255));
         generateReportBtn.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
-        generateReportBtn.setForeground(new java.awt.Color(255, 255, 255));
+        generateReportBtn.setForeground(new java.awt.Color(51, 51, 51));
         generateReportBtn.setText("Generate Report");
         generateReportBtn.setBorder(null);
         generateReportBtn.setDefaultCapable(false);
@@ -335,17 +355,18 @@ public class MainForm extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(24, 24, 24)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(addUserBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(supplierBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(generateReportBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(processOrdersBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(addUserBtn, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(supplierBtn, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(addClassificationBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(addToStockBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(stockBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(addCostumerBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(addMedicineBtn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(orderBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(posBtn1, javax.swing.GroupLayout.DEFAULT_SIZE, 288, Short.MAX_VALUE)
-                        .addComponent(salesBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 288, Short.MAX_VALUE))
-                    .addComponent(generateReportBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(salesBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 288, Short.MAX_VALUE)))
                 .addContainerGap(24, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -361,7 +382,11 @@ public class MainForm extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(addCostumerBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(addToStockBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(processOrdersBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(generateReportBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(stockBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(addMedicineBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -370,9 +395,7 @@ public class MainForm extends javax.swing.JFrame {
                 .addComponent(supplierBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(addUserBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(generateReportBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -407,14 +430,14 @@ public class MainForm extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_addUserBtnActionPerformed
 
-    private void addToStockBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addToStockBtnActionPerformed
+    private void stockBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stockBtnActionPerformed
         if (!StockForm.isExists()) {
             StockForm cf = new StockForm();
             mainPanel.add(cf);
             cf.setLocation(mainPanel.getSize().width / 2 - cf.getSize().width / 2, mainPanel.getSize().height / 2 - cf.getSize().height / 2);
             cf.show();
         }
-    }//GEN-LAST:event_addToStockBtnActionPerformed
+    }//GEN-LAST:event_stockBtnActionPerformed
 
     private void addCostumerBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addCostumerBtnActionPerformed
         if (!CustomerForm.isExists()) {
@@ -501,7 +524,7 @@ public class MainForm extends javax.swing.JFrame {
             SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
             String strDate = formatter.format(Date.valueOf(LocalDate.now()));
             File folder = new File("C://PMS Reports");
-            if(!folder.exists()){
+            if (!folder.exists()) {
                 folder.mkdir();
             }
             File file = new File("C://PMS Reports//" + strDate + ".txt");
@@ -549,6 +572,47 @@ public class MainForm extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_generateReportBtnActionPerformed
 
+    private void processOrdersBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_processOrdersBtnActionPerformed
+        try {
+            File folder = new File("C://PMS Orders");
+            if (!folder.exists()) {
+                folder.mkdir();
+            }
+        
+            List<Supplier> supplierList = supRep.findAll();
+            Iterator it = supplierList.iterator();
+            
+            for(int i=0; i<supplierList.size(); i++){
+                Supplier supplier = (Supplier)it.next();
+                File file = new File("C://PMS Orders//"+ supplier.getName() +".txt");
+                if(!file.exists()){
+                    file.createNewFile();
+                }
+                FileWriter fw = new FileWriter(file);
+                PrintWriter pw = new PrintWriter(fw);
+                List<Orders> orderList = or.findBySupplierID(supplier);
+                Iterator orderIt = orderList.iterator();
+                double total = 0;
+                pw.println("Supplier: " + supplier.getName() 
+                        +"\n---------------------------------------------------------------------------------------------");
+                for(int j=0; j<orderList.size();j++){
+                    Orders order = (Orders)orderIt.next();
+                    pw.println(order.toString());
+                    total+=order.getPrice();
+                }
+                pw.println("---------------------------------------------------------------------------------------------"+
+                        "\nTotal: "+ total +"€");
+                pw.close();
+            }
+            JOptionPane.showMessageDialog(this, "Orders generated successfully");
+        } catch (PharmacyException ex) {
+            Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }//GEN-LAST:event_processOrdersBtnActionPerformed
+
     public void refreshStock() {
         try {
             List<Stock> list = sr.findAll();
@@ -572,7 +636,6 @@ public class MainForm extends javax.swing.JFrame {
     private javax.swing.JButton addClassificationBtn;
     private javax.swing.JButton addCostumerBtn;
     private javax.swing.JButton addMedicineBtn;
-    private javax.swing.JButton addToStockBtn;
     private javax.swing.JButton addUserBtn;
     private javax.swing.JButton generateReportBtn;
     private javax.swing.JLabel jLabel2;
@@ -586,7 +649,9 @@ public class MainForm extends javax.swing.JFrame {
     private javax.swing.JLayeredPane mainPanel;
     private javax.swing.JButton orderBtn;
     private javax.swing.JButton posBtn1;
+    private javax.swing.JButton processOrdersBtn;
     private javax.swing.JButton salesBtn;
+    private javax.swing.JButton stockBtn;
     private javax.swing.JButton supplierBtn;
     // End of variables declaration//GEN-END:variables
 

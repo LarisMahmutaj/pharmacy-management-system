@@ -16,7 +16,12 @@ import gui.Model.MedicineComboBoxModel;
 import gui.Model.OrderTableModel;
 import gui.Model.SupplierComboBoxModel;
 import java.beans.PropertyVetoException;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.logging.Level;
@@ -33,7 +38,7 @@ import javax.swing.event.ListSelectionListener;
 public class OrderForm extends javax.swing.JInternalFrame {
 
     private static boolean exists = false;
-    
+
     OrderRepository or = new OrderRepository();
     OrderTableModel otm = new OrderTableModel();
 
@@ -288,19 +293,19 @@ public class OrderForm extends javax.swing.JInternalFrame {
                 Orders o = new Orders();
                 o.setSupplierID((Supplier) supplierComboBox.getSelectedItem());
                 o.setMedicineID((Medicine) medicineComboBox.getSelectedItem());
-                o.setOrderDate(Date.valueOf(LocalDate.now()));            
+                o.setOrderDate(Date.valueOf(LocalDate.now()));
                 try {
                     o.setPrice(((Medicine) medicineComboBox.getSelectedItem()).getPrice() * Integer.parseInt(quantityTxt.getText()));
-                    if(quantityTxt.getText().matches("^[1-9]\\d*$")){
+                    if (quantityTxt.getText().matches("^[1-9]\\d*$")) {
                         o.setQuantity(Integer.parseInt(quantityTxt.getText()));
-                    }else{
+                    } else {
                         JOptionPane.showMessageDialog(this, "Please enter a valid quantity!");
                         return;
-                    }                   
+                    }
                     or.create(o);
                 } catch (PharmacyException ex) {
                     JOptionPane.showMessageDialog(this, "MSG: " + ex.getMessage());
-                }   catch(NumberFormatException ex){
+                } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(this, "Please enter a valid quantity!");
                     return;
                 }
@@ -309,28 +314,52 @@ public class OrderForm extends javax.swing.JInternalFrame {
                 o.setSupplierID((Supplier) supplierComboBox.getSelectedItem());
                 o.setMedicineID((Medicine) medicineComboBox.getSelectedItem());
                 o.setOrderDate(Date.valueOf(LocalDate.now()));
-                try{
-                    if(quantityTxt.getText().matches("^[1-9]\\d*$")){
+                try {
+                    if (quantityTxt.getText().matches("^[1-9]\\d*$")) {
                         o.setQuantity(Integer.parseInt(quantityTxt.getText()));
-                    }else{
+                    } else {
                         JOptionPane.showMessageDialog(this, "Please enter a valid quantity!");
                         return;
                     }
                     o.setPrice(((Medicine) medicineComboBox.getSelectedItem()).getPrice() * Integer.parseInt(quantityTxt.getText()));
                     or.edit(o);
-                }catch(PharmacyException ex){
+                } catch (PharmacyException ex) {
                     JOptionPane.showMessageDialog(this, "MSG: " + ex.getMessage());
-                }catch(NumberFormatException ex){
+                } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(this, "Please enter a valid quantity!");
                     return;
                 }
             }
             loadTable();
             clear();
-        }else{
+        } else {
             JOptionPane.showMessageDialog(this, "Please fill in required fields!");
         }
     }//GEN-LAST:event_saveBtnActionPerformed
+
+    public void printOrderInvoice(Orders o) {
+        try {
+            Supplier supplier = o.getSupplierID();
+            SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
+            String strDate = formatter.format(Date.valueOf(LocalDate.now()));
+            File folder = new File("C://PMS Orders");
+            if (!folder.exists()) {
+                folder.mkdir();
+            }
+            File file = new File("C://PMS Orders//" + " - " + supplier.getName() + ".txt");
+            if (!file.exists()) {
+                file.createNewFile();
+            }    
+            FileWriter fw = new FileWriter(file, true);
+            PrintWriter pw = new PrintWriter(fw);
+            
+            pw.println(o.toString());
+            pw.close();
+            
+        } catch (IOException ex) {
+            Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     public boolean isInt(String str) {
         try {
@@ -340,16 +369,16 @@ public class OrderForm extends javax.swing.JInternalFrame {
             return false;
         }
     }
-    
-    public boolean isDouble(String str){
-        try{
+
+    public boolean isDouble(String str) {
+        try {
             Double.parseDouble(str);
             return true;
-        }catch(NumberFormatException e){
+        } catch (NumberFormatException e) {
             return false;
         }
     }
-    
+
     private void cancelBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelBtnActionPerformed
         clear();
     }//GEN-LAST:event_cancelBtnActionPerformed
@@ -392,13 +421,14 @@ public class OrderForm extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_deleteBtnActionPerformed
 
-    public void clear(){
+    public void clear() {
         idTxt.setText("");
         supplierComboBox.setSelectedIndex(-1);
         supplierComboBox.repaint();
         medicineComboBox.setSelectedIndex(-1);
         medicineComboBox.repaint();
         quantityTxt.setText("");
+        table.clearSelection();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

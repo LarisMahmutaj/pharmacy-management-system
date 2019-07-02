@@ -54,15 +54,15 @@ public class UserForm extends javax.swing.JInternalFrame {
         
     }
 
-    public void loadTable() {
+    public void loadTable() {       
         try {
             List<Perdoruesi> list = pr.findAll();
             ptm.addList(list);
             table.setModel(ptm);
             ptm.fireTableDataChanged();
-        } catch (PharmacyException pe) {
-            Logger.getLogger(UserForm.class.getName()).log(Level.SEVERE, null, pe);
-        }
+        } catch (PharmacyException ex) {
+            Logger.getLogger(UserForm.class.getName()).log(Level.SEVERE, null, ex);
+        }       
     }
 
     private void tableSelectedIndexChange() {

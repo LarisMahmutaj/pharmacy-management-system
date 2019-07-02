@@ -136,7 +136,8 @@ public class Orders implements Serializable {
 
     @Override
     public String toString() {
-        return "BLL.Orders[ orderID=" + orderID + " ]";
+        return "Medicine: "+ medicineID.getBrandName() +" - "+ medicineID.getGenericName() 
+                +"       Quantity:"+ quantity;
     }
 
     public double getPrice() {

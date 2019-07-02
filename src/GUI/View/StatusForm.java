@@ -270,6 +270,7 @@ public class StatusForm extends javax.swing.JInternalFrame {
     public void clear(){
         idTxt.setText("");
         statusNameTxt.setText("");
+        table.clearSelection();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

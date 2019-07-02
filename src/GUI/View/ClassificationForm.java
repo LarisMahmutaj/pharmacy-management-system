@@ -322,5 +322,6 @@ public class ClassificationForm extends javax.swing.JInternalFrame {
     private void clear() {
         idTxt.setText("");
         classificationNameTxt.setText("");
+        table.clearSelection();
     }
 }
