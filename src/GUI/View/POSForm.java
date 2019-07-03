@@ -107,6 +107,7 @@ public class POSForm extends javax.swing.JInternalFrame {
         jTableList = new javax.swing.JTable();
         removeBtn = new javax.swing.JButton();
         customerComboBox = new javax.swing.JComboBox();
+        totalTextField = new javax.swing.JTextField();
 
         setClosable(true);
         setTitle("Point Of Sale");
@@ -212,6 +213,8 @@ public class POSForm extends javax.swing.JInternalFrame {
             }
         });
 
+        totalTextField.setText("0");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -222,14 +225,18 @@ public class POSForm extends javax.swing.JInternalFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(removeBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 806, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(totalTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 806, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                 .addComponent(searchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 362, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(searchButton))
-                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(searchButton)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel1)
@@ -243,7 +250,7 @@ public class POSForm extends javax.swing.JInternalFrame {
                                         .addComponent(jLabel2)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(customerComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                            .addComponent(jScrollPane2))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING))
                         .addGap(25, 25, 25))))
         );
         layout.setVerticalGroup(
@@ -265,11 +272,13 @@ public class POSForm extends javax.swing.JInternalFrame {
                     .addComponent(searchButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(removeBtn)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(25, 25, 25))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(totalTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(28, Short.MAX_VALUE))
         );
 
         pack();
@@ -359,6 +368,8 @@ public class POSForm extends javax.swing.JInternalFrame {
                     }
                 }
                 searchByName(searchTextField.getText());
+                
+                totalTextField.setText("0");
             } catch (SQLException e) {
                 System.out.print(e.getMessage());
             }
@@ -398,6 +409,13 @@ public class POSForm extends javax.swing.JInternalFrame {
                 sRow[7] = quantityTxt.getText();
                 model.addRow(sRow);
                 firstModel.setValueAt(Integer.parseInt(jTable.getValueAt(row, 4).toString()) - Integer.parseInt(quantityTxt.getText()), row, 4);
+                
+                
+//                int totalT=Integer.parseInt(totalTextField.getText();
+//                int addV=Integer.parseInt(sRow[6].toString());
+//                totalTextField.setText(""+(totalT+addV));
+                updateTotal();
+                
             }
             }catch(NumberFormatException ex){
                 JOptionPane.showMessageDialog(this, "Please enter a valid quantity!");
@@ -407,6 +425,15 @@ public class POSForm extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_addBtnActionPerformed
 
+    private void updateTotal(){
+        Double totalT=0.0;
+                for(int i=0;i<jTableList.getRowCount();i++){
+                    Double addV=Double.parseDouble(jTableList.getValueAt(i, 6).toString())*Double.parseDouble(jTableList.getValueAt(i, 7).toString());
+                    totalT+=addV;
+               }
+                 totalTextField.setText(""+(totalT));
+    }
+    
     private void removeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeBtnActionPerformed
         // TODO add your handling code here:
         if (jTableList.getSelectedRow() == -1) {
@@ -414,7 +441,12 @@ public class POSForm extends javax.swing.JInternalFrame {
         } else {
             int row = jTableList.getSelectedRow();
             DefaultTableModel model = (DefaultTableModel) jTableList.getModel();
+//            double total=Double.parseDouble(totalTextField.getText());
+//            double toRemove=Double.parseDouble(totalTe)
             model.removeRow(row);
+            updateTotal();
+            
+            
         }
     }//GEN-LAST:event_removeBtnActionPerformed
 
@@ -501,5 +533,6 @@ public class POSForm extends javax.swing.JInternalFrame {
     private javax.swing.JButton searchButton;
     private javax.swing.JTextField searchTextField;
     private javax.swing.JButton sellBtn;
+    private javax.swing.JTextField totalTextField;
     // End of variables declaration//GEN-END:variables
 }
